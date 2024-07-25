@@ -4,7 +4,7 @@
   --third-family: 'Gayathri', sans-serif;
   --font3: 'Alex Brush', sans-serif;
   --gray-1: #333;
-  --canvas-wrapper-border-color: #EAE9EB;
+  --canvas-wrapper-border-color: #eae9eb;
   --primary-color-dark-blue: #393a3e;
   --primary-color-blue: #586fec;
   --primary-color-light-blue: #f8faff;
@@ -61,7 +61,7 @@ canvas {
   position: relative;
 }
 
-.date {
+.number {
   position: absolute;
   font-family: var(--font-family);
   color: var(--gray-1);
@@ -69,3 +69,9 @@ canvas {
   z-index: 50;
 }
 
+.dot--lg {
+  position: absolute;
+  z-index: 50;
+  border-radius: 50%;
+  display: block;
+}
