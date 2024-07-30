@@ -61,17 +61,43 @@ canvas {
   position: relative;
 }
 
+img {
+  position: absolute;
+  /* display: block; */
+  z-index: 50;
+  border-radius: 50%;
+  /* display: none; */
+}
+
 .number {
   position: absolute;
   font-family: var(--font-family);
   color: var(--gray-1);
   font-weight: 400;
   z-index: 50;
+  text-align: center;
 }
 
-.dot--lg {
+.dot {
   position: absolute;
   z-index: 50;
   border-radius: 50%;
   display: block;
 }
+
+.text {
+  font-weight: 700;
+  position: absolute;
+  z-index: 50;
+}
+
+.icon-circle {
+  border-radius: 50%;
+  border-color: var(--primary-color-white);
+  border-style: solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
