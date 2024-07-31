@@ -1,7 +1,3 @@
-// main - this color a large background,
-// base - this color for dot border,
-// secondary - this color for date's background
-
 const data = {
   amountYear: 100,
   startDate: 1930,
@@ -89,342 +85,373 @@ const data = {
   ],
 };
 
-let canvas = document.getElementById('canvas');
-const canvasWrapper = document.querySelector('.canvas-wrapper');
-const image = document.querySelector('.canvas-wrapper img');
-let ctx = canvas.getContext('2d');
+class CanvasDrawer {
+  constructor(canvasId, wrapperSelector, imageSelector, data) {
+    this.canvas = document.getElementById(canvasId);
+    this.canvasWrapper = document.querySelector(wrapperSelector);
+    this.image = document.querySelector(imageSelector);
+    this.ctx = this.canvas.getContext('2d');
+    this.data = data;
 
-const numberDivisibleForCanvasSize = 2;
-canvas.width = window.innerWidth;
-canvas.height = window.innerWidth;
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerWidth;
 
-let centerX = canvas.width / 2;
-let centerY = canvas.height / 2;
-const radiusLarge = canvas.width - 100;
-let radius = radiusLarge / 3;
-let startAngle = -Math.PI / 2;
-let endAngle = startAngle + 2 * Math.PI;
-const deg = 360;
+    this.centerX = this.canvas.width / 2;
+    this.centerY = this.canvas.height / 2;
+    this.radiusLarge = this.canvas.width - 100;
+    this.radius = this.radiusLarge / 3;
+    this.startAngle = -Math.PI / 2;
+    this.endAngle = this.startAngle + 2 * Math.PI;
+    this.deg = 360;
 
-drawCircleWithOneColor(radiusLarge / 2, canvas.width * (0.038 / 2), '#EAE9EB');
-drawCircleWithOneColor(radius, canvas.width * (0.036 / 2), '#F2F2F2');
-drawTriangle();
-
-image.style.left = `${centerX - radius / 2}px`;
-image.style.top = `${centerY - radius / 2}px`;
-image.style.width = `${radius}px`;
-image.style.height = `${radius}px`;
-
-const endAngleLittleCircle = startAngle + 4 * Math.PI;
-const mainSizeRadiusOpacity06 = canvas.width * 0.02;
-const mainSizeRadiusOpacity04 = canvas.width * 0.04;
-const mainSizeRadiusOpacity02 = canvas.width * 0.066;
-const whiteColor = '#ffffff';
-const opacity02 = '33';
-const opacity04 = '66';
-const opacity06 = '99';
-
-drawCircleWithOneColor(radius / 2, mainSizeRadiusOpacity06, `${whiteColor}${opacity06}`);
-drawCircleWithOneColor(radius / 2, mainSizeRadiusOpacity04, `${whiteColor}${opacity04}`);
-drawCircleWithOneColor(radius / 2, mainSizeRadiusOpacity02, `${whiteColor}${opacity04}`);
-
-drawDotsForBigCircle();
-drawNumForCircle();
-drawTextForCategories();
-
-function drawTextForCategories() {
-  const { categoryData, startDate, amountYear } = data;
-  const startAngle = -Math.PI / 2;
-  const endAngle = startAngle + 2 * Math.PI;
-  const angleStep = (endAngle - startAngle) / amountYear;
-
-  const svgNS = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(svgNS, 'svg');
-  svg.setAttribute('width', canvas.width);
-  svg.setAttribute('height', canvas.height);
-  svg.style.position = 'absolute';
-  svg.style.top = 0;
-  svg.style.left = 0;
-  svg.style.zIndex = 50;
-
-  let remainingText = '';
-  let zIndex = 60;
-
-  categoryData.forEach((item, index) => {
-    const { date, category } = item;
-    const { from } = date;
-    let { to } = date;
-    const size = 0.01;
-    const fontSize = canvas.width * size;
-    const pathRadius = radius / 2 + fontSize * 2.5;
-    let textContent = remainingText || category;
-    remainingText = '';
-
-    const tempText = document.createElementNS(svgNS, 'text');
-    tempText.style.fontSize = `${fontSize}px`;
-    tempText.textContent = textContent;
-    svg.appendChild(tempText);
-    svg.removeChild(tempText);
-
-    const anglePerYear = angleStep;
-    const anglePerPixel = anglePerYear / (2 * Math.PI * pathRadius);
-
-    const additionalAngle = textContent.length * anglePerPixel;
-    to = from + Math.ceil(to - from + additionalAngle / angleStep);
-
-    const startAnglePath = startAngle + (from - startDate) * angleStep;
-    let endAnglePath;
-
-    if (textContent.length > to - from) {
-      endAnglePath = startAngle + (to - startDate + (textContent.length - (to - from))) * angleStep;
-    } else {
-      endAnglePath = startAngle + (to - startDate) * angleStep;
-    }
-
-    const startX = centerX + pathRadius * Math.cos(startAnglePath);
-    const startY = centerY + pathRadius * Math.sin(startAnglePath);
-
-    const endX = centerX + pathRadius * Math.cos(endAnglePath);
-    const endY = centerY + pathRadius * Math.sin(endAnglePath);
-
-    const largeArcFlag = endAnglePath - startAnglePath <= Math.PI ? '0' : '1';
-
-    const d = `
-      M ${startX} ${startY}
-      A ${pathRadius} ${pathRadius} 0 ${largeArcFlag} 1 ${endX} ${endY}
-    `;
-
-    const path = document.createElementNS(svgNS, 'path');
-    path.setAttribute('d', d);
-    path.setAttribute('id', `path${index}`);
-    path.setAttribute('fill', 'transparent');
-    svg.appendChild(path);
-
-    const textPath = document.createElementNS(svgNS, 'textPath');
-    textPath.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `#path${index}`);
-
-    if (textContent.length > (to - from) * 2) {
-      textPath.setAttribute('startOffset', '0%');
-    } else {
-      textPath.setAttribute('startOffset', '30%');
-    }
-
-    textPath.textContent = textContent;
-    textPath.style.fontSize = `${fontSize}px`;
-    textPath.style.fill = '#333';
-    textPath.style.backgroundColor = 'transparent';
-    textPath.style.position = 'relative';
-    textPath.style.zIndex = zIndex - 1;
-
-    const text = document.createElementNS(svgNS, 'text');
-    text.appendChild(textPath);
-    svg.appendChild(text);
-
-    const textElementLength = textPath.getComputedTextLength();
-    const pathLength = path.getTotalLength();
-
-    if (textElementLength > pathLength) {
-      let splitIndex = Math.floor(textContent.length * (pathLength / textElementLength));
-      remainingText = textContent.slice(splitIndex);
-      textPath.textContent = textContent.slice(0, splitIndex);
-    }
-  });
-
-  canvasWrapper.appendChild(svg);
-}
-
-function drawNumForCircle() {
-  const { startDate, endDate, amountYear } = data;
-  const startAngle = -Math.PI / 2 + Math.PI / amountYear;
-  const endAngle = startAngle + 2 * Math.PI;
-  const numOfYears = endDate - startDate;
-  const angleStep = (endAngle - startAngle) / amountYear;
-
-  for (let i = 0; i <= amountYear; i++) {
-    const angle = startAngle + i * angleStep;
-    const size = 0.006;
-    const fontSizeYear = canvas.width * size;
-    const fontSizeWidth = radius / 2 + fontSizeYear / 3;
-    const numberX = centerX + fontSizeWidth * Math.cos(angle);
-    const numberY = centerY + fontSizeWidth * Math.sin(angle);
-    const el = document.createElement('span');
-    el.innerHTML = i;
-
-    if (i > numOfYears) el.style.opacity = '0';
-
-    el.classList.add('number');
-    el.style.fontSize = `${fontSizeYear}px`;
-    el.style.top = `${numberY - fontSizeYear - 3}px`;
-    el.style.left = `${numberX - fontSizeYear / 2 - 3}px`;
-    el.style.transform = `rotate(${angle + Math.PI / 2}rad)`;
-    el.style.transformOrigin = 'bottom center';
-
-    canvasWrapper.appendChild(el);
+    this.init();
   }
-}
 
-function drawDotsForBigCircle() {
-  const { categoryData, amountYear, personDate } = data;
-  let divisions = 2;
-  let angleStep = (endAngle - startAngle) / amountYear;
-  let adjustedStartAngle = startAngle + angleStep / divisions;
-  const firstDate = categoryData[0].date.from;
-  const lastDate = categoryData[categoryData.length - 1].date.to;
-  const numberOfYears = lastDate - firstDate;
+  init() {
+    this.drawInitialCircles();
+    this.drawTriangle();
+    this.setImagePosition();
+    this.drawOverlappingCircles();
+    this.drawDotsForBigCircle();
+    this.drawNumForCircle();
+    this.drawTextForCategories();
+  }
 
-  for (let i = firstDate; i < lastDate; i++) {
-    const angle = adjustedStartAngle + (i - firstDate) * angleStep;
-    const dateX = centerX + (radius - canvas.width * 0.014) * Math.cos(angle);
-    const dateY = centerY + (radius - canvas.width * 0.014) * Math.sin(angle);
-    const fontSizeDate = canvas.width * 0.008;
-    const dotX = centerX + (radius + canvas.width * 0.0046) * Math.cos(angle);
-    const dotY = centerY + (radius + canvas.width * 0.0046) * Math.sin(angle);
-    const dotSize = canvas.width * (0.012 / 2);
+  drawInitialCircles() {
+    this.drawCircleWithOneColor(this.radiusLarge / 2, this.canvas.width * 0.019, '#EAE9EB');
+    this.drawCircleWithOneColor(this.radius, this.canvas.width * 0.018, '#F2F2F2');
+  }
+
+  setImagePosition() {
+    this.image.style.left = `${this.centerX - this.radius / 2}px`;
+    this.image.style.top = `${this.centerY - this.radius / 2}px`;
+    this.image.style.width = `${this.radius}px`;
+    this.image.style.height = `${this.radius}px`;
+  }
+
+  drawOverlappingCircles() {
+    const mainSizeRadiusOpacity = {
+      0.06: this.canvas.width * 0.02,
+      0.04: this.canvas.width * 0.04,
+      0.02: this.canvas.width * 0.066,
+    };
+    const whiteColor = '#ffffff';
+    const opacities = {
+      0.02: '33',
+      0.04: '66',
+      0.06: '99',
+    };
+
+    for (const [opacity, size] of Object.entries(mainSizeRadiusOpacity)) {
+      this.drawCircleWithOneColor(this.radius / 2, size, `${whiteColor}${opacities[opacity]}`);
+    }
+  }
+
+  drawTriangle() {
+    const { categoryData } = this.data;
+    let startingAngle = this.startAngle;
+
+    for (const item of categoryData) {
+      const year = item.date.to === item.date.from ? 1 : item.date.to - item.date.from;
+      const interval = (year * this.deg) / 100;
+      const arcSize = this.degreesToRadians(interval);
+      const endingAngle = startingAngle + arcSize;
+
+      this.drawArcSegment(startingAngle, endingAngle, item.colors.base);
+      this.drawArcSegment(startingAngle, endingAngle, item.colors.secondary, this.radius - 3);
+      this.drawArcSegment(startingAngle, endingAngle, item.colors.main, this.radius - this.canvas.width * 0.028);
+
+      startingAngle = endingAngle;
+    }
+  }
+
+  drawArcSegment(startAngle, endAngle, color, radius = this.radius) {
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.centerX, this.centerY);
+    this.ctx.arc(this.centerX, this.centerY, radius, startAngle, endAngle, false);
+    this.ctx.fillStyle = color;
+    this.ctx.lineTo(this.centerX, this.centerY);
+    this.ctx.fill();
+    this.ctx.closePath();
+  }
+
+  drawCircleWithOneColor(radius, lineWidth, strokeStyle) {
+    this.ctx.beginPath();
+    this.ctx.arc(this.centerX, this.centerY, radius, this.startAngle, this.endAngle);
+    this.ctx.lineWidth = lineWidth;
+    this.ctx.strokeStyle = strokeStyle;
+    this.ctx.stroke();
+  }
+
+  drawDotsForBigCircle() {
+    const { categoryData, amountYear, personDate } = this.data;
+    const divisions = 2;
+    const angleStep = (this.endAngle - this.startAngle) / amountYear;
+    const adjustedStartAngle = this.startAngle + angleStep / divisions;
+    const firstDate = categoryData[0].date.from;
+    const lastDate = categoryData[categoryData.length - 1].date.to;
+
+    for (let i = firstDate; i < lastDate; i++) {
+      const angle = adjustedStartAngle + (i - firstDate) * angleStep;
+      const dateX = this.centerX + (this.radius - this.canvas.width * 0.014) * Math.cos(angle);
+      const dateY = this.centerY + (this.radius - this.canvas.width * 0.014) * Math.sin(angle);
+      const fontSizeDate = this.canvas.width * 0.008;
+      const dotX = this.centerX + (this.radius + this.canvas.width * 0.0046) * Math.cos(angle);
+      const dotY = this.centerY + (this.radius + this.canvas.width * 0.0046) * Math.sin(angle);
+      const dotSize = this.canvas.width * 0.006;
+      const iconCircle = this.createIconCircle();
+
+      let { bgColor, borderColor } = this.getColorsForDate(i, categoryData, personDate);
+
+      this.drawOneDot('dot', dotX + dotSize / 2, dotY, dotSize, bgColor, borderColor);
+      this.drawOneDot(
+        'dot',
+        this.centerX + (this.radius / 2 + this.canvas.width * 0.016) * Math.cos(angle) + dotSize / 2,
+        this.centerY + (this.radius / 2 + this.canvas.width * 0.016) * Math.sin(angle),
+        this.canvas.width * 0.0045,
+        bgColor,
+        borderColor
+      );
+      this.addTextForCircle(dateX, dateY, fontSizeDate, lastDate - firstDate, angle, i, firstDate);
+
+      const descriptionWidth = this.canvas.width * 0.15;
+      const descriptionX = this.centerX + (this.radius + descriptionWidth) * Math.cos(angle);
+      const descriptionY = this.centerY + (this.radius + descriptionWidth) * Math.sin(angle);
+
+      const person = personDate.find((item) => {
+        const date = new Date(item.date * 1000);
+
+        return date.getFullYear() === i;
+      });
+
+      if (person) {
+        const isAt12OClock = Math.abs(angle) < 0.1 || Math.abs(angle - 2 * Math.PI) < 0.1;
+        const adjustedAngle = isAt12OClock ? angle + Math.PI / 3 : angle;
+
+        this.writeDescriptions(person.description, descriptionX, descriptionY, adjustedAngle);
+      }
+    }
+  }
+
+  writeDescriptions(text, x, y, textSize) {
+    const p = document.createElement('p');
+    const fontSize = this.canvas.width * 0.0085;
+
+    p.innerHTML = text;
+    p.style.fontSize = fontSize;
+    p.style.width = `${textSize}px`;
+    p.style.position = 'absolute';
+    p.style.left = `${x}px`;
+    p.style.top = `${y}px`;
+    // p.style.transform = `rotate(${angle}rad)`;
+
+    this.canvasWrapper.appendChild(p);
+  }
+
+  createIconCircle() {
     const iconCircle = document.createElement('div');
-    const iconCircleSize = canvas.width * 0.037;
-    const iconBorderWidthCircle = canvas.width * 0.0018;
-    const iconSize = canvas.width * 0.021;
-    iconCircle.style.width = iconCircleSize;
-    iconCircle.style.height = iconCircleSize;
     iconCircle.classList.add('icon-circle');
-    iconCircle.style.borderWidth = iconBorderWidthCircle;
-    const borderWidth = 2.5;
-    let bgColor;
+    iconCircle.style.borderWidth = `${this.canvas.width * 0.0018}px`;
+    return iconCircle;
+  }
+
+  getColorsForDate(year, categoryData, personDate) {
+    let bgColor = '#ffffff';
     let borderColor;
-    console.log(i, 'angle', angle);
 
-    categoryData.map((item) => {
-      if (item.date.to >= i && item.date.from <= i) {
+    for (const item of categoryData) {
+      if (item.date.to >= year && item.date.from <= year) {
         borderColor = item.colors.secondary;
-        bgColor = whiteColor;
 
-        personDate.forEach((text) => {
+        for (const text of personDate) {
           const date = new Date(text.date * 1000);
-          const year = date.getFullYear();
 
-          if (year === i) {
+          if (date.getFullYear() === year) {
             bgColor = item.colors.main;
           }
-        });
+        }
+      }
+    }
+
+    return { bgColor, borderColor };
+  }
+
+  drawOneDot(className, x, y, size, bgColor, borderColor, borderWidth = 2.5) {
+    const dot = document.createElement('span');
+    dot.classList.add(className);
+    dot.style.width = `${size}px`;
+    dot.style.height = `${size}px`;
+    dot.style.background = bgColor;
+    dot.style.borderColor = borderColor;
+    dot.style.borderStyle = 'solid';
+    dot.style.borderWidth = `${borderWidth}px`;
+    dot.style.top = `${y - size / 2}px`;
+    dot.style.left = `${x - size}px`;
+
+    this.canvasWrapper.appendChild(dot);
+  }
+
+  addTextForCircle(x, y, fontSize, numberOfPoints, angle, index, firstDate) {
+    const el = document.createElement('span');
+    el.innerHTML = index;
+    el.classList.add('number');
+    el.style.fontSize = `${fontSize}px`;
+    el.style.top = `${y - fontSize / 2}px`;
+    el.style.left = `${x - fontSize}px`;
+
+    const year = index - firstDate;
+    el.style.transform = `rotate(${year < numberOfPoints / 2 ? angle : angle + Math.PI}rad)`;
+
+    this.canvasWrapper.appendChild(el);
+  }
+
+  drawNumForCircle() {
+    const { startDate, endDate, amountYear } = this.data;
+    const startAngle = -Math.PI / 2 + Math.PI / amountYear; //-Math.PI / 2 + Math.PI / amountYear;
+    const endAngle = startAngle + 2 * Math.PI;
+    const numOfYears = endDate - startDate;
+    const angleStep = (endAngle - startAngle) / amountYear;
+
+    for (let i = 0; i <= amountYear; i++) {
+      const angle = startAngle + i * angleStep;
+      const size = 0.006;
+      const fontSizeYear = this.canvas.width * size;
+      const fontSizeWidth = this.radius / 2 + fontSizeYear;
+      const numberX = this.centerX + (fontSizeWidth - 2) * Math.cos(angle);
+      const numberY = this.centerY + (fontSizeWidth - 2) * Math.sin(angle);
+      const el = document.createElement('span');
+      el.innerHTML = i;
+
+      if (i > numOfYears) el.style.opacity = '0';
+
+      el.classList.add('number');
+      el.style.fontSize = `${fontSizeYear}px`;
+      el.style.top = `${numberY - fontSizeYear / 2}px`;
+      el.style.left = `${numberX - fontSizeYear / 2}px`;
+      el.style.transform = `rotate(${angle + Math.PI / 2}rad)`;
+      el.style.fontWeight = '700';
+
+      this.canvasWrapper.appendChild(el);
+    }
+  }
+
+  drawTextForCategories() {
+    const { categoryData, startDate, amountYear } = this.data;
+    const startAngle = -Math.PI / 2;
+    const endAngle = startAngle + 2 * Math.PI;
+    const angleStep = (endAngle - startAngle) / amountYear;
+
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('width', this.canvas.width);
+    svg.setAttribute('height', this.canvas.height);
+    svg.style.position = 'absolute';
+    svg.style.top = 0;
+    svg.style.left = 0;
+    svg.style.zIndex = 50;
+
+    let remainingText = '';
+    let zIndex = 60;
+
+    categoryData.forEach((item, index) => {
+      const { date, category } = item;
+      const { from } = date;
+      let { to } = date;
+      const size = 0.01;
+      const fontSize = this.canvas.width * size;
+      const pathRadius = this.radius / 2 + fontSize * 2.5;
+      let textContent = remainingText || category;
+      remainingText = '';
+
+      const tempText = document.createElementNS(svgNS, 'text');
+      tempText.style.fontSize = `${fontSize}px`;
+      tempText.textContent = textContent;
+      svg.appendChild(tempText);
+      svg.removeChild(tempText);
+
+      const anglePerYear = angleStep;
+      const anglePerPixel = anglePerYear / (2 * Math.PI * pathRadius);
+
+      const additionalAngle = textContent.length * anglePerPixel;
+      to = from + Math.ceil(to - from + additionalAngle / angleStep);
+
+      const startAnglePath = startAngle + (from - startDate) * angleStep;
+      let endAnglePath;
+
+      if (textContent.length > to - from) {
+        endAnglePath = startAngle + (to - startDate + (textContent.length - (to - from))) * angleStep;
+      } else {
+        endAnglePath = startAngle + (to - startDate) * angleStep;
+      }
+
+      const startX = this.centerX + pathRadius * Math.cos(startAnglePath);
+      const startY = this.centerY + pathRadius * Math.sin(startAnglePath);
+
+      const endX = this.centerX + pathRadius * Math.cos(endAnglePath);
+      const endY = this.centerY + pathRadius * Math.sin(endAnglePath);
+
+      const largeArcFlag = endAnglePath - startAnglePath <= Math.PI ? '0' : '1';
+
+      const d = `
+        M ${startX} ${startY}
+        A ${pathRadius} ${pathRadius} 0 ${largeArcFlag} 1 ${endX} ${endY}
+      `;
+
+      const path = document.createElementNS(svgNS, 'path');
+      path.setAttribute('d', d);
+      path.setAttribute('id', `path${index}`);
+      path.setAttribute('fill', 'transparent');
+      svg.appendChild(path);
+
+      const textPath = document.createElementNS(svgNS, 'textPath');
+      textPath.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `#path${index}`);
+
+      if (textContent.length > (to - from) * 2) {
+        textPath.setAttribute('startOffset', '0%');
+      } else {
+        textPath.setAttribute('startOffset', '30%');
+      }
+
+      textPath.textContent = textContent;
+      textPath.style.fontSize = `${fontSize}px`;
+      textPath.style.fill = '#333';
+      textPath.style.backgroundColor = 'transparent';
+      textPath.style.position = 'relative';
+      textPath.style.zIndex = zIndex - 1;
+
+      const text = document.createElementNS(svgNS, 'text');
+      text.appendChild(textPath);
+      svg.appendChild(text);
+
+      const textElementLength = textPath.getComputedTextLength();
+      const pathLength = path.getTotalLength();
+
+      if (textElementLength > pathLength) {
+        let splitIndex = Math.floor(textContent.length * (pathLength / textElementLength));
+        remainingText = textContent.slice(splitIndex);
+        textPath.textContent = textContent.slice(0, splitIndex);
       }
     });
 
-    drawOneDot('dot', dotX + dotSize / 2, dotY, dotSize, canvasWrapper, bgColor, borderColor, borderWidth);
-
-    const dotSmX = centerX + (radius / 2 + canvas.width * 0.016) * Math.cos(angle);
-    const dotSmY = centerY + (radius / 2 + canvas.width * 0.016) * Math.sin(angle);
-    const dotSmSize = canvas.width * (0.009 / 2);
-    drawOneDot('dot', dotSmX + dotSize / 2, dotSmY, dotSmSize, canvasWrapper, bgColor, borderColor, borderWidth);
-
-    const el = document.createElement('span');
-    el.innerHTML = i;
-    el.classList.add('number');
-    el.style.fontSize = `${fontSizeDate}px`;
-    el.style.top = `${dateY - dotSize / 4 - fontSizeDate / 2}px`;
-    el.style.left = `${dateX - dotSize / 4 - fontSizeDate}px`;
-
-    const year = i - firstDate;
-
-    if (year < numberOfYears / 2) {
-      el.style.transform = `rotate(${angle}rad)`;
-    } else {
-      el.style.transform = `rotate(${angle + Math.PI}rad)`;
-    }
-
-    canvasWrapper.appendChild(el);
-  }
-}
-
-function degreesToRadians(degrees) {
-  return (degrees * Math.PI) / 180;
-}
-
-function drawTriangle() {
-  const { categoryData } = data;
-  let startingAngle = -Math.PI / 2;
-
-  for (let i = 0; i < categoryData.length; i++) {
-    const year =
-      categoryData[i].date.to === categoryData[i].date.from ? 1 : categoryData[i].date.to - categoryData[i].date.from;
-    let interval = (year * deg) / 100;
-    let arcSize = degreesToRadians(interval);
-    let endingAngle = startingAngle + arcSize;
-
-    ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.arc(centerX, centerY, radius, startingAngle, endingAngle, false);
-    ctx.fillStyle = categoryData[i].colors.base;
-    ctx.lineTo(centerX, centerY);
-    ctx.fill();
-    ctx.closePath();
-
-    ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.arc(centerX, centerY, radius - 3, startingAngle, endingAngle, false);
-    ctx.fillStyle = categoryData[i].colors.secondary;
-    ctx.lineTo(centerX, centerY);
-    ctx.fill();
-    ctx.closePath();
-
-    const mainSizeRadius = canvas.width * 0.028;
-
-    ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.arc(centerX, centerY, radius - mainSizeRadius, startingAngle, endingAngle, false);
-    ctx.fillStyle = categoryData[i].colors.main;
-    ctx.lineTo(centerX, centerY);
-    ctx.fill();
-    ctx.closePath();
-
-    startingAngle = endingAngle;
-  }
-}
-
-function drawCircleWithOneColor(radius, lineWidth, strokeStyle) {
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-  ctx.lineWidth = lineWidth;
-  ctx.strokeStyle = strokeStyle;
-  ctx.stroke();
-}
-
-function addTextForCircle(x, y, fontSize, numberOfPoints, angle, parent, index, firstDate, date = true) {
-  const el = document.createElement('span');
-  el.innerHTML = index;
-  el.classList.add('number');
-  el.style.fontSize = `${fontSize}px`;
-  el.style.top = `${y - fontSize / 2}px`;
-  el.style.left = `${x - fontSize}px`;
-
-  if (date) {
-    const i = index - firstDate;
-
-    if (i < numberOfPoints / 2) {
-      el.style.transform = `rotate(${angle}rad)`;
-    } else {
-      el.style.transform = `rotate(${angle + Math.PI}rad)`;
-    }
+    this.canvasWrapper.appendChild(svg);
   }
 
-  parent.appendChild(el);
-}
-
-function drawOneDot(className, x, y, size, parent, bgColor, borderColor, borderWidth) {
-  const el = document.createElement('span');
-  el.classList.add(className);
-  el.style.width = `${size}px`;
-  el.style.height = `${size}px`;
-  el.style.background = `${bgColor}`;
-  el.style.borderStyle = 'solid';
-  el.style.borderColor = `${borderColor}`;
-  el.style.top = `${y - size / 2}px`;
-  el.style.left = `${x - size}px`;
-
-  if (canvas.width > 1300) {
-    el.style.borderWidth = `${borderWidth}px`;
-  } else {
-    el.style.borderWidth = `${borderWidth / 2}px`;
+  degreesToRadians(degrees) {
+    return degrees * (Math.PI / 180);
   }
 
-  parent.appendChild(el);
+  // writeDescriptions(text) {
+  //   const { personDate } = this.data;
+  //   const p = document.createElement('p');
+  //   const textSize = this.canvas.width * 0.15;
+
+  //   personDate.map((item) => {
+  //     p.innerHTML = item.description;
+  //     p.style.width = textSize;
+  //   });
+
+  //   this.canvasWrapper.appendChild(p);
+  // }
 }
+
+new CanvasDrawer('canvas', '.canvas-wrapper', '.canvas-wrapper img', data);
