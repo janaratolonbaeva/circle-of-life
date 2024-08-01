@@ -214,9 +214,9 @@ class CanvasDrawer {
       );
       this.addTextForCircle(dateX, dateY, fontSizeDate, lastDate - firstDate, angle, i, firstDate);
 
-      const descriptionWidth = this.canvas.width * 0.15;
-      const descriptionX = this.centerX + (this.radius + descriptionWidth) * Math.cos(angle);
-      const descriptionY = this.centerY + (this.radius + descriptionWidth) * Math.sin(angle);
+      const descriptionWidth = this.canvas.width * 0.12;
+      const descriptionX = this.centerX + (this.radius + descriptionWidth / 4) * Math.cos(angle);
+      const descriptionY = this.centerY + (this.radius + descriptionWidth / 4) * Math.sin(angle);
 
       const person = personDate.find((item) => {
         const date = new Date(item.date * 1000);
@@ -228,22 +228,27 @@ class CanvasDrawer {
         const isAt12OClock = Math.abs(angle) < 0.1 || Math.abs(angle - 2 * Math.PI) < 0.1;
         const adjustedAngle = isAt12OClock ? angle + Math.PI / 3 : angle;
 
-        this.writeDescriptions(person.description, descriptionX, descriptionY, adjustedAngle);
+        this.writeDescriptions(person.description, descriptionX, descriptionY, descriptionWidth, adjustedAngle);
       }
     }
   }
 
-  writeDescriptions(text, x, y, textSize) {
+  writeDescriptions(text, x, y, descriptionWidth, angle) {
     const p = document.createElement('p');
-    const fontSize = this.canvas.width * 0.0085;
+    const textSize = this.canvas.width * 0.01;
 
     p.innerHTML = text;
-    p.style.fontSize = fontSize;
-    p.style.width = `${textSize}px`;
+    p.style.fontSize = `${textSize}px`;
     p.style.position = 'absolute';
     p.style.left = `${x}px`;
     p.style.top = `${y}px`;
-    // p.style.transform = `rotate(${angle}rad)`;
+    p.style.width = `${descriptionWidth}px`;
+
+    if (angle > Math.PI / 2 && angle < (3 * Math.PI) / 2) {
+      p.style.textAlign = `left`;
+    } else {
+      p.style.textAlign = `right`;
+    }
 
     this.canvasWrapper.appendChild(p);
   }
@@ -439,19 +444,6 @@ class CanvasDrawer {
   degreesToRadians(degrees) {
     return degrees * (Math.PI / 180);
   }
-
-  // writeDescriptions(text) {
-  //   const { personDate } = this.data;
-  //   const p = document.createElement('p');
-  //   const textSize = this.canvas.width * 0.15;
-
-  //   personDate.map((item) => {
-  //     p.innerHTML = item.description;
-  //     p.style.width = textSize;
-  //   });
-
-  //   this.canvasWrapper.appendChild(p);
-  // }
 }
 
 new CanvasDrawer('canvas', '.canvas-wrapper', '.canvas-wrapper img', data);
