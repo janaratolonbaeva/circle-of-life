@@ -109,21 +109,21 @@ const data = {
       description: 'ab Frühjahr 1946 Mittelschule in Dissen.',
       icon: "<svg xmlns='http://www.w3.org/2000/svg' width='70' height='71' viewBox='0 0 70 71' fill='none'><path d='M30.5697 60.6846C31.8157 61.123 33.1541 60.2115 33.1541 58.8962V15.3535C33.1541 14.869 32.9695 14.3844 32.5772 14.0844C30.3159 12.2846 25.124 9.97705 18.386 9.97705C12.5596 9.97705 7.11386 11.5115 3.86027 12.7576C2.55653 13.2653 1.77197 14.5575 1.77197 15.9535V58.677C1.77197 60.05 3.24878 61.0076 4.55252 60.5807C8.18685 59.3693 13.9441 57.9732 18.386 57.9732C22.2973 57.9732 27.5007 59.5885 30.5697 60.6846ZM39.4305 60.6846C42.4995 59.5885 47.7029 57.9732 51.6142 57.9732C56.0561 57.9732 61.8133 59.3693 65.4477 60.5807C66.7514 61.0191 68.2282 60.05 68.2282 58.677V15.9535C68.2282 14.5575 67.4437 13.2653 66.1399 12.7691C62.8863 11.5115 57.4406 9.97705 51.6142 9.97705C44.8762 9.97705 39.6843 12.2846 37.423 14.0844C37.0422 14.3844 36.8461 14.869 36.8461 15.3535V58.8962C36.8461 60.2115 38.196 61.123 39.4305 60.6846Z' fill='white'/></svg>",
     },
-    {
-      year: 1948,
-      description: 'ab Herbst 1948 Lehre zur Apothekerin in Dissen.',
-      icon: "<svg xmlns='http://www.w3.org/2000/svg' width='70' height='71' viewBox='0 0 70 71' fill='none'><path d='M38.9725 7.75356L38.9595 8.37672H47.4629C54.3435 8.37672 59.9259 13.9591 59.9259 20.8397C59.9259 27.7203 54.3435 33.3027 47.4629 33.3027H42.27V22.9168H47.4629C48.6054 22.9168 49.5401 21.9821 49.5401 20.8397C49.5401 19.6972 48.6054 18.7625 47.4629 18.7625H38.635L38.0508 37.457H43.3086C50.1892 37.457 55.7716 43.0394 55.7716 49.92C55.7716 56.8006 50.1892 62.383 43.3086 62.383H41.2314V51.9971H43.3086C44.451 51.9971 45.3858 51.0624 45.3858 49.92C45.3858 48.7775 44.451 47.8428 43.3086 47.8428H37.7262L37.3238 60.7602L37.142 66.4075V66.5373C37.1031 67.6927 36.1554 68.6145 34.9999 68.6145C33.8445 68.6145 32.8968 67.6927 32.8579 66.5373V66.4075L32.728 62.383H27.7299C24.8608 62.383 22.537 60.0591 22.537 57.19C22.537 54.321 24.8608 51.9971 27.7299 51.9971H32.4035L32.2737 47.8428H29.807C22.9264 47.8428 17.3441 42.2604 17.3441 35.3798C17.3441 29.2003 21.8359 24.0723 27.7299 23.0856V35.3798C27.7299 36.5223 28.6646 37.457 29.807 37.457H31.9491L31.3649 18.7625H25.9902C24.8219 21.2162 22.3163 22.9169 19.4212 22.9169H17.3441C13.3325 22.9169 10.074 19.6583 10.074 15.6468C10.074 11.6352 13.3325 8.37672 17.3441 8.37672H31.0403L31.0274 7.75356L30.9754 6.29955V6.05288C31.0403 3.89782 32.8059 2.1582 34.9999 2.1582C37.1939 2.1582 38.9595 3.89782 39.0245 6.05288V6.29955L38.9725 7.75356ZM18.3826 16.6854C19.9816 16.6868 20.9826 14.9568 20.1844 13.5713C19.8132 12.9271 19.1261 12.5304 18.3826 12.531C16.7836 12.5296 15.7827 14.2596 16.5809 15.6451C16.952 16.2893 17.6392 16.6861 18.3826 16.6854Z' fill='white'/></svg>",
-    },
-    {
-      year: 1957,
-      description: '1957 Ruth Lernt Piet auf dem Dissener Schützenfest kennen.',
-      icon: `<svg xmlns="http://www.w3.org/2000/svg" width="70" height="71" viewBox="0 0 70 71" fill="none"><g clip-path="url(#clip0_59_899)"><path fill-rule="evenodd" clip-rule="evenodd" d="M17.7274 21.1851C15.6815 21.1846 13.715 20.3934 12.2387 18.977C10.7625 17.5605 9.89075 15.6284 9.80573 13.5842H25.652C25.5669 15.6289 24.6948 17.5615 23.2179 18.978C21.7411 20.3945 19.7738 21.1853 17.7274 21.1851ZM8.07323 5.63048C6.35817 7.80192 5.42425 10.4876 5.42198 13.2546C5.42142 16.1635 6.45133 18.9785 8.32897 21.2001C10.2066 23.4218 12.8106 24.9065 15.6788 25.3907C18.547 25.875 21.4941 25.3275 23.9971 23.8454C26.5 22.3634 28.397 20.0425 29.3515 17.2948C30.306 14.547 30.2562 11.5499 29.211 8.83537C28.1657 6.12081 26.1927 3.86429 23.6419 2.46618C21.0911 1.06808 18.1275 0.6188 15.2769 1.19806C12.4263 1.77733 9.87312 3.34768 8.07031 5.63048H8.07323ZM2.41198 43.4246C2.39408 41.4088 2.77792 39.4096 3.54111 37.5437C4.3043 35.6778 5.43153 33.9827 6.85701 32.5572C8.28248 31.1317 9.97764 30.0045 11.8435 29.2413C13.7094 28.4781 15.7086 28.0942 17.7245 28.1121C19.7403 28.0942 21.7395 28.4781 23.6054 29.2413C25.4713 30.0045 27.1665 31.1317 28.5919 32.5572C30.0174 33.9827 31.1447 35.6778 31.9078 37.5437C32.671 39.4096 33.0549 41.4088 33.037 43.4246V51.7371C33.037 52.1239 32.8833 52.4949 32.6098 52.7683C32.3363 53.0418 31.9654 53.1955 31.5786 53.1955H27.3174L25.2699 68.5546C25.2232 68.9052 25.0508 69.2268 24.7846 69.4597C24.5185 69.6925 24.1768 69.8207 23.8232 69.8205H11.3545C11.0014 69.82 10.6604 69.6915 10.3949 69.4587C10.1294 69.2259 9.95734 68.9047 9.91073 68.5546L7.86031 53.1955H3.87323C3.48645 53.1955 3.11552 53.0418 2.84203 52.7683C2.56854 52.4949 2.41489 52.1239 2.41489 51.7371V43.4246H2.41198ZM49.5832 27.7155C44.3916 27.7155 39.8795 31.2796 38.5874 36.413L34.0811 52.4634C34.0246 52.6655 34.0123 52.8775 34.0451 53.0848C34.078 53.2921 34.1552 53.4899 34.2715 53.6646C34.3878 53.8393 34.5404 53.9869 34.719 54.0972C34.8976 54.2075 35.0978 54.278 35.3061 54.3038L40.9353 55.0096L42.4957 68.5342C42.5372 68.889 42.7073 69.2162 42.974 69.4538C43.2406 69.6914 43.5852 69.823 43.9424 69.8234H55.2211C55.5788 69.8237 55.9241 69.6925 56.1914 69.4548C56.4586 69.2171 56.6292 68.8895 56.6707 68.5342L58.2311 55.0096L63.8603 54.3038C64.0683 54.2779 64.2682 54.2075 64.4465 54.0974C64.6249 53.9872 64.7773 53.84 64.8936 53.6656C65.0098 53.4912 65.0872 53.2938 65.1202 53.0869C65.1533 52.8799 65.1414 52.6683 65.0853 52.4663L60.5907 36.4538C59.5699 31.2038 54.6903 27.7155 49.5832 27.7155ZM41.6616 13.5871H57.5049C57.4837 14.1363 57.4055 14.6817 57.2716 15.2146C57.208 15.3674 57.162 15.5269 57.1345 15.6901C56.6191 17.2869 55.6106 18.6792 54.254 19.6669C52.8974 20.6545 51.2627 21.1865 49.5847 21.1865C47.9067 21.1865 46.2719 20.6545 44.9154 19.6669C43.5588 18.6792 42.5503 17.2869 42.0349 15.6901C42.0073 15.5269 41.9613 15.3674 41.8978 15.2146C41.7618 14.6819 41.6816 14.1365 41.6586 13.5871H41.6616ZM39.9261 5.6334C38.0775 7.96711 37.1414 10.8938 37.2924 13.8671H33.7691C33.1889 13.8671 32.6325 14.0976 32.2223 14.5079C31.812 14.9181 31.5816 15.4745 31.5816 16.0546C31.5816 16.6348 31.812 17.1912 32.2223 17.6014C32.6325 18.0117 33.1889 18.2421 33.7691 18.2421H36.5311L35.2274 21.223C34.9949 21.7548 34.9833 22.3572 35.195 22.8976C35.4066 23.438 35.8243 23.8722 36.3561 24.1046C36.888 24.3371 37.4903 24.3488 38.0308 24.1371C38.5712 23.9254 39.0054 23.5077 39.2378 22.9759L40.072 21.0655C41.2254 22.4725 42.677 23.6056 44.3219 24.3829C45.9668 25.1602 47.7639 25.5623 49.5832 25.5601C51.4023 25.5615 53.199 25.1588 54.8433 24.381C56.4877 23.6032 57.9388 22.4697 59.0916 21.0626L59.9286 22.973C60.0435 23.2363 60.2092 23.4744 60.4161 23.6737C60.6231 23.873 60.8672 24.0296 61.1347 24.1346C61.4021 24.2395 61.6876 24.2908 61.9749 24.2854C62.2621 24.28 62.5455 24.2181 62.8089 24.1032C63.0722 23.9883 63.3103 23.8226 63.5096 23.6157C63.7089 23.4088 63.8655 23.1646 63.9705 22.8972C64.0754 22.6297 64.1267 22.3442 64.1213 22.0569C64.1159 21.7697 64.054 21.4863 63.9391 21.223L62.6324 18.2392H65.3974C65.9776 18.2392 66.534 18.0088 66.9442 17.5985C67.3544 17.1883 67.5849 16.6319 67.5849 16.0517C67.5849 15.4716 67.3544 14.9152 66.9442 14.5049C66.534 14.0947 65.9776 13.8642 65.3974 13.8642H61.8741C61.9729 11.8883 61.5931 9.91772 60.7669 8.12009C59.9407 6.32246 58.6926 4.75095 57.1286 3.53923C54.9729 1.85818 52.3169 0.946475 49.5832 0.949232C47.7387 0.94651 45.9172 1.35969 44.2543 2.15804C42.5915 2.9564 41.13 4.11938 39.9786 5.56048L39.9261 5.62756V5.6334Z" fill="white"/></g><defs><clipPath id="clip0_59_899"><rect width="70" height="70" fill="white" transform="translate(0 0.386719)"/></clipPath></defs></svg>`,
-    },
-    {
-      year: 1958,
-      description: '21. April 1958 Hochzeit mit Piet Mutsaers in Bad Rothenfelde',
-      icon: `<svg xmlns="http://www.w3.org/2000/svg" width="122" height="123" viewBox="0 0 122 123" fill="none"><circle cx="61" cy="61.3867" r="58" fill="#E29D93" stroke="white" stroke-width="6"/></svg>`,
-    },
+    // {
+    //   year: 1948,
+    //   description: 'ab Herbst 1948 Lehre zur Apothekerin in Dissen.',
+    //   icon: "<svg xmlns='http://www.w3.org/2000/svg' width='70' height='71' viewBox='0 0 70 71' fill='none'><path d='M38.9725 7.75356L38.9595 8.37672H47.4629C54.3435 8.37672 59.9259 13.9591 59.9259 20.8397C59.9259 27.7203 54.3435 33.3027 47.4629 33.3027H42.27V22.9168H47.4629C48.6054 22.9168 49.5401 21.9821 49.5401 20.8397C49.5401 19.6972 48.6054 18.7625 47.4629 18.7625H38.635L38.0508 37.457H43.3086C50.1892 37.457 55.7716 43.0394 55.7716 49.92C55.7716 56.8006 50.1892 62.383 43.3086 62.383H41.2314V51.9971H43.3086C44.451 51.9971 45.3858 51.0624 45.3858 49.92C45.3858 48.7775 44.451 47.8428 43.3086 47.8428H37.7262L37.3238 60.7602L37.142 66.4075V66.5373C37.1031 67.6927 36.1554 68.6145 34.9999 68.6145C33.8445 68.6145 32.8968 67.6927 32.8579 66.5373V66.4075L32.728 62.383H27.7299C24.8608 62.383 22.537 60.0591 22.537 57.19C22.537 54.321 24.8608 51.9971 27.7299 51.9971H32.4035L32.2737 47.8428H29.807C22.9264 47.8428 17.3441 42.2604 17.3441 35.3798C17.3441 29.2003 21.8359 24.0723 27.7299 23.0856V35.3798C27.7299 36.5223 28.6646 37.457 29.807 37.457H31.9491L31.3649 18.7625H25.9902C24.8219 21.2162 22.3163 22.9169 19.4212 22.9169H17.3441C13.3325 22.9169 10.074 19.6583 10.074 15.6468C10.074 11.6352 13.3325 8.37672 17.3441 8.37672H31.0403L31.0274 7.75356L30.9754 6.29955V6.05288C31.0403 3.89782 32.8059 2.1582 34.9999 2.1582C37.1939 2.1582 38.9595 3.89782 39.0245 6.05288V6.29955L38.9725 7.75356ZM18.3826 16.6854C19.9816 16.6868 20.9826 14.9568 20.1844 13.5713C19.8132 12.9271 19.1261 12.5304 18.3826 12.531C16.7836 12.5296 15.7827 14.2596 16.5809 15.6451C16.952 16.2893 17.6392 16.6861 18.3826 16.6854Z' fill='white'/></svg>",
+    // },
+    // {
+    //   year: 1957,
+    //   description: '1957 Ruth Lernt Piet auf dem Dissener Schützenfest kennen.',
+    //   icon: `<svg xmlns="http://www.w3.org/2000/svg" width="70" height="71" viewBox="0 0 70 71" fill="none"><g clip-path="url(#clip0_59_899)"><path fill-rule="evenodd" clip-rule="evenodd" d="M17.7274 21.1851C15.6815 21.1846 13.715 20.3934 12.2387 18.977C10.7625 17.5605 9.89075 15.6284 9.80573 13.5842H25.652C25.5669 15.6289 24.6948 17.5615 23.2179 18.978C21.7411 20.3945 19.7738 21.1853 17.7274 21.1851ZM8.07323 5.63048C6.35817 7.80192 5.42425 10.4876 5.42198 13.2546C5.42142 16.1635 6.45133 18.9785 8.32897 21.2001C10.2066 23.4218 12.8106 24.9065 15.6788 25.3907C18.547 25.875 21.4941 25.3275 23.9971 23.8454C26.5 22.3634 28.397 20.0425 29.3515 17.2948C30.306 14.547 30.2562 11.5499 29.211 8.83537C28.1657 6.12081 26.1927 3.86429 23.6419 2.46618C21.0911 1.06808 18.1275 0.6188 15.2769 1.19806C12.4263 1.77733 9.87312 3.34768 8.07031 5.63048H8.07323ZM2.41198 43.4246C2.39408 41.4088 2.77792 39.4096 3.54111 37.5437C4.3043 35.6778 5.43153 33.9827 6.85701 32.5572C8.28248 31.1317 9.97764 30.0045 11.8435 29.2413C13.7094 28.4781 15.7086 28.0942 17.7245 28.1121C19.7403 28.0942 21.7395 28.4781 23.6054 29.2413C25.4713 30.0045 27.1665 31.1317 28.5919 32.5572C30.0174 33.9827 31.1447 35.6778 31.9078 37.5437C32.671 39.4096 33.0549 41.4088 33.037 43.4246V51.7371C33.037 52.1239 32.8833 52.4949 32.6098 52.7683C32.3363 53.0418 31.9654 53.1955 31.5786 53.1955H27.3174L25.2699 68.5546C25.2232 68.9052 25.0508 69.2268 24.7846 69.4597C24.5185 69.6925 24.1768 69.8207 23.8232 69.8205H11.3545C11.0014 69.82 10.6604 69.6915 10.3949 69.4587C10.1294 69.2259 9.95734 68.9047 9.91073 68.5546L7.86031 53.1955H3.87323C3.48645 53.1955 3.11552 53.0418 2.84203 52.7683C2.56854 52.4949 2.41489 52.1239 2.41489 51.7371V43.4246H2.41198ZM49.5832 27.7155C44.3916 27.7155 39.8795 31.2796 38.5874 36.413L34.0811 52.4634C34.0246 52.6655 34.0123 52.8775 34.0451 53.0848C34.078 53.2921 34.1552 53.4899 34.2715 53.6646C34.3878 53.8393 34.5404 53.9869 34.719 54.0972C34.8976 54.2075 35.0978 54.278 35.3061 54.3038L40.9353 55.0096L42.4957 68.5342C42.5372 68.889 42.7073 69.2162 42.974 69.4538C43.2406 69.6914 43.5852 69.823 43.9424 69.8234H55.2211C55.5788 69.8237 55.9241 69.6925 56.1914 69.4548C56.4586 69.2171 56.6292 68.8895 56.6707 68.5342L58.2311 55.0096L63.8603 54.3038C64.0683 54.2779 64.2682 54.2075 64.4465 54.0974C64.6249 53.9872 64.7773 53.84 64.8936 53.6656C65.0098 53.4912 65.0872 53.2938 65.1202 53.0869C65.1533 52.8799 65.1414 52.6683 65.0853 52.4663L60.5907 36.4538C59.5699 31.2038 54.6903 27.7155 49.5832 27.7155ZM41.6616 13.5871H57.5049C57.4837 14.1363 57.4055 14.6817 57.2716 15.2146C57.208 15.3674 57.162 15.5269 57.1345 15.6901C56.6191 17.2869 55.6106 18.6792 54.254 19.6669C52.8974 20.6545 51.2627 21.1865 49.5847 21.1865C47.9067 21.1865 46.2719 20.6545 44.9154 19.6669C43.5588 18.6792 42.5503 17.2869 42.0349 15.6901C42.0073 15.5269 41.9613 15.3674 41.8978 15.2146C41.7618 14.6819 41.6816 14.1365 41.6586 13.5871H41.6616ZM39.9261 5.6334C38.0775 7.96711 37.1414 10.8938 37.2924 13.8671H33.7691C33.1889 13.8671 32.6325 14.0976 32.2223 14.5079C31.812 14.9181 31.5816 15.4745 31.5816 16.0546C31.5816 16.6348 31.812 17.1912 32.2223 17.6014C32.6325 18.0117 33.1889 18.2421 33.7691 18.2421H36.5311L35.2274 21.223C34.9949 21.7548 34.9833 22.3572 35.195 22.8976C35.4066 23.438 35.8243 23.8722 36.3561 24.1046C36.888 24.3371 37.4903 24.3488 38.0308 24.1371C38.5712 23.9254 39.0054 23.5077 39.2378 22.9759L40.072 21.0655C41.2254 22.4725 42.677 23.6056 44.3219 24.3829C45.9668 25.1602 47.7639 25.5623 49.5832 25.5601C51.4023 25.5615 53.199 25.1588 54.8433 24.381C56.4877 23.6032 57.9388 22.4697 59.0916 21.0626L59.9286 22.973C60.0435 23.2363 60.2092 23.4744 60.4161 23.6737C60.6231 23.873 60.8672 24.0296 61.1347 24.1346C61.4021 24.2395 61.6876 24.2908 61.9749 24.2854C62.2621 24.28 62.5455 24.2181 62.8089 24.1032C63.0722 23.9883 63.3103 23.8226 63.5096 23.6157C63.7089 23.4088 63.8655 23.1646 63.9705 22.8972C64.0754 22.6297 64.1267 22.3442 64.1213 22.0569C64.1159 21.7697 64.054 21.4863 63.9391 21.223L62.6324 18.2392H65.3974C65.9776 18.2392 66.534 18.0088 66.9442 17.5985C67.3544 17.1883 67.5849 16.6319 67.5849 16.0517C67.5849 15.4716 67.3544 14.9152 66.9442 14.5049C66.534 14.0947 65.9776 13.8642 65.3974 13.8642H61.8741C61.9729 11.8883 61.5931 9.91772 60.7669 8.12009C59.9407 6.32246 58.6926 4.75095 57.1286 3.53923C54.9729 1.85818 52.3169 0.946475 49.5832 0.949232C47.7387 0.94651 45.9172 1.35969 44.2543 2.15804C42.5915 2.9564 41.13 4.11938 39.9786 5.56048L39.9261 5.62756V5.6334Z" fill="white"/></g><defs><clipPath id="clip0_59_899"><rect width="70" height="70" fill="white" transform="translate(0 0.386719)"/></clipPath></defs></svg>`,
+    // },
+    // {
+    //   year: 1958,
+    //   description: '21. April 1958 Hochzeit mit Piet Mutsaers in Bad Rothenfelde',
+    //   icon: `<svg xmlns="http://www.w3.org/2000/svg" width="122" height="123" viewBox="0 0 122 123" fill="none"><circle cx="61" cy="61.3867" r="58" fill="#E29D93" stroke="white" stroke-width="6"/></svg>`,
+    // },
     {
       year: 1959,
       description: 'März 1959 Geburt von Tochter Gabi. Ruth wird Mutter.',
@@ -229,15 +229,23 @@ const data = {
     },
     {
       year: 1983,
-      description: 'Lorem Ipsum skd ldjlskdf lkwjsdkl ksjdk jdlskjd ksdjkj lskjdl lksjdl lkwjd ',
-      icon: `<svg xmlns="http://www.w3.org/2000/svg" width="70" height="71" viewBox="0 0 70 71" fill="none">
-        <path d="M34.3928 2.21661C34.7952 2.13873 35.2106 2.13873 35.613 2.21661L61.575 7.40902C63.0289 7.69461 64.0803 8.97971 64.0803 10.4596C64.0803 11.9394 63.0289 13.2245 61.575 13.5101L51.6186 15.5092V22.9213C51.6186 32.0989 44.1805 39.537 35.0029 39.537C25.8253 39.537 18.3872 32.0989 18.3872 22.9213V15.5092L12.1563 14.263V22.7136L14.1944 32.8907C14.3112 33.5008 14.1554 34.1369 13.766 34.6172C13.3766 35.0975 12.7794 35.3831 12.1563 35.3831H8.00242C7.37934 35.3831 6.79518 35.1105 6.39277 34.6172C5.99036 34.1239 5.83459 33.5008 5.9644 32.8907L8.00242 22.7136V13.3933C6.76922 12.9649 5.92545 11.7966 5.92545 10.4596C5.92545 8.97971 6.97693 7.69461 8.43079 7.40902L34.3928 2.21661ZM20.4512 44.6905C21.8142 44.2491 23.2811 44.7424 24.2676 45.7938L33.4841 55.5945C34.3019 56.4642 35.6909 56.4642 36.5087 55.5945L45.7252 45.7938C46.7118 44.7424 48.1786 44.2491 49.5416 44.6905C57.9793 47.4035 64.0803 55.2959 64.0803 64.6293C64.0803 66.8361 62.289 68.6144 60.0952 68.6144H9.91062C7.71684 68.6144 5.92545 66.8231 5.92545 64.6293C5.92545 55.2959 12.0265 47.4035 20.4512 44.6905Z" fill="white"/>
-      </svg>`,
+      description: '1983 Lorem Ipsum skd ldjlskdf lkwjsdkl ksjdk jdlskjd ksdjkj lskjdl lksjdl lkwjd ',
+      icon: ``,
     },
     {
-      year: 1986,
+      year: 1984,
+      description: '1984 ddhdhd ',
+      icon: ``,
+    },
+    {
+      year: 1985,
+      description: '1985 ddhdhd ',
+      icon: ``,
+    },
+    {
+      year: 1984,
       description:
-        'Ab dieser Zeit wird sie bei Bedford zum Anker für alle. Piets Freund Theo van der Lieck unterstützt und berät sie geschäftlich.',
+        '1984 Ab dieser Zeit wird sie bei Bedford zum Anker für alle. Piets Freund Theo van der Lieck unterstützt und berät sie geschäftlich.',
       icon: `<svg xmlns="http://www.w3.org/2000/svg" width="70" height="71" viewBox="0 0 70 71" fill="none">
         <path d="M38.7066 16.9224C38.7082 19.7652 35.6318 21.5437 33.169 20.1237C32.0248 19.4639 31.32 18.2433 31.3208 16.9224C31.3192 14.0796 34.3956 12.3012 36.8583 13.7212C38.0026 14.3809 38.7073 15.6016 38.7066 16.9224ZM41.1416 26.1547C44.1305 24.1698 46.0924 20.7769 46.0924 16.9224C46.0924 10.8061 41.13 5.84375 35.0137 5.84375C28.8973 5.84375 23.935 10.8061 23.935 16.9224C23.935 20.7769 25.8968 24.1698 28.8858 26.1547H27.6279C25.5853 26.1547 23.935 27.8049 23.935 29.8476C23.935 31.8902 25.5853 33.5405 27.6279 33.5405H31.3208V57.5443H25.7814C19.6651 57.5443 14.7027 52.582 14.7027 46.4656V45.7616L15.5106 46.5695C16.5954 47.6543 18.3495 47.6543 19.4227 46.5695C20.496 45.4847 20.5075 43.7305 19.4227 42.6573L12.9717 36.1947C11.8869 35.1099 10.1328 35.1099 9.05955 36.1947L2.58544 42.6573C1.50065 43.7421 1.50065 45.4962 2.58544 46.5695C3.67023 47.6427 5.42435 47.6543 6.4976 46.5695L7.30542 45.7616V46.4656C7.30542 56.6672 15.5683 64.9301 25.7699 64.9301H44.2344C54.436 64.9301 62.6988 56.6672 62.6988 46.4656V45.7616L63.5067 46.5695C64.5915 47.6543 66.3456 47.6543 67.4188 46.5695C68.4921 45.4847 68.5036 43.7305 67.4188 42.6573L60.9563 36.1947C59.8715 35.1099 58.1173 35.1099 57.0441 36.1947L50.5815 42.6573C49.4967 43.7421 49.4967 45.4962 50.5815 46.5695C51.6663 47.6427 53.4204 47.6543 54.4937 46.5695L55.3015 45.7616V46.4656C55.3015 52.582 50.3392 57.5443 44.2228 57.5443H38.7066V33.5405H42.3995C44.4421 33.5405 46.0924 31.8902 46.0924 29.8476C46.0924 27.8049 44.4421 26.1547 42.3995 26.1547H41.1416Z" fill="white"/>
       </svg>`,
@@ -377,15 +385,63 @@ const data = {
 
 class CanvasDrawer {
   constructor(canvasId, wrapperSelector, imageSelector, data) {
-    this.canvas = document.getElementById(canvasId);
-    this.canvasWrapper = document.querySelector(wrapperSelector);
-    this.image = document.querySelector(imageSelector);
-    this.ctx = this.canvas.getContext('2d');
+    this.canvasId = canvasId;
+    this.wrapperSelector = wrapperSelector;
+    this.imageSelector = imageSelector;
     this.data = data;
 
+    this.initialize();
+  }
+
+  async initialize() {
+    // Ждем загрузки DOM
+    await this.domReady();
+
+    this.canvas = document.getElementById(this.canvasId);
+    this.canvasWrapper = document.querySelector(this.wrapperSelector);
+    this.image = document.querySelector(this.imageSelector);
+    this.ctx = this.canvas.getContext('2d');
+
+    this.setCanvasSize();
+    this.calculateDimensions();
+
+    // Ждем загрузки всех ресурсов
+    await this.resourcesReady();
+
+    this.init();
+
+    // Добавляем обработчик изменения размера окна
+    window.addEventListener('resize', this.handleResize.bind(this));
+  }
+
+  domReady() {
+    return new Promise((resolve) => {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', resolve);
+      } else {
+        resolve();
+      }
+    });
+  }
+
+  resourcesReady() {
+    return new Promise((resolve) => {
+      window.addEventListener('load', resolve);
+    });
+  }
+
+  handleResize() {
+    this.setCanvasSize();
+    this.calculateDimensions();
+    this.init();
+  }
+
+  setCanvasSize() {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerWidth;
+  }
 
+  calculateDimensions() {
     this.centerX = this.canvas.width / 2;
     this.centerY = this.canvas.height / 2;
     this.radiusLarge = this.canvas.width - 100;
@@ -393,19 +449,33 @@ class CanvasDrawer {
     this.startAngle = -Math.PI / 2;
     this.endAngle = this.startAngle + 2 * Math.PI;
     this.deg = 360;
-
-    this.init();
   }
 
   init() {
+    // Очищаем канвас и существующие описания
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.clearDescriptions();
+
     this.drawInitialCircles();
     this.drawTriangle();
     this.setImagePosition();
     this.drawOverlappingCircles();
-    this.drawDotsForBigCircle();
     this.drawNumForCircle();
     this.drawTextForCategories();
-    this.adjustTextPositions();
+    this.drawDotsForBigCircle();
+    this.renderDescriptions();
+
+    // Используем requestAnimationFrame для отложенной корректировки позиций
+    requestAnimationFrame(() => {
+      this.adjustTextPositions();
+      // Повторная корректировка через небольшую задержку
+      setTimeout(() => this.adjustTextPositions(), 100);
+    });
+  }
+
+  clearDescriptions() {
+    const descriptions = this.canvasWrapper.querySelectorAll('.description');
+    descriptions.forEach((desc) => desc.remove());
   }
 
   drawInitialCircles() {
@@ -474,14 +544,7 @@ class CanvasDrawer {
     this.ctx.stroke();
   }
 
-  clearCanvas() {
-    const descriptions = document.querySelectorAll('.description');
-    descriptions.forEach((description) => description.remove());
-  }
-
   drawDotsForBigCircle() {
-    this.clearCanvas();
-
     const { categoryData, amountYear, personDate } = this.data;
     const divisions = 2;
     const angleStep = (this.endAngle - this.startAngle) / amountYear;
@@ -497,20 +560,29 @@ class CanvasDrawer {
       const dotX = this.centerX + (this.radius + this.canvas.width * 0.0046) * Math.cos(angle);
       const dotY = this.centerY + (this.radius + this.canvas.width * 0.0046) * Math.sin(angle);
       const dotSize = this.canvas.width * 0.006;
+      const dotSmallX = this.centerX + (this.radius / 2 + this.canvas.width * 0.016) * Math.cos(angle) + dotSize / 2;
+      const dotSmallY = this.centerY + (this.radius / 2 + this.canvas.width * 0.016) * Math.sin(angle);
+      const dotSmallSize = this.canvas.width * 0.0045;
       const iconCircle = this.createIconCircle();
 
       let { bgColor, borderColor } = this.getColorsForDate(i, categoryData, personDate);
 
       this.drawOneDot('dot', dotX + dotSize / 2, dotY, dotSize, bgColor, borderColor);
-      this.drawOneDot(
-        'dot',
-        this.centerX + (this.radius / 2 + this.canvas.width * 0.016) * Math.cos(angle) + dotSize / 2,
-        this.centerY + (this.radius / 2 + this.canvas.width * 0.016) * Math.sin(angle),
-        this.canvas.width * 0.0045,
-        bgColor,
-        borderColor
-      );
+      this.drawOneDot('dot', dotSmallX, dotSmallY, dotSmallSize, bgColor, borderColor);
       this.addTextForCircle(dateX, dateY, fontSizeDate, lastDate - firstDate, angle, i, firstDate);
+    }
+  }
+
+  renderDescriptions() {
+    const { categoryData, amountYear, personDate } = this.data;
+    const divisions = 2;
+    const angleStep = (this.endAngle - this.startAngle) / amountYear;
+    const adjustedStartAngle = this.startAngle + angleStep / divisions;
+    const firstDate = categoryData[0].date.from;
+    const lastDate = categoryData[categoryData.length - 1].date.to;
+
+    for (let i = firstDate; i < lastDate; i++) {
+      const angle = adjustedStartAngle + (i - firstDate) * angleStep;
 
       personDate.forEach((item) => {
         if (item.year === i) {
@@ -520,9 +592,16 @@ class CanvasDrawer {
     }
   }
 
+  saveDescriptionState(text, x, y, width) {
+    const descriptions = JSON.parse(localStorage.getItem('descriptions')) || [];
+    descriptions.push({ text, x, y, width });
+    localStorage.setItem('descriptions', JSON.stringify(descriptions));
+  }
+
   writeDescriptions(text, angle) {
     const p = document.createElement('p');
     const textSize = this.canvas.width * 0.0083;
+    const plusRadius = this.canvas.width * 0.04;
     let descriptionWidth;
     let descriptionX;
     let descriptionY;
@@ -534,78 +613,94 @@ class CanvasDrawer {
 
     if (clockAngles[12] <= angle && clockAngles['12:30'] >= angle) {
       descriptionWidth = this.canvas.width * 0.165;
-      descriptionX = this.centerX + (this.radius + descriptionWidth / 4) * Math.cos(angle - clockAngles[1] / 2);
-      descriptionY = this.centerY + (this.radius + descriptionWidth / 4) * Math.sin(angle - clockAngles[1] / 2);
+      descriptionX = this.centerX + (this.radius + plusRadius) * Math.cos(angle - clockAngles[1] / 2);
+      descriptionY = this.centerY + (this.radius + plusRadius) * Math.sin(angle - clockAngles[1] / 2);
     } else if (clockAngles['12:30'] <= angle && clockAngles[1] >= angle) {
       descriptionWidth = this.canvas.width * 0.165;
-      descriptionX = this.centerX + (this.radius + descriptionWidth / 4) * Math.cos(angle - clockAngles[2] / 2);
-      descriptionY = this.centerY + (this.radius + descriptionWidth / 4) * Math.sin(angle - clockAngles[2] / 2);
+      descriptionX = this.centerX + (this.radius + plusRadius) * Math.cos(angle - clockAngles[2] / 2);
+      descriptionY = this.centerY + (this.radius + plusRadius) * Math.sin(angle - clockAngles[2] / 2);
     } else if (clockAngles[1] <= angle && clockAngles['1:30'] >= angle) {
       descriptionWidth = this.canvas.width * 0.115;
-      descriptionX = this.centerX + (this.radius + descriptionWidth / 4) * Math.cos(angle) + textSize * 2;
-      descriptionY = this.centerY + (this.radius + descriptionWidth / 4) * Math.sin(angle) - textSize * 2;
+      descriptionX = this.centerX + (this.radius + plusRadius / 2) * Math.cos(angle);
+      descriptionY = this.centerY + (this.radius + plusRadius / 2) * Math.sin(angle);
     } else if (clockAngles['1:30'] <= angle && clockAngles[2] >= angle) {
       descriptionWidth = this.canvas.width * 0.115;
-      descriptionX = this.centerX + (this.radius + descriptionWidth / 4) * Math.cos(angle) + textSize * 2;
-      descriptionY = this.centerY + (this.radius + descriptionWidth / 4) * Math.sin(angle) - textSize * 2;
+      descriptionX = this.centerX + (this.radius + plusRadius) * Math.cos(angle) + textSize;
+      descriptionY = this.centerY + (this.radius + plusRadius) * Math.sin(angle);
     } else if (clockAngles[2] <= angle && clockAngles['2:30'] >= angle) {
       descriptionWidth = this.canvas.width * 0.12;
-      descriptionX = this.centerX + (this.radius + descriptionWidth / 4) * Math.cos(angle) + textSize * 2;
-      descriptionY = this.centerY + (this.radius + descriptionWidth / 4) * Math.sin(angle) - textSize * 2;
+      descriptionX = this.centerX + (this.radius + plusRadius) * Math.cos(angle);
+      descriptionY = this.centerY + (this.radius + plusRadius) * Math.sin(angle);
     } else if (clockAngles['2:30'] <= angle && clockAngles[3] >= angle) {
       descriptionWidth = this.canvas.width * 0.13;
-      descriptionX = this.centerX + (this.radius + descriptionWidth / 4) * Math.cos(angle) + textSize * 2;
-      descriptionY = this.centerY + (this.radius + descriptionWidth / 4) * Math.sin(angle) - textSize * 2;
+      descriptionX = this.centerX + (this.radius + plusRadius) * Math.cos(angle);
+      descriptionY = this.centerY + (this.radius + plusRadius) * Math.sin(angle);
     } else if (clockAngles[3] <= angle && clockAngles['4:30'] >= angle) {
       descriptionWidth = this.canvas.width * 0.11;
-      descriptionX = this.centerX + (this.radius + descriptionWidth / 4) * Math.cos(angle);
-      descriptionY = this.centerY + (this.radius + descriptionWidth / 4) * Math.sin(angle) - textSize * 2;
-    } else if (clockAngles['4:30'] <= angle && clockAngles[6] >= angle) {
+      descriptionX = this.centerX + (this.radius + plusRadius / 2) * Math.cos(angle);
+      descriptionY = this.centerY + (this.radius + plusRadius / 2) * Math.sin(angle) - textSize;
+    } else if (clockAngles['4:30'] <= angle && clockAngles[5] >= angle) {
       descriptionWidth = this.canvas.width * 0.15;
-      descriptionX = this.centerX + (this.radius + descriptionWidth / 4) * Math.cos(angle);
-      descriptionY = this.centerY + (this.radius + descriptionWidth / 4) * Math.sin(angle) - textSize * 2;
+      descriptionX = this.centerX + (this.radius + plusRadius / 2) * Math.cos(angle);
+      descriptionY = this.centerY + (this.radius + plusRadius / 2) * Math.sin(angle);
+    } else if (clockAngles[5] <= angle && clockAngles[6] >= angle) {
+      descriptionWidth = this.canvas.width * 0.22;
+      descriptionX = this.centerX + (this.radius + plusRadius) * Math.cos(angle);
+      descriptionY = this.centerY + (this.radius + plusRadius) * Math.sin(angle);
     } else if (clockAngles[6] <= angle && clockAngles['6:05'] >= angle) {
-      descriptionWidth = this.canvas.width * 0.15;
-      descriptionX = this.centerX + (this.radius + descriptionWidth / 2) * Math.cos(angle);
-      descriptionY = this.centerY + (this.radius + descriptionWidth / 2) * Math.sin(angle) - textSize * 4;
+      descriptionWidth = this.canvas.width * 0.19;
+      descriptionX = this.centerX + (this.radius + plusRadius) * Math.cos(angle);
+      descriptionY = this.centerY + (this.radius + plusRadius / 2) * Math.sin(angle);
     } else if (clockAngles['6:05'] <= angle && clockAngles['6:20'] >= angle) {
       descriptionWidth = this.canvas.width * 0.13;
-      descriptionX = this.centerX + (this.radius + descriptionWidth / 2) * Math.cos(angle);
-      descriptionY = this.centerY + (this.radius + descriptionWidth / 2) * Math.sin(angle);
+      descriptionX = this.centerX + (this.radius - plusRadius * 8) * Math.cos(angle);
+      descriptionY = this.centerY + (this.radius + plusRadius * 2) * Math.sin(angle);
     } else if (clockAngles['6:20'] <= angle && clockAngles['6:30'] >= angle) {
+      descriptionWidth = this.canvas.width * 0.18;
+      descriptionX = this.centerX + (this.radius + plusRadius * 10) * Math.cos(angle);
+      descriptionY = this.centerY + (this.radius + plusRadius * 2.5) * Math.sin(angle);
+    } else if (clockAngles['6:30'] <= angle && clockAngles['6:40'] >= angle) {
+      descriptionWidth = this.canvas.width * 0.16;
+      descriptionX = this.centerX + (this.radius + plusRadius * 8) * Math.cos(angle);
+      descriptionY = this.centerY + (this.radius + plusRadius * 2) * Math.sin(angle);
+    } else if (clockAngles['6:40'] <= angle && clockAngles[7] >= angle) {
+      descriptionWidth = this.canvas.width * 0.17;
+      descriptionX = this.centerX + (this.radius + plusRadius * 9) * Math.cos(angle);
+      descriptionY = this.centerY + (this.radius + plusRadius * 2) * Math.sin(angle);
+    } else if (clockAngles[7] <= angle && clockAngles['7:30'] >= angle) {
       descriptionWidth = this.canvas.width * 0.13;
-      descriptionX = this.centerX + (this.radius + descriptionWidth) * Math.cos(angle) - descriptionWidth;
-      descriptionY = this.centerY + (this.radius + descriptionWidth / 2) * Math.sin(angle);
-    } else if (clockAngles['6:30'] <= angle && clockAngles[7] >= angle) {
+      descriptionX = this.centerX + (this.radius + plusRadius * 6) * Math.cos(angle);
+      descriptionY = this.centerY + (this.radius + plusRadius * 2) * Math.sin(angle);
+    } else if (clockAngles['7:30'] <= angle && clockAngles[8] >= angle) {
       descriptionWidth = this.canvas.width * 0.13;
-      descriptionX = this.centerX + (this.radius + descriptionWidth * 2) * Math.cos(angle);
-      descriptionY = this.centerY + (this.radius + descriptionWidth / 2) * Math.sin(angle);
-    } else if (clockAngles[7] <= angle && clockAngles[8] >= angle) {
-      descriptionWidth = this.canvas.width * 0.14;
-      descriptionX = this.centerX + (this.radius + descriptionWidth * 2) * Math.cos(angle);
-      descriptionY = this.centerY + (this.radius + descriptionWidth) * Math.sin(angle);
+      descriptionX = this.centerX + (this.radius + plusRadius * 4.5) * Math.cos(angle);
+      descriptionY = this.centerY + (this.radius + plusRadius * 2) * Math.sin(angle);
     } else {
       descriptionWidth = this.canvas.width * 0.165;
-      descriptionX = this.centerX + (this.radius + descriptionWidth / 4) * Math.cos(angle + Math.PI / 6);
-      descriptionY = this.centerY + (this.radius + descriptionWidth / 4) * Math.sin(angle + Math.PI / 6);
+      descriptionX = this.centerX + (this.radius + plusRadius) * Math.cos(angle + Math.PI / 6);
+      descriptionY = this.centerY + (this.radius + plusRadius) * Math.sin(angle + Math.PI / 6);
     }
 
     p.style.left = `${descriptionX}px`;
     p.style.width = `${descriptionWidth}px`;
     p.style.top = `${descriptionY}px`;
 
-    if (angle > clockAngles['6:20'] && angle < (3 * Math.PI) / 2) {
-      p.style.textAlign = `left`;
-      p.classList.add('bottom-half');
-    } else {
-      p.style.textAlign = `right`;
+    if (angle >= clockAngles[12] && angle < clockAngles['6:20']) {
+      p.style.textAlign = 'right';
       p.classList.add('top-half');
+    } else if (angle >= clockAngles['6:20'] && angle <= clockAngles[8]) {
+      p.style.textAlign = 'left';
+      p.classList.add('center-description');
+    } else {
+      p.style.textAlign = 'left';
+      p.classList.add('bottom-half');
     }
+
+    this.saveDescriptionState(text, descriptionX, descriptionY, descriptionWidth);
   }
 
   adjustTextPositions() {
     const descriptions = [...document.querySelectorAll('.description')];
-    descriptions.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
 
     for (let i = 1; i < descriptions.length; i++) {
       const prevEl = descriptions[i - 1];
@@ -616,13 +711,25 @@ class CanvasDrawer {
 
       if (prevEl.classList.contains('top-half') && currEl.classList.contains('top-half')) {
         if (prevRect.bottom + distance > currRect.top) {
-          descriptions[i].style.top = `${prevRect.bottom + distance}px`;
+          currEl.style.top = `${parseFloat(currEl.style.top) + (prevRect.bottom + distance - currRect.top)}px`;
+        }
+      }
+
+      if (
+        prevEl.classList.contains('center-description') &&
+        (currEl.classList.contains('center-description') || currEl.classList.contains('bottom-half'))
+      ) {
+        if (prevRect.top - distance < currRect.bottom) {
+          currEl.style.top = `${parseFloat(currEl.style.top) - (currRect.bottom - prevRect.top + distance)}px`;
+
+          const leftShift = this.canvas.width * 0.03;
+          currEl.style.left = `${parseFloat(currEl.style.left || 0) - leftShift}px`;
         }
       }
 
       if (prevEl.classList.contains('bottom-half') && currEl.classList.contains('bottom-half')) {
-        if (prevRect.top + distance < currRect.bottom) {
-          descriptions[i].style.top = `${prevRect.bottom - distance}px`;
+        if (prevRect.top - distance < currRect.bottom) {
+          currEl.style.top = `${parseFloat(currEl.style.top) - (currRect.bottom - prevRect.top + distance)}px`;
         }
       }
     }
@@ -819,4 +926,4 @@ class CanvasDrawer {
   }
 }
 
-new CanvasDrawer('canvas', '.canvas-wrapper', '.canvas-wrapper img', data);
+const drawer = new CanvasDrawer('canvas', '.canvas-wrapper', '.canvas-wrapper img', data);
