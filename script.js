@@ -366,12 +366,14 @@ class CanvasDrawer {
     this.maxSpacing = 20;
     this.minSpacing = 5;
     this.clockAngles = {
-      12: -Math.PI / 2,
-      '12:30': -Math.PI / 2 + Math.PI / 12,
-      1: -Math.PI / 3,
-      2: -Math.PI / 6,
-      6: Math.PI / 2,
-      10: (7 * Math.PI) / 6,
+      '12:00': -Math.PI / 2,
+      '1:30': -Math.PI / 3 + Math.PI / 12,
+      '2:00': -Math.PI / 6,
+      '4:30': Math.PI / 6,
+      '6:00': Math.PI / 2,
+      '7:30': (5 * Math.PI) / 6,
+      '10:00': (7 * Math.PI) / 6,
+      '10:30': (7 * Math.PI) / 6 + Math.PI / 12,
       '11:59': -Math.PI / 2 - Math.PI / 1800,
     };
 
@@ -427,7 +429,7 @@ class CanvasDrawer {
     this.centerY = this.canvas.height / 2;
     this.radiusLarge = this.canvas.width - 100;
     this.radius = this.radiusLarge / 3;
-    this.startAngle = this.clockAngles[12];
+    this.startAngle = this.clockAngles['12:00'];
     this.endAngle = this.startAngle + 2 * Math.PI;
     this.deg = 360;
   }
@@ -465,13 +467,22 @@ class CanvasDrawer {
   }
 
   positionEventsOnSide(events, isLeft) {
-    const startAngle = isLeft ? this.clockAngles[10] : this.clockAngles[2];
-    const endAngle = this.clockAngles[6];
+    const startAngle = isLeft ? this.clockAngles['10:30'] : this.clockAngles['1:30'];
+    const endAngle = this.clockAngles['6:00'];
     const angleStep = (endAngle - startAngle) / events.length;
-    const radiusOffset = isLeft ? 400 : 150;
-    const heightOffset = isLeft ? 200 : 100;
+    const leftRadiusX = this.canvas.width * 0.135;
+    const rightRadiusX = this.canvas.width * 0.05;
+    const radiusY = this.canvas.width * 0.025;
+    const radiusOffset = isLeft ? leftRadiusX : rightRadiusX;
+    const heightOffset = isLeft ? radiusY * 2 : radiusY;
 
     let lastY = null;
+
+    const topY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '11:59' : '12:00']);
+    const bottomY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '10:00' : '2:00']);
+    const fiveY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['4:30']);
+    const sixY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['6:00']);
+    const sevenY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['7:30']);
 
     events.forEach((event, index) => {
       const angle = startAngle + index * angleStep;
@@ -497,6 +508,17 @@ class CanvasDrawer {
           }
         }
       }
+
+      const offsetX = this.canvas.width * 0.02;
+      if (y >= topY && y <= bottomY) {
+        x += isLeft ? -offsetX : offsetX;
+      } else if (y >= fiveY && y <= sixY) {
+        x += isLeft ? -offsetX : offsetX;
+      } else if (y >= sixY && y <= sevenY) {
+        x += isLeft ? offsetX : -offsetX;
+      }
+
+      eventElement.style.left = `${x}px`;
 
       const rect = eventElement.getBoundingClientRect();
       lastY = rect.bottom;
@@ -684,7 +706,7 @@ class CanvasDrawer {
 
   drawNumForCircle() {
     const { startDate, endDate, amountYear } = this.data;
-    const startAngle = this.clockAngles[12] + Math.PI / amountYear;
+    const startAngle = this.clockAngles['12:00'] + Math.PI / amountYear;
     const endAngle = startAngle + 2 * Math.PI;
     const numOfYears = endDate - startDate;
     const angleStep = (endAngle - startAngle) / amountYear;
@@ -705,7 +727,7 @@ class CanvasDrawer {
       el.style.fontSize = `${fontSizeYear}px`;
       el.style.top = `${numberY - fontSizeYear / 2}px`;
       el.style.left = `${numberX - fontSizeYear / 2}px`;
-      el.style.transform = `rotate(${angle + this.clockAngles[6]}rad)`;
+      el.style.transform = `rotate(${angle + this.clockAngles['6:00']}rad)`;
       el.style.fontWeight = '700';
 
       this.canvasWrapper.appendChild(el);
@@ -714,7 +736,7 @@ class CanvasDrawer {
 
   drawTextForCategories() {
     const { categoryData, startDate, amountYear } = this.data;
-    const startAngle = this.clockAngles[12];
+    const startAngle = this.clockAngles['12:00'];
     const endAngle = startAngle + 2 * Math.PI;
     const angleStep = (endAngle - startAngle) / amountYear;
 
