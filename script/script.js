@@ -1,7 +1,17 @@
+const fontFamilies = {
+  satisfy: '"Satisfy", cursive',
+  parisienne: '"Parisienne", cursive',
+  pacifico: '"Pacifico", cursive',
+  notoSans: '"Noto Sans", sans-serif',
+  anton: '"Anton", sans-serif',
+};
+
 const data = {
   amountYear: 100,
   startDate: 1930,
   endDate: 2016,
+  fontFamily: fontFamilies.satisfy,
+  upperText: 'Ruth Mutsaers hksah skjhd khsd',
   categoryData: [
     {
       category: 'Kindheit & Jugend',
@@ -361,19 +371,29 @@ class CanvasDrawer {
     this.canvasId = canvasId;
     this.wrapperSelector = wrapperSelector;
     this.imageSelector = imageSelector;
+    this.svgNS = 'http://www.w3.org/2000/svg';
     this.data = data;
     this.eventElements = [];
     this.maxSpacing = 20;
     this.minSpacing = 5;
     this.clockAngles = {
       '12:00': -Math.PI / 2,
+      '12:30': -Math.PI / 2 + Math.PI / 12,
+      '12:45': -Math.PI / 2 + (3 * Math.PI) / 12,
+      '1:00': -Math.PI / 3,
       '1:30': -Math.PI / 3 + Math.PI / 12,
       '2:00': -Math.PI / 6,
+      '2:30': -Math.PI / 6 + Math.PI / 12,
       '4:30': Math.PI / 6,
       '6:00': Math.PI / 2,
       '7:30': (5 * Math.PI) / 6,
+      '9:30': Math.PI + Math.PI / 12,
       '10:00': (7 * Math.PI) / 6,
       '10:30': (7 * Math.PI) / 6 + Math.PI / 12,
+      '10:40': (7 * Math.PI) / 6 + (8 * Math.PI) / 72,
+      '11:00': (4 * Math.PI) / 3,
+      '11:15': (4 * Math.PI) / 3 + Math.PI / 12,
+      '11:30': (4 * Math.PI) / 3 + Math.PI / 12,
       '11:59': -Math.PI / 2 - Math.PI / 1800,
     };
 
@@ -437,7 +457,6 @@ class CanvasDrawer {
   init() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.clearDescriptions();
-
     this.drawInitialCircles();
     this.drawTriangle();
     this.setImagePosition();
@@ -446,6 +465,7 @@ class CanvasDrawer {
     this.drawTextForCategories();
     this.drawDotsForBigCircle();
     this.positionEvents();
+    this.drawUpperText(data.upperText);
   }
 
   clearDescriptions() {
@@ -467,7 +487,7 @@ class CanvasDrawer {
   }
 
   positionEventsOnSide(events, isLeft) {
-    const startAngle = isLeft ? this.clockAngles['10:30'] : this.clockAngles['1:30'];
+    const startAngle = isLeft ? this.clockAngles['10:40'] : this.clockAngles['1:00'];
     const endAngle = this.clockAngles['6:00'];
     const angleStep = (endAngle - startAngle) / events.length;
     const leftRadiusX = this.canvas.width * 0.12;
@@ -479,7 +499,7 @@ class CanvasDrawer {
     let lastY = null;
 
     const topY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '11:59' : '12:00']);
-    const bottomY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '10:00' : '2:00']);
+    const bottomY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '9:30' : '2:30']);
     const fiveY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['4:30']);
     const sixY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['6:00']);
     const sevenY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['7:30']);
@@ -497,6 +517,7 @@ class CanvasDrawer {
       this.canvasWrapper.appendChild(eventElement);
 
       let overlap = true;
+
       while (overlap) {
         overlap = false;
         for (let i = 0; i < this.eventElements.length; i++) {
@@ -510,6 +531,7 @@ class CanvasDrawer {
       }
 
       const offsetX = this.canvas.width * 0.03;
+
       if (y >= topY && y <= bottomY) {
         x += isLeft ? -offsetX : offsetX;
       } else if (y >= fiveY && y <= sixY) {
@@ -534,7 +556,7 @@ class CanvasDrawer {
     eventElement.style.position = 'absolute';
     eventElement.style.left = `${x}px`;
     eventElement.style.top = `${y}px`;
-    eventElement.style.fontSize = `${this.canvas.width * 0.008}px`;
+    eventElement.style.fontSize = `${this.canvas.width * 0.007}px`;
     eventElement.style.width = `${this.canvas.width * 0.1}px`;
     eventElement.style.zIndex = '70';
     return eventElement;
@@ -552,6 +574,141 @@ class CanvasDrawer {
       rect1.right < rect2.left ||
       rect1.left > rect2.right
     );
+  }
+
+  drawUpperText(text) {
+    const svg = document.createElementNS(this.svgNS, 'svg');
+    svg.setAttribute('width', this.canvas.width);
+    svg.setAttribute('height', this.canvas.height);
+    svg.style.position = 'absolute';
+    svg.style.top = '0';
+    svg.style.left = '0';
+    svg.style.zIndex = '50';
+
+    const path = document.createElementNS(this.svgNS, 'path');
+    const startAngle = this.clockAngles['11:00'];
+    const endAngle = this.clockAngles['1:00'];
+    let radiusDistance = this.canvas.width * 0.06;
+
+    if (text.length > 15) {
+      radiusDistance += this.canvas.width * 0.015;
+    }
+
+    const radius = this.radius + radiusDistance;
+    const startX = this.centerX + radius * Math.cos(startAngle);
+    const startY = this.centerY + radius * Math.sin(startAngle);
+    const endX = this.centerX + radius * Math.cos(endAngle);
+    const endY = this.centerY + radius * Math.sin(endAngle);
+
+    const largeArcFlag = endAngle - startAngle <= Math.PI ? '0' : '1';
+
+    path.setAttribute('d', `M ${startX} ${startY} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY}`);
+    path.setAttribute('fill', 'none');
+    svg.appendChild(path);
+
+    const svgText = document.createElementNS(this.svgNS, 'text');
+    svgText.setAttribute('text-anchor', 'middle');
+
+    const textPath = document.createElementNS(this.svgNS, 'textPath');
+    textPath.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#upperTextPath');
+    textPath.setAttribute('startOffset', '50%');
+
+    svgText.appendChild(textPath);
+
+    const tspan = document.createElementNS(this.svgNS, 'tspan');
+    tspan.textContent = text;
+    const fontSize = this.canvas.width * 0.5;
+    const colorFont = '#825251';
+    tspan.setAttribute('font-size', `${fontSize}px`);
+    tspan.setAttribute('font-family', `${this.data.fontFamily}`);
+    tspan.setAttribute('fill', colorFont);
+
+    textPath.appendChild(tspan);
+
+    path.id = 'upperTextPath';
+    svg.appendChild(svgText);
+
+    this.canvasWrapper.appendChild(svg);
+
+    this.adjustFontSize(tspan, path, colorFont);
+  }
+
+  adjustFontSize(tspan, path, colorFont) {
+    let fontSize = this.canvas.width * 0.15;
+    const maxWidth = path.getTotalLength() * 0.9;
+    const originalText = tspan.textContent;
+    let isSplit = false;
+
+    const splitTextIfNeeded = () => {
+      const words = originalText.split(' ');
+      let lines = [''];
+      let currentLine = 0;
+
+      for (let word of words) {
+        if (lines[currentLine].length + word.length + (lines[currentLine] ? 1 : 0) > 15) {
+          if (currentLine === 0) {
+            currentLine++;
+            lines.push('');
+          }
+        }
+        lines[currentLine] += (lines[currentLine] ? ' ' : '') + word;
+        if (lines[currentLine].length > 15 && currentLine < 2) {
+          currentLine++;
+          lines.push('');
+        }
+      }
+
+      lines = lines.filter((line) => line !== '');
+      if (lines.length > 3) {
+        lines[2] = lines.slice(2).join(' ');
+        lines = lines.slice(0, 3);
+      }
+
+      return lines;
+    };
+
+    const applyText = (lines) => {
+      tspan.textContent = lines[0];
+      const tspans = [tspan];
+
+      for (let i = 1; i < lines.length; i++) {
+        const newTspan = document.createElementNS(this.svgNS, 'tspan');
+        newTspan.textContent = lines[i];
+        newTspan.setAttribute('x', '0');
+        newTspan.setAttribute('dy', '1.1em');
+        tspan.parentNode.appendChild(newTspan);
+        tspans.push(newTspan);
+      }
+
+      fontSize *= lines.length === 3 ? 0.95 : lines.length === 2 ? 0.98 : 1;
+
+      tspans.forEach((t) => {
+        t.setAttribute('font-size', `${fontSize}px`);
+        t.setAttribute('font-family', `${this.data.fontFamily}`);
+        t.setAttribute('fill', colorFont);
+      });
+
+      if (lines.length > 1) {
+        tspan.setAttribute('dy', `-${(lines.length - 1) * 0.55}em`);
+      }
+
+      return tspans;
+    };
+
+    const lines = splitTextIfNeeded();
+    isSplit = lines.length > 1;
+    let tspans = applyText(lines);
+
+    // Уменьшаем размер шрифта, если текст не помещается
+    while (tspans.some((t) => t.getComputedTextLength() > maxWidth / lines.length) && fontSize > 20) {
+      fontSize--;
+      tspans.forEach((t) => t.setAttribute('font-size', `${fontSize}px`));
+    }
+
+    // Центрирование для всех строк
+    const textPath = tspan.parentNode;
+    textPath.setAttribute('startOffset', '50%');
+    tspans.forEach((t) => t.setAttribute('x', '0'));
   }
 
   drawInitialCircles() {

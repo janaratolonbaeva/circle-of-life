@@ -58,6 +58,7 @@ h6 {
 
 body {
   background: white;
+  font-family: var(--font-family);
 }
 
 canvas {
@@ -73,10 +74,8 @@ canvas {
 
 img {
   position: absolute;
-  /* display: block; */
   z-index: 50;
   border-radius: 50%;
-  /* display: none; */
 }
 
 .number {
@@ -98,7 +97,7 @@ img {
 .text {
   font-weight: 700;
   position: absolute;
-  z-index: 50;
+  z-index: 30;
 }
 
 .icon-circle {
