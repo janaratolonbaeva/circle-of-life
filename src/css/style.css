@@ -59,6 +59,7 @@ h6 {
 body {
   background: white;
   font-family: var(--font-family);
+  color: var(--gray-1);
 }
 
 canvas {
@@ -80,8 +81,6 @@ img {
 
 .number {
   position: absolute;
-  font-family: var(--font-family);
-  color: var(--gray-1);
   font-weight: 400;
   z-index: 50;
   text-align: center;

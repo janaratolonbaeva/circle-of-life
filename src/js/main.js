@@ -1,7 +1,18 @@
+const fontFamilies = {
+  satisfy: '"Satisfy", cursive',
+  parisienne: '"Parisienne", cursive',
+  pacifico: '"Pacifico", cursive',
+  notoSans: '"Noto Sans", sans-serif',
+  anton: '"Anton", sans-serif',
+};
+
 const data = {
   amountYear: 100,
   startDate: 1930,
   endDate: 2016,
+  fontFamily: fontFamilies.satisfy,
+  upperText: 'Ruth Mutsaers',
+  colorFont: '#825251',
   categoryData: [
     {
       category: 'Kindheit & Jugend',
@@ -51,11 +62,11 @@ const data = {
         'geboren am Pfingstsonntag 8 Juni 1930 Ruth Magarethe Bressau in Domnau, Ostpreußen. Sternbild Zwilling',
       icon: "<svg xmlns='http://www.w3.org/2000/svg' width='70' height='71' viewBox='0 0 70 71' fill='none'><path d='M25.3578 11.8021C25.3548 4.37795 33.3898 -0.265297 39.8208 3.44421C42.8077 5.16716 44.6475 8.35379 44.6462 11.8021C44.6491 19.2262 36.6141 23.8694 30.1832 20.1599C27.1962 18.437 25.3564 15.2503 25.3578 11.8021ZM10.3155 19.3701C12.0568 16.9724 15.4055 16.45 17.8031 18.1913L22.652 21.7142C26.2418 24.3261 30.5683 25.7326 35.0019 25.7326C39.4356 25.7326 43.7621 24.3261 47.3519 21.7142L52.2008 18.1779C54.5984 16.4366 57.9471 16.9724 59.6884 19.3567C61.4298 21.7409 60.894 25.103 58.5097 26.8443L53.6608 30.3805C51.8391 31.7066 49.8969 32.8184 47.8609 33.7292V38.5915H22.143V33.7292C20.107 32.8318 18.1648 31.7066 16.3431 30.3805L11.4942 26.8443C9.09656 25.103 8.57416 21.7543 10.3155 19.3567V19.3701ZM22.3439 44.1235L30.4611 51.2227L26.9785 56.2056L30.2334 59.4605C32.323 61.5501 32.323 64.9389 30.2334 67.0419C28.1439 69.1449 24.755 69.1315 22.652 67.0419L16.2225 60.6124C14.3741 58.764 14.1196 55.8707 15.6064 53.7409L22.3305 44.1235H22.3439ZM39.5562 51.2227L47.6734 44.1235L54.3975 53.7409C55.8843 55.8707 55.6298 58.764 53.7947 60.599L47.3653 67.0285C45.2757 69.1181 41.8868 69.1181 39.7839 67.0285C37.6809 64.9389 37.6943 61.5501 39.7839 59.4471L43.0388 56.1922L39.5562 51.2093V51.2227Z' fill='white'/></svg>",
     },
-    // {
-    //   year: 1935,
-    //   description: 'ab Sommer 1935 Grundschule',
-    //   icon: "<svg xmlns='http://www.w3.org/2000/svg' width='70' height='70' viewBox='0 0 70 70' fill='none'><path d='M34.9972 1.77197C32.6998 1.77197 30.8437 3.62808 30.8437 5.92549V8.4176C21.3685 10.3386 14.2296 18.7235 14.2296 28.7698V31.21C14.2296 37.3105 11.9841 43.2033 7.93442 47.7722L6.97392 48.8495C5.88362 50.0696 5.62403 51.8218 6.286 53.3145C6.94798 54.8072 8.44064 55.7677 10.0761 55.7677H59.9183C61.5537 55.7677 63.0334 54.8072 63.7084 53.3145C64.3833 51.8219 64.1107 50.0696 63.0204 48.8495L62.0599 47.7722C58.0102 43.2033 55.7648 37.3235 55.7648 31.21V28.7698C55.7648 18.7235 48.6259 10.3386 39.1507 8.4176V5.92549C39.1507 3.62808 37.2946 1.77197 34.9972 1.77197ZM40.877 65.801C42.4346 64.2435 43.3042 62.1277 43.3042 59.9212H26.6901C26.6901 62.1277 27.5598 64.2435 29.1174 65.801C30.6749 67.3586 32.7906 68.2282 34.9972 68.2282C37.2037 68.2282 39.3194 67.3586 40.877 65.801Z' fill='white'/></svg>",
-    // },
+    {
+      year: 1935,
+      description: 'ab Sommer 1935 Grundschule',
+      icon: "<svg xmlns='http://www.w3.org/2000/svg' width='70' height='70' viewBox='0 0 70 70' fill='none'><path d='M34.9972 1.77197C32.6998 1.77197 30.8437 3.62808 30.8437 5.92549V8.4176C21.3685 10.3386 14.2296 18.7235 14.2296 28.7698V31.21C14.2296 37.3105 11.9841 43.2033 7.93442 47.7722L6.97392 48.8495C5.88362 50.0696 5.62403 51.8218 6.286 53.3145C6.94798 54.8072 8.44064 55.7677 10.0761 55.7677H59.9183C61.5537 55.7677 63.0334 54.8072 63.7084 53.3145C64.3833 51.8219 64.1107 50.0696 63.0204 48.8495L62.0599 47.7722C58.0102 43.2033 55.7648 37.3235 55.7648 31.21V28.7698C55.7648 18.7235 48.6259 10.3386 39.1507 8.4176V5.92549C39.1507 3.62808 37.2946 1.77197 34.9972 1.77197ZM40.877 65.801C42.4346 64.2435 43.3042 62.1277 43.3042 59.9212H26.6901C26.6901 62.1277 27.5598 64.2435 29.1174 65.801C30.6749 67.3586 32.7906 68.2282 34.9972 68.2282C37.2037 68.2282 39.3194 67.3586 40.877 65.801Z' fill='white'/></svg>",
+    },
     {
       year: 1937,
       description: '1937 ыловр фыловр лывр лрвы лрв лрыв лрыв ',
@@ -82,11 +93,11 @@ const data = {
       description: 'ab Frühjahr 1946 Mittelschule in Dissen.',
       icon: "<svg xmlns='http://www.w3.org/2000/svg' width='70' height='71' viewBox='0 0 70 71' fill='none'><path d='M30.5697 60.6846C31.8157 61.123 33.1541 60.2115 33.1541 58.8962V15.3535C33.1541 14.869 32.9695 14.3844 32.5772 14.0844C30.3159 12.2846 25.124 9.97705 18.386 9.97705C12.5596 9.97705 7.11386 11.5115 3.86027 12.7576C2.55653 13.2653 1.77197 14.5575 1.77197 15.9535V58.677C1.77197 60.05 3.24878 61.0076 4.55252 60.5807C8.18685 59.3693 13.9441 57.9732 18.386 57.9732C22.2973 57.9732 27.5007 59.5885 30.5697 60.6846ZM39.4305 60.6846C42.4995 59.5885 47.7029 57.9732 51.6142 57.9732C56.0561 57.9732 61.8133 59.3693 65.4477 60.5807C66.7514 61.0191 68.2282 60.05 68.2282 58.677V15.9535C68.2282 14.5575 67.4437 13.2653 66.1399 12.7691C62.8863 11.5115 57.4406 9.97705 51.6142 9.97705C44.8762 9.97705 39.6843 12.2846 37.423 14.0844C37.0422 14.3844 36.8461 14.869 36.8461 15.3535V58.8962C36.8461 60.2115 38.196 61.123 39.4305 60.6846Z' fill='white'/></svg>",
     },
-    // {
-    //   year: 1948,
-    //   description: 'ab Herbst 1948 Lehre zur Apothekerin in Dissen.',
-    //   icon: "<svg xmlns='http://www.w3.org/2000/svg' width='70' height='71' viewBox='0 0 70 71' fill='none'><path d='M38.9725 7.75356L38.9595 8.37672H47.4629C54.3435 8.37672 59.9259 13.9591 59.9259 20.8397C59.9259 27.7203 54.3435 33.3027 47.4629 33.3027H42.27V22.9168H47.4629C48.6054 22.9168 49.5401 21.9821 49.5401 20.8397C49.5401 19.6972 48.6054 18.7625 47.4629 18.7625H38.635L38.0508 37.457H43.3086C50.1892 37.457 55.7716 43.0394 55.7716 49.92C55.7716 56.8006 50.1892 62.383 43.3086 62.383H41.2314V51.9971H43.3086C44.451 51.9971 45.3858 51.0624 45.3858 49.92C45.3858 48.7775 44.451 47.8428 43.3086 47.8428H37.7262L37.3238 60.7602L37.142 66.4075V66.5373C37.1031 67.6927 36.1554 68.6145 34.9999 68.6145C33.8445 68.6145 32.8968 67.6927 32.8579 66.5373V66.4075L32.728 62.383H27.7299C24.8608 62.383 22.537 60.0591 22.537 57.19C22.537 54.321 24.8608 51.9971 27.7299 51.9971H32.4035L32.2737 47.8428H29.807C22.9264 47.8428 17.3441 42.2604 17.3441 35.3798C17.3441 29.2003 21.8359 24.0723 27.7299 23.0856V35.3798C27.7299 36.5223 28.6646 37.457 29.807 37.457H31.9491L31.3649 18.7625H25.9902C24.8219 21.2162 22.3163 22.9169 19.4212 22.9169H17.3441C13.3325 22.9169 10.074 19.6583 10.074 15.6468C10.074 11.6352 13.3325 8.37672 17.3441 8.37672H31.0403L31.0274 7.75356L30.9754 6.29955V6.05288C31.0403 3.89782 32.8059 2.1582 34.9999 2.1582C37.1939 2.1582 38.9595 3.89782 39.0245 6.05288V6.29955L38.9725 7.75356ZM18.3826 16.6854C19.9816 16.6868 20.9826 14.9568 20.1844 13.5713C19.8132 12.9271 19.1261 12.5304 18.3826 12.531C16.7836 12.5296 15.7827 14.2596 16.5809 15.6451C16.952 16.2893 17.6392 16.6861 18.3826 16.6854Z' fill='white'/></svg>",
-    // },
+    {
+      year: 1948,
+      description: 'ab Herbst 1948 Lehre zur Apothekerin in Dissen.',
+      icon: "<svg xmlns='http://www.w3.org/2000/svg' width='70' height='71' viewBox='0 0 70 71' fill='none'><path d='M38.9725 7.75356L38.9595 8.37672H47.4629C54.3435 8.37672 59.9259 13.9591 59.9259 20.8397C59.9259 27.7203 54.3435 33.3027 47.4629 33.3027H42.27V22.9168H47.4629C48.6054 22.9168 49.5401 21.9821 49.5401 20.8397C49.5401 19.6972 48.6054 18.7625 47.4629 18.7625H38.635L38.0508 37.457H43.3086C50.1892 37.457 55.7716 43.0394 55.7716 49.92C55.7716 56.8006 50.1892 62.383 43.3086 62.383H41.2314V51.9971H43.3086C44.451 51.9971 45.3858 51.0624 45.3858 49.92C45.3858 48.7775 44.451 47.8428 43.3086 47.8428H37.7262L37.3238 60.7602L37.142 66.4075V66.5373C37.1031 67.6927 36.1554 68.6145 34.9999 68.6145C33.8445 68.6145 32.8968 67.6927 32.8579 66.5373V66.4075L32.728 62.383H27.7299C24.8608 62.383 22.537 60.0591 22.537 57.19C22.537 54.321 24.8608 51.9971 27.7299 51.9971H32.4035L32.2737 47.8428H29.807C22.9264 47.8428 17.3441 42.2604 17.3441 35.3798C17.3441 29.2003 21.8359 24.0723 27.7299 23.0856V35.3798C27.7299 36.5223 28.6646 37.457 29.807 37.457H31.9491L31.3649 18.7625H25.9902C24.8219 21.2162 22.3163 22.9169 19.4212 22.9169H17.3441C13.3325 22.9169 10.074 19.6583 10.074 15.6468C10.074 11.6352 13.3325 8.37672 17.3441 8.37672H31.0403L31.0274 7.75356L30.9754 6.29955V6.05288C31.0403 3.89782 32.8059 2.1582 34.9999 2.1582C37.1939 2.1582 38.9595 3.89782 39.0245 6.05288V6.29955L38.9725 7.75356ZM18.3826 16.6854C19.9816 16.6868 20.9826 14.9568 20.1844 13.5713C19.8132 12.9271 19.1261 12.5304 18.3826 12.531C16.7836 12.5296 15.7827 14.2596 16.5809 15.6451C16.952 16.2893 17.6392 16.6861 18.3826 16.6854Z' fill='white'/></svg>",
+    },
     {
       year: 1957,
       description: '1957 Ruth Lernt Piet auf dem Dissener Schützenfest kennen.',
@@ -242,13 +253,13 @@ const data = {
         </svg>
         `,
     },
-    // {
-    //   year: 1987,
-    //   description: 'Mai 1987 Ihr erstes Enkelkind Marc kommt zur Welt. Ruth wird Oma.',
-    //   icon: `<svg xmlns="http://www.w3.org/2000/svg" width="70" height="71" viewBox="0 0 70 71" fill="none">
-    //     <path d="M25.3578 11.803C25.3548 4.37893 33.3898 -0.264321 39.8208 3.44519C42.8077 5.16814 44.6475 8.35477 44.6462 11.803C44.6491 19.2272 36.6141 23.8704 30.1832 20.1609C27.1962 18.4379 25.3564 15.2513 25.3578 11.803ZM10.3155 19.3711C12.0568 16.9734 15.4055 16.451 17.8031 18.1923L22.652 21.7151C26.2418 24.3271 30.5683 25.7336 35.0019 25.7336C39.4356 25.7336 43.7621 24.3271 47.3519 21.7151L52.2008 18.1789C54.5984 16.4376 57.9471 16.9734 59.6884 19.3577C61.4298 21.7419 60.894 25.104 58.5097 26.8453L53.6608 30.3815C51.8391 31.7076 49.8969 32.8194 47.8609 33.7302V38.5925H22.143V33.7302C20.107 32.8328 18.1648 31.7076 16.3431 30.3815L11.4942 26.8453C9.09656 25.104 8.57416 21.7553 10.3155 19.3577V19.3711ZM22.3439 44.1245L30.4611 51.2237L26.9785 56.2066L30.2334 59.4615C32.323 61.551 32.323 64.9399 30.2334 67.0429C28.1439 69.1459 24.755 69.1325 22.652 67.0429L16.2225 60.6134C14.3741 58.7649 14.1196 55.8717 15.6064 53.7419L22.3305 44.1245H22.3439ZM39.5562 51.2237L47.6734 44.1245L54.3975 53.7419C55.8843 55.8717 55.6298 58.7649 53.7947 60.6L47.3653 67.0295C45.2757 69.1191 41.8868 69.1191 39.7839 67.0295C37.6809 64.9399 37.6943 61.551 39.7839 59.4481L43.0388 56.1932L39.5562 51.2103V51.2237Z" fill="white"/>
-    //   </svg>`,
-    // },
+    {
+      year: 1987,
+      description: 'Mai 1987 Ihr erstes Enkelkind Marc kommt zur Welt. Ruth wird Oma.',
+      icon: `<svg xmlns="http://www.w3.org/2000/svg" width="70" height="71" viewBox="0 0 70 71" fill="none">
+        <path d="M25.3578 11.803C25.3548 4.37893 33.3898 -0.264321 39.8208 3.44519C42.8077 5.16814 44.6475 8.35477 44.6462 11.803C44.6491 19.2272 36.6141 23.8704 30.1832 20.1609C27.1962 18.4379 25.3564 15.2513 25.3578 11.803ZM10.3155 19.3711C12.0568 16.9734 15.4055 16.451 17.8031 18.1923L22.652 21.7151C26.2418 24.3271 30.5683 25.7336 35.0019 25.7336C39.4356 25.7336 43.7621 24.3271 47.3519 21.7151L52.2008 18.1789C54.5984 16.4376 57.9471 16.9734 59.6884 19.3577C61.4298 21.7419 60.894 25.104 58.5097 26.8453L53.6608 30.3815C51.8391 31.7076 49.8969 32.8194 47.8609 33.7302V38.5925H22.143V33.7302C20.107 32.8328 18.1648 31.7076 16.3431 30.3815L11.4942 26.8453C9.09656 25.104 8.57416 21.7553 10.3155 19.3577V19.3711ZM22.3439 44.1245L30.4611 51.2237L26.9785 56.2066L30.2334 59.4615C32.323 61.551 32.323 64.9399 30.2334 67.0429C28.1439 69.1459 24.755 69.1325 22.652 67.0429L16.2225 60.6134C14.3741 58.7649 14.1196 55.8717 15.6064 53.7419L22.3305 44.1245H22.3439ZM39.5562 51.2237L47.6734 44.1245L54.3975 53.7419C55.8843 55.8717 55.6298 58.7649 53.7947 60.6L47.3653 67.0295C45.2757 69.1191 41.8868 69.1191 39.7839 67.0295C37.6809 64.9399 37.6943 61.551 39.7839 59.4481L43.0388 56.1932L39.5562 51.2103V51.2237Z" fill="white"/>
+      </svg>`,
+    },
     {
       year: 1988,
       description: 'Nov. 1988 Geb. von Enkel Timo',
@@ -285,13 +296,13 @@ const data = {
     //     <path d="M25.3577 11.803C25.3548 4.37893 33.3898 -0.264321 39.8207 3.44519C42.8077 5.16814 44.6475 8.35477 44.6461 11.803C44.649 19.2272 36.614 23.8704 30.1831 20.1609C27.1961 18.4379 25.3563 15.2513 25.3577 11.803ZM10.3154 19.3711C12.0567 16.9734 15.4054 16.451 17.8031 18.1923L22.652 21.7151C26.2417 24.3271 30.5682 25.7336 35.0019 25.7336C39.4355 25.7336 43.762 24.3271 47.3518 21.7151L52.2007 18.1789C54.5984 16.4376 57.9471 16.9734 59.6884 19.3577C61.4297 21.7419 60.8939 25.104 58.5096 26.8453L53.6607 30.3815C51.8391 31.7076 49.8968 32.8194 47.8608 33.7302V38.5925H22.143V33.7302C20.107 32.8328 18.1647 31.7076 16.3431 30.3815L11.4942 26.8453C9.0965 25.104 8.5741 21.7553 10.3154 19.3577V19.3711ZM22.3439 44.1245L30.4611 51.2237L26.9785 56.2066L30.2334 59.4615C32.3229 61.551 32.3229 64.9399 30.2334 67.0429C28.1438 69.1459 24.7549 69.1325 22.652 67.0429L16.2225 60.6134C14.374 58.7649 14.1195 55.8717 15.6063 53.7419L22.3305 44.1245H22.3439ZM39.5561 51.2237L47.6733 44.1245L54.3975 53.7419C55.8843 55.8717 55.6298 58.7649 53.7947 60.6L47.3652 67.0295C45.2757 69.1191 41.8868 69.1191 39.7838 67.0295C37.6808 64.9399 37.6942 61.551 39.7838 59.4481L43.0387 56.1932L39.5561 51.2103V51.2237Z" fill="white"/>
     //   </svg>`,
     // },
-    // {
-    //   year: 1999,
-    //   description: 'Apr. 1999 Geb. von Enkel Daan',
-    //   icon: `<svg xmlns="http://www.w3.org/2000/svg" width="70" height="71" viewBox="0 0 70 71" fill="none">
-    //     <path d="M25.3577 11.803C25.3548 4.37893 33.3898 -0.264321 39.8207 3.44519C42.8077 5.16814 44.6475 8.35477 44.6461 11.803C44.649 19.2272 36.614 23.8704 30.1831 20.1609C27.1961 18.4379 25.3563 15.2513 25.3577 11.803ZM10.3154 19.3711C12.0567 16.9734 15.4054 16.451 17.8031 18.1923L22.652 21.7151C26.2417 24.3271 30.5682 25.7336 35.0019 25.7336C39.4355 25.7336 43.762 24.3271 47.3518 21.7151L52.2007 18.1789C54.5984 16.4376 57.9471 16.9734 59.6884 19.3577C61.4297 21.7419 60.8939 25.104 58.5096 26.8453L53.6607 30.3815C51.8391 31.7076 49.8968 32.8194 47.8608 33.7302V38.5925H22.143V33.7302C20.107 32.8328 18.1647 31.7076 16.3431 30.3815L11.4942 26.8453C9.0965 25.104 8.5741 21.7553 10.3154 19.3577V19.3711ZM22.3439 44.1245L30.4611 51.2237L26.9785 56.2066L30.2334 59.4615C32.3229 61.551 32.3229 64.9399 30.2334 67.0429C28.1438 69.1459 24.7549 69.1325 22.652 67.0429L16.2225 60.6134C14.374 58.7649 14.1195 55.8717 15.6063 53.7419L22.3305 44.1245H22.3439ZM39.5561 51.2237L47.6733 44.1245L54.3975 53.7419C55.8843 55.8717 55.6298 58.7649 53.7947 60.6L47.3652 67.0295C45.2757 69.1191 41.8868 69.1191 39.7838 67.0295C37.6808 64.9399 37.6942 61.551 39.7838 59.4481L43.0387 56.1932L39.5561 51.2103V51.2237Z" fill="white"/>
-    //   </svg>`,
-    // },
+    {
+      year: 1999,
+      description: 'Apr. 1999 Geb. von Enkel Daan',
+      icon: `<svg xmlns="http://www.w3.org/2000/svg" width="70" height="71" viewBox="0 0 70 71" fill="none">
+        <path d="M25.3577 11.803C25.3548 4.37893 33.3898 -0.264321 39.8207 3.44519C42.8077 5.16814 44.6475 8.35477 44.6461 11.803C44.649 19.2272 36.614 23.8704 30.1831 20.1609C27.1961 18.4379 25.3563 15.2513 25.3577 11.803ZM10.3154 19.3711C12.0567 16.9734 15.4054 16.451 17.8031 18.1923L22.652 21.7151C26.2417 24.3271 30.5682 25.7336 35.0019 25.7336C39.4355 25.7336 43.762 24.3271 47.3518 21.7151L52.2007 18.1789C54.5984 16.4376 57.9471 16.9734 59.6884 19.3577C61.4297 21.7419 60.8939 25.104 58.5096 26.8453L53.6607 30.3815C51.8391 31.7076 49.8968 32.8194 47.8608 33.7302V38.5925H22.143V33.7302C20.107 32.8328 18.1647 31.7076 16.3431 30.3815L11.4942 26.8453C9.0965 25.104 8.5741 21.7553 10.3154 19.3577V19.3711ZM22.3439 44.1245L30.4611 51.2237L26.9785 56.2066L30.2334 59.4615C32.3229 61.551 32.3229 64.9399 30.2334 67.0429C28.1438 69.1459 24.7549 69.1325 22.652 67.0429L16.2225 60.6134C14.374 58.7649 14.1195 55.8717 15.6063 53.7419L22.3305 44.1245H22.3439ZM39.5561 51.2237L47.6733 44.1245L54.3975 53.7419C55.8843 55.8717 55.6298 58.7649 53.7947 60.6L47.3652 67.0295C45.2757 69.1191 41.8868 69.1191 39.7838 67.0295C37.6808 64.9399 37.6942 61.551 39.7838 59.4481L43.0387 56.1932L39.5561 51.2103V51.2237Z" fill="white"/>
+      </svg>`,
+    },
     {
       year: 2002,
       description: 'Summer 2002 Tochter Gabi zieht in die alte Heimat nach Dissen auf einen Bauernhof',
@@ -311,13 +322,13 @@ const data = {
         </svg>
         `,
     },
-    // {
-    //   year: 2009,
-    //   description: 'September 2009 Das zweite Mal zu Besuch in der alten Heimat Domnau. Dieses Mal mit ihren Kindern.',
-    //   icon: `<svg xmlns="http://www.w3.org/2000/svg" width="70" height="71" viewBox="0 0 70 71" fill="none">
-    //     <path d="M27.6504 67.2363V50.0631C27.6504 48.8626 28.8754 47.6376 30.1004 47.6376H39.8995C41.1245 47.6376 42.3495 48.8626 42.3495 50.0876V67.2363C42.3495 68.5895 43.4464 69.6863 44.7995 69.6863H64.3982C65.751 69.6863 66.8478 68.5895 66.8478 67.2363V32.9385C66.8491 32.2884 66.5919 31.6645 66.1325 31.2043L59.4982 24.5748V8.44025C59.4982 7.08707 58.4014 5.99025 57.0487 5.99025H52.1491C50.7959 5.99025 49.6991 7.08707 49.6991 8.44025V14.7757L36.7347 1.806C35.7774 0.846566 34.2225 0.846566 33.2653 1.806L3.86748 31.2043C3.4081 31.6645 3.15085 32.2884 3.15217 32.9385V67.2363C3.15217 68.5895 4.24898 69.6863 5.60173 69.6863H25.2004C26.5536 69.6863 27.6504 68.5895 27.6504 67.2363Z" fill="white"/>
-    //   </svg>`,
-    // },
+    {
+      year: 2009,
+      description: 'September 2009 Das zweite Mal zu Besuch in der alten Heimat Domnau. Dieses Mal mit ihren Kindern.',
+      icon: `<svg xmlns="http://www.w3.org/2000/svg" width="70" height="71" viewBox="0 0 70 71" fill="none">
+        <path d="M27.6504 67.2363V50.0631C27.6504 48.8626 28.8754 47.6376 30.1004 47.6376H39.8995C41.1245 47.6376 42.3495 48.8626 42.3495 50.0876V67.2363C42.3495 68.5895 43.4464 69.6863 44.7995 69.6863H64.3982C65.751 69.6863 66.8478 68.5895 66.8478 67.2363V32.9385C66.8491 32.2884 66.5919 31.6645 66.1325 31.2043L59.4982 24.5748V8.44025C59.4982 7.08707 58.4014 5.99025 57.0487 5.99025H52.1491C50.7959 5.99025 49.6991 7.08707 49.6991 8.44025V14.7757L36.7347 1.806C35.7774 0.846566 34.2225 0.846566 33.2653 1.806L3.86748 31.2043C3.4081 31.6645 3.15085 32.2884 3.15217 32.9385V67.2363C3.15217 68.5895 4.24898 69.6863 5.60173 69.6863H25.2004C26.5536 69.6863 27.6504 68.5895 27.6504 67.2363Z" fill="white"/>
+      </svg>`,
+    },
     {
       year: 2010,
       description: 'Aug. 2010 Enkeltochter Ineke zieht zur Ausbildung beu Bedford bei Ruth im Haus für 3 Jahre ein.',
@@ -325,13 +336,13 @@ const data = {
         <path d="M35 2.1582C39.7961 2.1582 42.7936 7.3501 40.3956 11.5036C39.2826 13.4313 37.2259 14.6187 35 14.6187C30.2039 14.6187 27.2064 9.42686 29.6044 5.27334C30.7174 3.34568 32.7741 2.1582 35 2.1582ZM25.6546 52.0004H23.3442C21.9294 52.0004 20.93 50.6115 21.3713 49.2617L26.3425 34.3609L21.9424 41.6815C20.7613 43.6414 18.2042 44.2774 16.2443 43.0963C14.2844 41.9151 13.6484 39.3581 14.8295 37.3982L21.7866 25.8203C24.4215 21.4461 29.1462 18.7723 34.2472 18.7723H35.7528C40.8539 18.7723 45.5785 21.4461 48.2134 25.8203L55.1705 37.3982C56.3517 39.3581 55.7157 41.9151 53.7557 43.0963C51.7958 44.2775 49.2388 43.6414 48.0576 41.6815L43.6575 34.3739L48.6287 49.2617C49.083 50.6116 48.0706 52.0004 46.6558 52.0004H44.3454V64.4609C44.3454 66.7584 42.4893 68.6145 40.1919 68.6145C37.8945 68.6145 36.0384 66.7584 36.0384 64.4609V52.0004H33.9616V64.4609C33.9616 66.7584 32.1055 68.6145 29.8081 68.6145C27.5107 68.6145 25.6546 66.7584 25.6546 64.4609V52.0004Z" fill="white"/>
       </svg>`,
     },
-    {
-      year: 2016,
-      description: 'Jan 2016 Erstes Urenkelkind Mila kommt zur Welt. Ruth wird Urgroßoma.',
-      icon: `<svg xmlns="http://www.w3.org/2000/svg" width="70" height="71" viewBox="0 0 70 71" fill="none">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M26.5717 17.3703C26.7205 27.3275 16.0341 33.712 7.3363 28.8622C3.17888 26.544 0.630298 22.1297 0.701465 17.3703C0.850215 7.41275 11.7224 1.35046 20.2714 6.45783C24.1208 8.75763 26.5046 12.8868 26.5717 17.3703ZM37.0729 30.2325C36.85 30.2325 36.6328 30.2581 36.4268 30.3039H27.1262C24.631 30.3039 22.1358 31.5528 20.8895 34.048L9.97092 55.8796C8.10163 59.3096 9.66205 63.3655 13.092 65.2377C14.0268 65.5492 15.2758 65.8607 16.2105 65.8607C18.7058 65.8607 21.201 64.6118 22.4473 62.1163L28.6869 49.6429L34.2148 49.5942V54.0217C34.2148 55.6005 35.4944 56.88 37.0729 56.88H44.1843C44.5845 58.1377 45.1763 59.318 46.0136 60.3987C48.6033 64.1373 52.9136 66.1465 57.5155 66.1465H62.9746C66.4548 66.1171 69.2691 63.304 69.3 59.8241C69.3 56.4857 66.6076 53.6874 63.3092 53.2499C66.0672 47.6878 65.9444 42.1829 63.1805 37.8152C60.102 32.9563 54.1998 30.2325 47.3798 30.2325H37.0729ZM56.0805 51.1636H57.9556C60.2621 46.856 59.8935 43.3146 58.35 40.8736C56.5778 38.0783 52.7791 35.9488 47.3798 35.9488H39.9312V51.1636H43.4298C43.4793 47.698 46.2866 44.9059 49.7522 44.8753C53.4765 44.8753 56.3433 47.4478 56.0805 51.1636Z" fill="white"/>
-      </svg>`,
-    },
+    // {
+    //   year: 2016,
+    //   description: 'Jan 2016 Erstes Urenkelkind Mila kommt zur Welt. Ruth wird Urgroßoma.',
+    //   icon: `<svg xmlns="http://www.w3.org/2000/svg" width="70" height="71" viewBox="0 0 70 71" fill="none">
+    //     <path fill-rule="evenodd" clip-rule="evenodd" d="M26.5717 17.3703C26.7205 27.3275 16.0341 33.712 7.3363 28.8622C3.17888 26.544 0.630298 22.1297 0.701465 17.3703C0.850215 7.41275 11.7224 1.35046 20.2714 6.45783C24.1208 8.75763 26.5046 12.8868 26.5717 17.3703ZM37.0729 30.2325C36.85 30.2325 36.6328 30.2581 36.4268 30.3039H27.1262C24.631 30.3039 22.1358 31.5528 20.8895 34.048L9.97092 55.8796C8.10163 59.3096 9.66205 63.3655 13.092 65.2377C14.0268 65.5492 15.2758 65.8607 16.2105 65.8607C18.7058 65.8607 21.201 64.6118 22.4473 62.1163L28.6869 49.6429L34.2148 49.5942V54.0217C34.2148 55.6005 35.4944 56.88 37.0729 56.88H44.1843C44.5845 58.1377 45.1763 59.318 46.0136 60.3987C48.6033 64.1373 52.9136 66.1465 57.5155 66.1465H62.9746C66.4548 66.1171 69.2691 63.304 69.3 59.8241C69.3 56.4857 66.6076 53.6874 63.3092 53.2499C66.0672 47.6878 65.9444 42.1829 63.1805 37.8152C60.102 32.9563 54.1998 30.2325 47.3798 30.2325H37.0729ZM56.0805 51.1636H57.9556C60.2621 46.856 59.8935 43.3146 58.35 40.8736C56.5778 38.0783 52.7791 35.9488 47.3798 35.9488H39.9312V51.1636H43.4298C43.4793 47.698 46.2866 44.9059 49.7522 44.8753C53.4765 44.8753 56.3433 47.4478 56.0805 51.1636Z" fill="white"/>
+    //   </svg>`,
+    // },
     {
       year: 2016,
       description: '2. Apr. 2016 Am Vorabend von Milas Tauffeier stürzt Ruth und bricht sich die Hüfte.',
@@ -361,19 +372,27 @@ class CanvasDrawer {
     this.canvasId = canvasId;
     this.wrapperSelector = wrapperSelector;
     this.imageSelector = imageSelector;
+    this.svgNS = 'http://www.w3.org/2000/svg';
     this.data = data;
     this.eventElements = [];
-    this.maxSpacing = 20;
-    this.minSpacing = 5;
     this.clockAngles = {
       '12:00': -Math.PI / 2,
+      '12:30': -Math.PI / 2 + Math.PI / 12,
+      '12:45': -Math.PI / 2 + (3 * Math.PI) / 12,
+      '1:00': -Math.PI / 3,
       '1:30': -Math.PI / 3 + Math.PI / 12,
       '2:00': -Math.PI / 6,
+      '2:30': -Math.PI / 6 + Math.PI / 12,
       '4:30': Math.PI / 6,
       '6:00': Math.PI / 2,
       '7:30': (5 * Math.PI) / 6,
+      '9:30': Math.PI + Math.PI / 12,
       '10:00': (7 * Math.PI) / 6,
       '10:30': (7 * Math.PI) / 6 + Math.PI / 12,
+      '10:40': (7 * Math.PI) / 6 + (8 * Math.PI) / 72,
+      '11:00': (4 * Math.PI) / 3,
+      '11:15': (4 * Math.PI) / 3 + Math.PI / 12,
+      '11:30': (4 * Math.PI) / 3 + Math.PI / 12,
       '11:59': -Math.PI / 2 - Math.PI / 1800,
     };
 
@@ -428,16 +447,17 @@ class CanvasDrawer {
     this.centerX = this.canvas.width / 2;
     this.centerY = this.canvas.height / 2;
     this.radiusLarge = this.canvas.width - 100;
-    this.radius = this.radiusLarge / 3;
+    this.radius = this.radiusLarge / 3.5;
     this.startAngle = this.clockAngles['12:00'];
     this.endAngle = this.startAngle + 2 * Math.PI;
     this.deg = 360;
+    this.maxSpacing = this.canvas.width * 0.005;
+    this.minSpacing = this.canvas.width * 0.003;
   }
 
   init() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.clearDescriptions();
-
     this.drawInitialCircles();
     this.drawTriangle();
     this.setImagePosition();
@@ -446,6 +466,8 @@ class CanvasDrawer {
     this.drawTextForCategories();
     this.drawDotsForBigCircle();
     this.positionEvents();
+    this.drawUpperText(data.upperText);
+    this.drawIcons();
   }
 
   clearDescriptions() {
@@ -467,19 +489,19 @@ class CanvasDrawer {
   }
 
   positionEventsOnSide(events, isLeft) {
-    const startAngle = isLeft ? this.clockAngles['10:30'] : this.clockAngles['1:30'];
+    const startAngle = isLeft ? this.clockAngles['10:40'] : this.clockAngles['1:00'];
     const endAngle = this.clockAngles['6:00'];
     const angleStep = (endAngle - startAngle) / events.length;
-    const leftRadiusX = this.canvas.width * 0.12;
-    const rightRadiusX = this.canvas.width * 0.035;
-    const radiusY = this.canvas.width * 0.025;
+    const leftRadiusX = this.canvas.width * 0.15;
+    const rightRadiusX = this.canvas.width * 0.03;
+    const radiusY = this.canvas.width * 0.03;
     const radiusOffset = isLeft ? leftRadiusX : rightRadiusX;
     const heightOffset = isLeft ? radiusY * 2 : radiusY;
 
     let lastY = null;
 
     const topY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '11:59' : '12:00']);
-    const bottomY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '10:00' : '2:00']);
+    const bottomY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '9:30' : '2:30']);
     const fiveY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['4:30']);
     const sixY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['6:00']);
     const sevenY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['7:30']);
@@ -497,6 +519,7 @@ class CanvasDrawer {
       this.canvasWrapper.appendChild(eventElement);
 
       let overlap = true;
+
       while (overlap) {
         overlap = false;
         for (let i = 0; i < this.eventElements.length; i++) {
@@ -510,6 +533,7 @@ class CanvasDrawer {
       }
 
       const offsetX = this.canvas.width * 0.03;
+
       if (y >= topY && y <= bottomY) {
         x += isLeft ? -offsetX : offsetX;
       } else if (y >= fiveY && y <= sixY) {
@@ -534,10 +558,70 @@ class CanvasDrawer {
     eventElement.style.position = 'absolute';
     eventElement.style.left = `${x}px`;
     eventElement.style.top = `${y}px`;
-    eventElement.style.fontSize = `${this.canvas.width * 0.008}px`;
-    eventElement.style.width = `${this.canvas.width * 0.1}px`;
+    eventElement.style.fontSize = `${this.canvas.width * 0.007}px`;
+    eventElement.style.width = `${this.canvas.width * 0.127}px`;
     eventElement.style.zIndex = '70';
     return eventElement;
+  }
+
+  drawIcons() {
+    const iconData = [
+      { year: 1930, icon: '👶', color: '#FFD700' },
+      { year: 1945, icon: '🚗', color: '#FFA500' },
+      { year: 1950, icon: '📚', color: '#FF6347' },
+      { year: 1960, icon: '👫', color: '#20B2AA' },
+      { year: 1970, icon: '🏠', color: '#4682B4' },
+      { year: 1980, icon: '👶', color: '#BA55D3' },
+      { year: 1990, icon: '🎓', color: '#8A2BE2' },
+      { year: 2000, icon: '👵', color: '#4B0082' },
+      { year: 2010, icon: '❤️', color: '#800080' },
+      { year: 2016, icon: '✝️', color: '#8B4513' },
+    ];
+
+    const svg = document.createElementNS(this.svgNS, 'svg');
+    svg.setAttribute('width', this.canvas.width);
+    svg.setAttribute('height', this.canvas.height);
+    svg.style.position = 'absolute';
+    svg.style.top = '0';
+    svg.style.left = '0';
+    svg.style.zIndex = '60';
+
+    iconData.forEach((data) => {
+      const angle = this.getAngleForYear(data.year);
+      const [x, y] = this.getCoordinatesForAngle(angle, this.radius * 0.81);
+
+      const circle = document.createElementNS(this.svgNS, 'circle');
+      circle.setAttribute('cx', x);
+      circle.setAttribute('cy', y);
+      circle.setAttribute('r', this.radius * 0.06);
+      circle.setAttribute('fill', data.color);
+      svg.appendChild(circle);
+
+      const text = document.createElementNS(this.svgNS, 'text');
+      text.setAttribute('x', x);
+      text.setAttribute('y', y);
+      text.setAttribute('text-anchor', 'middle');
+      text.setAttribute('dominant-baseline', 'central');
+      text.setAttribute('font-size', `${this.radius * 0.08}px`);
+      text.textContent = data.icon;
+      svg.appendChild(text);
+    });
+
+    this.canvasWrapper.appendChild(svg);
+  }
+
+  getAngleForYear(year) {
+    const startYear = 1930;
+    const endYear = 2029;
+    const totalYears = endYear - startYear;
+    const yearProgress = (year - startYear) / totalYears;
+    return yearProgress * 2 * Math.PI - Math.PI / 2;
+  }
+
+  getCoordinatesForAngle(angle, radius) {
+    const x = this.centerX + radius * Math.cos(angle);
+    const y = this.centerY + radius * Math.sin(angle);
+    return [x, y];
   }
 
   checkOverlap(element1, element2) {
@@ -552,6 +636,139 @@ class CanvasDrawer {
       rect1.right < rect2.left ||
       rect1.left > rect2.right
     );
+  }
+
+  drawUpperText(text) {
+    const svg = document.createElementNS(this.svgNS, 'svg');
+    svg.setAttribute('width', this.canvas.width);
+    svg.setAttribute('height', this.canvas.height);
+    svg.style.position = 'absolute';
+    svg.style.top = '0';
+    svg.style.left = '0';
+    svg.style.zIndex = '50';
+
+    const path = document.createElementNS(this.svgNS, 'path');
+    const startAngle = this.clockAngles['11:00'];
+    const endAngle = this.clockAngles['1:00'];
+    let radiusDistance = this.canvas.width * 0.06;
+
+    if (text.length > 15) {
+      radiusDistance += this.canvas.width * 0.015;
+    }
+
+    const radius = this.radius + radiusDistance;
+    const startX = this.centerX + radius * Math.cos(startAngle);
+    const startY = this.centerY + radius * Math.sin(startAngle);
+    const endX = this.centerX + radius * Math.cos(endAngle);
+    const endY = this.centerY + radius * Math.sin(endAngle);
+
+    const largeArcFlag = endAngle - startAngle <= Math.PI ? '0' : '1';
+
+    path.setAttribute('d', `M ${startX} ${startY} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY}`);
+    path.setAttribute('fill', 'none');
+    svg.appendChild(path);
+
+    const svgText = document.createElementNS(this.svgNS, 'text');
+    svgText.setAttribute('text-anchor', 'middle');
+
+    const textPath = document.createElementNS(this.svgNS, 'textPath');
+    textPath.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#upperTextPath');
+    textPath.setAttribute('startOffset', '50%');
+
+    svgText.appendChild(textPath);
+
+    const tspan = document.createElementNS(this.svgNS, 'tspan');
+    tspan.textContent = text;
+    const fontSize = this.canvas.width * 0.5;
+    const colorFont = this.data.colorFont;
+    tspan.setAttribute('font-size', `${fontSize}px`);
+    tspan.setAttribute('font-family', `${this.data.fontFamily}`);
+    tspan.setAttribute('fill', colorFont);
+
+    textPath.appendChild(tspan);
+
+    path.id = 'upperTextPath';
+    svg.appendChild(svgText);
+
+    this.canvasWrapper.appendChild(svg);
+
+    this.adjustFontSize(tspan, path, colorFont);
+  }
+
+  adjustFontSize(tspan, path, colorFont) {
+    let fontSize = this.canvas.width * 0.15;
+    const maxWidth = path.getTotalLength() * 0.9;
+    const originalText = tspan.textContent;
+    let isSplit = false;
+
+    const splitTextIfNeeded = () => {
+      const words = originalText.split(' ');
+      let lines = [''];
+      let currentLine = 0;
+
+      for (let word of words) {
+        if (lines[currentLine].length + word.length + (lines[currentLine] ? 1 : 0) > 15) {
+          if (currentLine === 0) {
+            currentLine++;
+            lines.push('');
+          }
+        }
+        lines[currentLine] += (lines[currentLine] ? ' ' : '') + word;
+        if (lines[currentLine].length > 15 && currentLine < 2) {
+          currentLine++;
+          lines.push('');
+        }
+      }
+
+      lines = lines.filter((line) => line !== '');
+      if (lines.length > 3) {
+        lines[2] = lines.slice(2).join(' ');
+        lines = lines.slice(0, 3);
+      }
+
+      return lines;
+    };
+
+    const applyText = (lines) => {
+      tspan.textContent = lines[0];
+      const tspans = [tspan];
+
+      for (let i = 1; i < lines.length; i++) {
+        const newTspan = document.createElementNS(this.svgNS, 'tspan');
+        newTspan.textContent = lines[i];
+        newTspan.setAttribute('x', '0');
+        newTspan.setAttribute('dy', '1.1em');
+        tspan.parentNode.appendChild(newTspan);
+        tspans.push(newTspan);
+      }
+
+      fontSize *= lines.length === 3 ? 0.95 : lines.length === 2 ? 0.98 : 1;
+
+      tspans.forEach((t) => {
+        t.setAttribute('font-size', `${fontSize}px`);
+        t.setAttribute('font-family', `${this.data.fontFamily}`);
+        t.setAttribute('fill', colorFont);
+      });
+
+      if (lines.length > 1) {
+        tspan.setAttribute('dy', `-${(lines.length - 1) * 0.55}em`);
+      }
+
+      return tspans;
+    };
+
+    const lines = splitTextIfNeeded();
+    isSplit = lines.length > 1;
+    let tspans = applyText(lines);
+
+    while (tspans.some((t) => t.getComputedTextLength() > maxWidth / lines.length) && fontSize > 20) {
+      fontSize--;
+      tspans.forEach((t) => t.setAttribute('font-size', `${fontSize}px`));
+    }
+
+    const textPath = tspan.parentNode;
+    textPath.setAttribute('startOffset', '50%');
+    tspans.forEach((t) => t.setAttribute('x', '0'));
   }
 
   drawInitialCircles() {
