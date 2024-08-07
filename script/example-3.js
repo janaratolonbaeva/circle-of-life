@@ -470,8 +470,8 @@ class CanvasDrawer {
     const startAngle = isLeft ? this.clockAngles['10:30'] : this.clockAngles['1:30'];
     const endAngle = this.clockAngles['6:00'];
     const angleStep = (endAngle - startAngle) / events.length;
-    const leftRadiusX = this.canvas.width * 0.135;
-    const rightRadiusX = this.canvas.width * 0.05;
+    const leftRadiusX = this.canvas.width * 0.12;
+    const rightRadiusX = this.canvas.width * 0.035;
     const radiusY = this.canvas.width * 0.025;
     const radiusOffset = isLeft ? leftRadiusX : rightRadiusX;
     const heightOffset = isLeft ? radiusY * 2 : radiusY;
@@ -509,7 +509,7 @@ class CanvasDrawer {
         }
       }
 
-      const offsetX = this.canvas.width * 0.02;
+      const offsetX = this.canvas.width * 0.03;
       if (y >= topY && y <= bottomY) {
         x += isLeft ? -offsetX : offsetX;
       } else if (y >= fiveY && y <= sixY) {
