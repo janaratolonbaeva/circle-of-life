@@ -1,165 +1,4 @@
-import babySvg from '../images/icon-baby.svg';
-
-const fontFamilies = {
-  satisfy: '"Satisfy", cursive',
-  parisienne: '"Parisienne", cursive',
-  pacifico: '"Pacifico", cursive',
-  notoSans: '"Noto Sans", sans-serif',
-  anton: '"Anton", sans-serif',
-};
-const a = {
-  id: '9cbfd8c1-fc12-4ca7-b824-eed9adef8df6',
-  title: 'Test Title',
-  photo_path: 'img/subjects/9cbfd8c1-fc12-4ca7-b824-eed9adef8df6.jpg',
-  start_date: '1980-08-01',
-  end_date: '2024-08-01',
-  round_year: { name: 'Jahre', value: 50 },
-  font_family: { name: 'Noto Sans' },
-  color_scheme: {
-    name: 'Neutral',
-    colors: { main_color: 'DDE2E1', secondary_color: 'C0C9CE', tertiary_color: null },
-    subject_title_color: '825251',
-  },
-  events: [
-    {
-      id: 5,
-      date: '2020-08-12',
-      date_parts: { day: '12', month: '08', year: '2020' },
-      text: '\u0447\u0442\u043e-\u0442\u043e \u0435\u0449\u0435',
-      category: {
-        id: 5,
-        name: 'Familie & Firma',
-        colors: { id: 5, name: 'Green', main_color: 'C2CEBD', primary_color: 'A5B19E', secondary_color: '7B9376' },
-      },
-      icon: { name: 'Meeting', color: '/img/icons/memoring/icon-meeting.svg' },
-    },
-    {
-      id: 4,
-      date: '2018-08-12',
-      date_parts: { day: '12', month: '08', year: '2018' },
-      text: '\u0447\u0442\u043e-\u0442\u043e \u0435\u0449\u0435',
-      category: {
-        id: 4,
-        name: 'Familiengr\u00fcndung',
-        colors: { id: 4, name: 'Brown', main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
-      },
-      icon: { name: 'Car', color: '/img/icons/memoring/icon-car.svg' },
-    },
-    {
-      id: 3,
-      date: '2008-08-12',
-      date_parts: { day: '12', month: '08', year: '2008' },
-      text: '\u0447\u0442\u043e-\u0442\u043e \u0435\u0449\u0435',
-      category: {
-        id: 3,
-        name: 'Ausbildung',
-        colors: { id: 3, name: 'Pink', main_color: 'F5AEA8', primary_color: 'E29D93', secondary_color: 'E25D60' },
-      },
-      icon: { name: 'Boat', color: '/img/icons/memoring/icon-boat.svg' },
-    },
-    {
-      id: 2,
-      date: '2000-08-12',
-      date_parts: { day: '12', month: '08', year: '2000' },
-      text: '\u0447\u0442\u043e-\u0442\u043e \u0435\u0449\u0435',
-      category: {
-        id: 2,
-        name: 'Flucht',
-        colors: { id: 2, name: 'Orange', main_color: 'FCCB8E', primary_color: 'E6B26F', secondary_color: 'E78B0A' },
-      },
-      icon: { name: 'Bell', color: '/img/icons/memoring/icon-bell.svg' },
-    },
-    {
-      id: 1,
-      date: '1980-08-01',
-      date_parts: { day: '01', month: '08', year: '1980' },
-      text: '\u0420\u043e\u0434\u0438\u043b\u0441\u044f',
-      category: {
-        id: 1,
-        name: 'Kindheit & Jugend',
-        colors: { id: 1, name: 'Yellow', main_color: 'F8ECB2', primary_color: 'E4D28E', secondary_color: 'EBCC3C' },
-      },
-      icon: { name: 'Baby', color: '/img/icons/memoring/icon-baby.svg' },
-    },
-  ],
-};
-
-const data = {
-  id: '9cbfd8c1-fc12-4ca7-b824-eed9adef8df6',
-  title: 'Test Title',
-  photo_path: 'img/subjects/9cbfd8c1-fc12-4ca7-b824-eed9adef8df6.jpg',
-  start_date: '1980-08-01',
-  end_date: '2024-08-01',
-  round_year: { name: 'Jahre', value: 50 },
-  font_family: { name: 'Noto Sans' },
-  color_scheme: {
-    name: 'Neutral',
-    colors: { main_color: 'DDE2E1', secondary_color: 'C0C9CE', tertiary_color: null },
-    subject_title_color: '825251',
-  },
-  events: [
-    {
-      id: 5,
-      date: '2020-08-12',
-      date_parts: { day: '12', month: '08', year: 2020 },
-      text: '\u0447\u0442\u043e-\u0442\u043e \u0435\u0449\u0435',
-      category: {
-        id: 5,
-        name: 'Familie & Firma',
-        colors: { id: 5, name: 'Green', main_color: 'C2CEBD', primary_color: 'A5B19E', secondary_color: '7B9376' },
-      },
-      icon: { name: 'Meeting', color: '/img/icons/memoring/icon-meeting.svg' },
-    },
-    {
-      id: 4,
-      date: '2018-08-12',
-      date_parts: { day: '12', month: '08', year: 2018 },
-      text: '\u0447\u0442\u043e-\u0442\u043e \u0435\u0449\u0435',
-      category: {
-        id: 4,
-        name: 'Familiengr\u00fcndung',
-        colors: { id: 4, name: 'Brown', main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
-      },
-      icon: { name: 'Car', color: '/img/icons/memoring/icon-car.svg' },
-    },
-    {
-      id: 3,
-      date: '2008-08-12',
-      date_parts: { day: '12', month: '08', year: 2008 },
-      text: '\u0447\u0442\u043e-\u0442\u043e \u0435\u0449\u0435',
-      category: {
-        id: 3,
-        name: 'Ausbildung',
-        colors: { id: 3, name: 'Pink', main_color: 'F5AEA8', primary_color: 'E29D93', secondary_color: 'E25D60' },
-      },
-      icon: { name: 'Boat', color: '/img/icons/memoring/icon-boat.svg' },
-    },
-    {
-      id: 2,
-      date: '2000-08-12',
-      date_parts: { day: '12', month: '08', year: 2000 },
-      text: '\u0447\u0442\u043e-\u0442\u043e \u0435\u0449\u0435',
-      category: {
-        id: 2,
-        name: 'Flucht',
-        colors: { id: 2, name: 'Orange', main_color: 'FCCB8E', primary_color: 'E6B26F', secondary_color: 'E78B0A' },
-      },
-      icon: { name: 'Bell', color: '/img/icons/memoring/icon-bell.svg' },
-    },
-    {
-      id: 1,
-      date: '1980-08-01',
-      date_parts: { day: '01', month: '08', year: 1980 },
-      text: '\u0420\u043e\u0434\u0438\u043b\u0441\u044f',
-      category: {
-        id: 1,
-        name: 'Kindheit & Jugend',
-        colors: { id: 1, name: 'Yellow', main_color: 'F8ECB2', primary_color: 'E4D28E', secondary_color: 'EBCC3C' },
-      },
-      icon: { name: 'Baby', color: '/img/icons/memoring/icon-baby.svg' },
-    },
-  ],
-};
+import Intersection from 'path-intersection';
 
 class CanvasDrawer {
   constructor(canvasId, wrapperSelector, imageSelector, data) {
@@ -288,7 +127,7 @@ class CanvasDrawer {
     const startAngle = isLeft ? this.clockAngles['10:40'] : this.clockAngles['1:00'];
     const endAngle = this.clockAngles['6:00'];
     const angleStep = (endAngle - startAngle) / events.length;
-    const leftRadiusX = this.canvas.width * 0.15;
+    const leftRadiusX = this.canvas.width * 0.16;
     const rightRadiusX = this.canvas.width * 0.03;
     const radiusY = this.canvas.width * 0.03;
     const radiusOffset = isLeft ? leftRadiusX : rightRadiusX;
@@ -301,6 +140,12 @@ class CanvasDrawer {
     const fiveY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['4:30']);
     const sixY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['6:00']);
     const sevenY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['7:30']);
+
+    const twelveY = this.centerY + this.radius * Math.sin(this.clockAngles['12:00']);
+    const twoY = this.centerY + this.radius * Math.sin(this.clockAngles['2:00']);
+
+    const elevenLastY = this.centerY + this.radius * Math.sin(this.clockAngles['11:59']);
+    const tenY = this.centerY + this.radius * Math.sin(this.clockAngles['10:00']);
 
     events.forEach((event, index) => {
       const angle = startAngle + index * angleStep;
@@ -329,6 +174,7 @@ class CanvasDrawer {
       }
 
       const offsetX = this.canvas.width * 0.03;
+      const additionalOffset = this.canvas.width * 0.02;
 
       if (y >= topY && y <= bottomY) {
         x += isLeft ? -offsetX : offsetX;
@@ -336,6 +182,14 @@ class CanvasDrawer {
         x += isLeft ? -offsetX : offsetX;
       } else if (y >= sixY && y <= sevenY) {
         x += isLeft ? offsetX : -offsetX;
+      }
+
+      if (y >= twelveY && y <= twoY) {
+        x += isLeft ? -additionalOffset : additionalOffset;
+      }
+
+      if (y >= elevenLastY && y <= tenY) {
+        x += !isLeft ? additionalOffset : -additionalOffset;
       }
 
       eventElement.style.left = `${x}px`;
@@ -392,64 +246,6 @@ class CanvasDrawer {
       rect1.right < rect2.left ||
       rect1.left > rect2.right
     );
-  }
-
-  drawUpperText(text) {
-    const svg = document.createElementNS(this.svgNS, 'svg');
-    svg.setAttribute('width', this.canvas.width);
-    svg.setAttribute('height', this.canvas.height);
-    svg.style.position = 'absolute';
-    svg.style.top = '0';
-    svg.style.left = '0';
-    svg.style.zIndex = '50';
-
-    const path = document.createElementNS(this.svgNS, 'path');
-    const startAngle = this.clockAngles['11:00'];
-    const endAngle = this.clockAngles['1:00'];
-    let radiusDistance = this.canvas.width * 0.06;
-
-    if (text.length > 15) {
-      radiusDistance += this.canvas.width * 0.015;
-    }
-
-    const radius = this.radius + radiusDistance;
-    const startX = this.centerX + radius * Math.cos(startAngle);
-    const startY = this.centerY + radius * Math.sin(startAngle);
-    const endX = this.centerX + radius * Math.cos(endAngle);
-    const endY = this.centerY + radius * Math.sin(endAngle);
-
-    const largeArcFlag = endAngle - startAngle <= Math.PI ? '0' : '1';
-
-    path.setAttribute('d', `M ${startX} ${startY} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY}`);
-    path.setAttribute('fill', 'none');
-    svg.appendChild(path);
-
-    const svgText = document.createElementNS(this.svgNS, 'text');
-    svgText.setAttribute('text-anchor', 'middle');
-
-    const textPath = document.createElementNS(this.svgNS, 'textPath');
-    textPath.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#upperTextPath');
-    textPath.setAttribute('startOffset', '50%');
-
-    svgText.appendChild(textPath);
-
-    const tspan = document.createElementNS(this.svgNS, 'tspan');
-    tspan.textContent = text;
-    const fontSize = this.canvas.width * 0.5;
-    const colorFont = this.data.color_scheme.subject_title_color;
-    tspan.setAttribute('font-size', `${fontSize}px`);
-    tspan.setAttribute('line-height', `${fontSize}px`);
-    tspan.setAttribute('font-family', `${this.data.font_family.name}`);
-    tspan.setAttribute('fill', colorFont);
-
-    textPath.appendChild(tspan);
-
-    path.id = 'upperTextPath';
-    svg.appendChild(svgText);
-
-    this.canvasWrapper.appendChild(svg);
-
-    this.adjustFontSize(tspan, path, colorFont);
   }
 
   adjustFontSize(tspan, path, colorFont) {
@@ -527,6 +323,64 @@ class CanvasDrawer {
     const textPath = tspan.parentNode;
     textPath.setAttribute('startOffset', '50%');
     tspans.forEach((t) => t.setAttribute('x', '0'));
+  }
+
+  drawUpperText(text) {
+    const svg = document.createElementNS(this.svgNS, 'svg');
+    svg.setAttribute('width', this.canvas.width);
+    svg.setAttribute('height', this.canvas.height);
+    svg.style.position = 'absolute';
+    svg.style.top = '0';
+    svg.style.left = '0';
+    svg.style.zIndex = '50';
+
+    const path = document.createElementNS(this.svgNS, 'path');
+    const startAngle = this.clockAngles['11:00'];
+    const endAngle = this.clockAngles['1:00'];
+    let radiusDistance = this.canvas.width * 0.06;
+
+    if (text.length > 15) {
+      radiusDistance += this.canvas.width * 0.015;
+    }
+
+    const radius = this.radius + radiusDistance;
+    const startX = this.centerX + radius * Math.cos(startAngle);
+    const startY = this.centerY + radius * Math.sin(startAngle);
+    const endX = this.centerX + radius * Math.cos(endAngle);
+    const endY = this.centerY + radius * Math.sin(endAngle);
+
+    const largeArcFlag = endAngle - startAngle <= Math.PI ? '0' : '1';
+
+    path.setAttribute('d', `M ${startX} ${startY} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY}`);
+    path.setAttribute('fill', 'none');
+    svg.appendChild(path);
+
+    const svgText = document.createElementNS(this.svgNS, 'text');
+    svgText.setAttribute('text-anchor', 'middle');
+
+    const textPath = document.createElementNS(this.svgNS, 'textPath');
+    textPath.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#upperTextPath');
+    textPath.setAttribute('startOffset', '50%');
+
+    svgText.appendChild(textPath);
+
+    const tspan = document.createElementNS(this.svgNS, 'tspan');
+    tspan.textContent = text;
+    const fontSize = this.canvas.width * 0.5;
+    const colorFont = this.data.color_scheme.subject_title_color;
+    tspan.setAttribute('font-size', `${fontSize}px`);
+    tspan.setAttribute('line-height', `${fontSize}px`);
+    tspan.setAttribute('font-family', `${this.data.font_family.name}`);
+    tspan.setAttribute('fill', colorFont);
+
+    textPath.appendChild(tspan);
+
+    path.id = 'upperTextPath';
+    svg.appendChild(svgText);
+
+    this.canvasWrapper.appendChild(svg);
+
+    this.adjustFontSize(tspan, path, colorFont);
   }
 
   drawInitialCircles() {
@@ -831,8 +685,10 @@ class CanvasDrawer {
     iconElement.style.top = `${iconY - iconSize / 2}px`;
     iconElement.style.left = `${iconX - iconSize / 2}px`;
     iconElement.style.borderWidth = `${this.canvas.width * 0.002}px`;
+    iconElement.style.background = `#${event.category.colors.primary_color}`;
 
     const imgElement = document.createElement('img');
+    imgElement.alt = event.icon.name;
     imgElement.src = event.icon.color;
     iconElement.appendChild(imgElement);
 
@@ -953,12 +809,12 @@ class CanvasDrawer {
       const textDimensions = this.textDimensions.get(event.id);
 
       if (textPosition && iconPosition && textDimensions) {
-        this.drawArrow(textPosition, iconPosition, textDimensions);
+        this.drawArrow(textPosition, iconPosition, textDimensions, event.category.colors.secondary_color);
       }
     });
   }
 
-  drawArrow(textPos, iconPos, textDim) {
+  drawArrow(textPos, iconPos, textDim, color) {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.style.position = 'absolute';
     svg.style.top = '0';
@@ -972,7 +828,7 @@ class CanvasDrawer {
     const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     arrow.setAttribute('d', path);
     arrow.setAttribute('fill', 'none');
-    arrow.setAttribute('stroke', '#000');
+    arrow.setAttribute('stroke', `#${color}`);
     arrow.setAttribute('stroke-width', '1');
     arrow.setAttribute('marker-end', 'url(#arrowhead)');
 
@@ -982,11 +838,19 @@ class CanvasDrawer {
   }
 
   calculateArrowPath(textPos, iconPos, textDim) {
-    let startX = textPos.isLeft ? textPos.x + textDim.width : textPos.x;
-    let startY = textPos.y + textDim.height / 2;
+    const padding = this.canvas.width * 0.02;
+    let startX, startY;
+
+    if (textPos.isLeft) {
+      startX = textPos.x - padding;
+    } else {
+      startX = textPos.x + padding;
+    }
+
+    startY = textPos.y + textDim.height / 2;
     let { x: endX, y: endY } = iconPos;
 
-    const goingRight = textPos.isLeft;
+    const goingRight = !textPos.isLeft;
 
     let bendX = goingRight ? Math.min(startX + 20, endX - 20) : Math.max(startX - 20, endX + 20);
 
@@ -998,8 +862,30 @@ class CanvasDrawer {
     }
   }
 
-  needsVerticalBend(start, end) {
-    return true;
+  needsVerticalBend(startX, startY, endX, endY) {
+    const verticalDifference = Math.abs(startY - endY);
+
+    if (verticalDifference > 50) {
+      return true;
+    }
+
+    const directPath = `M ${startX} ${startY} L ${endX} ${endY}`;
+
+    for (const element of this.eventElements) {
+      if (this.pathIntersectsElement(directPath, element)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  pathIntersectsElement(path, element) {
+    const rect = element.getBoundingClientRect();
+    const rectPath = `M${rect.left},${rect.top} H${rect.right} V${rect.bottom} H${rect.left} Z`;
+
+    const intersection = Intersection.intersect(path, rectPath);
+    return intersection.points.length > 0;
   }
 
   calculateBendY(startY, endY) {
@@ -1013,4 +899,96 @@ class CanvasDrawer {
   }
 }
 
-const drawer = new CanvasDrawer('canvas', '.canvas-wrapper', '.canvas-wrapper img', data);
+const data = {
+  id: '9cbfd8c1-fc12-4ca7-b824-eed9adef8df6',
+  title: 'Test Title',
+  photo_path: 'img/subjects/9cbfd8c1-fc12-4ca7-b824-eed9adef8df6.jpg',
+  start_date: '1980-08-01',
+  end_date: '2024-08-01',
+  round_year: { name: 'Jahre', value: 50 },
+  font_family: { name: 'Noto Sans' },
+  color_scheme: {
+    name: 'Neutral',
+    colors: { main_color: 'DDE2E1', secondary_color: 'C0C9CE', tertiary_color: null },
+    subject_title_color: '825251',
+  },
+  events: [
+    {
+      id: 5,
+      date: '2020-08-12',
+      date_parts: { day: '12', month: '08', year: '2020' },
+      text: '\u0447\u0442\u043e-\u0442\u043e \u0435\u0449\u0435',
+      category: {
+        id: 5,
+        name: 'Familie & Firma',
+        colors: { id: 5, name: 'Green', main_color: 'C2CEBD', primary_color: 'A5B19E', secondary_color: '7B9376' },
+      },
+      icon: { name: 'Meeting', color: '/img/icons/memoring/icon-meeting.svg' },
+    },
+    {
+      id: 4,
+      date: '2018-08-12',
+      date_parts: { day: '12', month: '08', year: '2018' },
+      text: '\u0447\u0442\u043e-\u0442\u043e \u0435\u0449\u0435',
+      category: {
+        id: 4,
+        name: 'Familiengr\u00fcndung',
+        colors: { id: 4, name: 'Brown', main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
+      },
+      icon: { name: 'Car', color: '/img/icons/memoring/icon-car.svg' },
+    },
+    {
+      id: 3,
+      date: '2008-08-12',
+      date_parts: { day: '12', month: '08', year: '2008' },
+      text: '\u0447\u0442\u043e-\u0442\u043e \u0435\u0449\u0435',
+      category: {
+        id: 3,
+        name: 'Ausbildung',
+        colors: { id: 3, name: 'Pink', main_color: 'F5AEA8', primary_color: 'E29D93', secondary_color: 'E25D60' },
+      },
+      icon: { name: 'Boat', color: '/img/icons/memoring/icon-boat.svg' },
+    },
+    {
+      id: 2,
+      date: '2000-08-12',
+      date_parts: { day: '12', month: '08', year: '2000' },
+      text: '\u0447\u0442\u043e-\u0442\u043e \u0435\u0449\u0435',
+      category: {
+        id: 2,
+        name: 'Flucht',
+        colors: { id: 2, name: 'Orange', main_color: 'FCCB8E', primary_color: 'E6B26F', secondary_color: 'E78B0A' },
+      },
+      icon: { name: 'Bell', color: '/img/icons/memoring/icon-bell.svg' },
+    },
+    {
+      id: 1,
+      date: '1980-08-01',
+      date_parts: { day: '01', month: '08', year: '1980' },
+      text: '\u0420\u043e\u0434\u0438\u043b\u0441\u044f',
+      category: {
+        id: 1,
+        name: 'Kindheit & Jugend',
+        colors: { id: 1, name: 'Yellow', main_color: 'F8ECB2', primary_color: 'E4D28E', secondary_color: 'EBCC3C' },
+      },
+      icon: { name: 'Baby', color: '/img/icons/memoring/icon-baby.svg' },
+    },
+  ],
+};
+
+const getData = (data) => {
+  const { events } = data;
+  const sortedEvents = events
+    .sort((prevItem, currentItem) => new Date(prevItem.date) - new Date(currentItem.date))
+    .map((event) => {
+      const { day, month, year } = event.date_parts;
+
+      return { ...event, date_parts: { day: +day, month: +month, year: +year } };
+    });
+
+  return { ...data, events: sortedEvents };
+};
+
+const newData = getData(data);
+
+const drawer = new CanvasDrawer('canvas', '.canvas-wrapper', '.canvas-wrapper img', newData);
