@@ -1,4 +1,4 @@
-import Intersection from 'path-intersection';
+import { jsPDF } from 'jspdf';
 
 class CanvasDrawer {
   constructor(canvasId, wrapperSelector, imageSelector, data) {
@@ -13,6 +13,7 @@ class CanvasDrawer {
     this.eventIconPositions = new Map();
     this.textDimensions = new Map();
     this.arrows = [];
+    this.isOuterIcon = true;
     this.clockAngles = {
       '12:00': -Math.PI / 2,
       '12:30': -Math.PI / 2 + Math.PI / 12,
@@ -21,9 +22,22 @@ class CanvasDrawer {
       '1:30': -Math.PI / 3 + Math.PI / 12,
       '2:00': -Math.PI / 6,
       '2:30': -Math.PI / 6 + Math.PI / 12,
+      '2:40': -Math.PI / 6 + (8 * Math.PI) / 72,
+      '2:45': -Math.PI / 6 + (3 * Math.PI) / 12,
       '4:30': Math.PI / 6,
+      '4:40': (7 * Math.PI) / 18,
+      '4:45': (5 * Math.PI) / 12,
+      '5:00': (5 * Math.PI) / 12,
+      '5:30': Math.PI / 3 + Math.PI / 12,
       '6:00': Math.PI / 2,
+      '6:30': Math.PI / 2 + Math.PI / 12,
+      '7:00': (7 * Math.PI) / 6,
+      '7:20': (2 * Math.PI) / 3,
+      '7:25': (11 * Math.PI) / 18,
       '7:30': (5 * Math.PI) / 6,
+      '9:00': Math.PI,
+      '9:15': Math.PI + Math.PI / 12,
+      '9:20': Math.PI + (4 * Math.PI) / 72,
       '9:30': Math.PI + Math.PI / 12,
       '10:00': (7 * Math.PI) / 6,
       '10:30': (7 * Math.PI) / 6 + Math.PI / 12,
@@ -106,6 +120,7 @@ class CanvasDrawer {
     this.drawArrowsForEvents();
   }
 
+  // Implemented Events
   positionEvents() {
     const { events, start_date, round_year } = this.data;
     const startYear = new Date(start_date).getFullYear();
@@ -136,7 +151,8 @@ class CanvasDrawer {
     let lastY = null;
 
     const topY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '11:59' : '12:00']);
-    const bottomY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '9:30' : '2:30']);
+    const bottomY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '10:30' : '1:00']);
+    const nineTwoY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '9:20' : '2:40']);
     const fiveY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['4:30']);
     const sixY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['6:00']);
     const sevenY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['7:30']);
@@ -175,13 +191,18 @@ class CanvasDrawer {
 
       const offsetX = this.canvas.width * 0.03;
       const additionalOffset = this.canvas.width * 0.02;
+      let eventWidth = this.canvas.width * 0.127;
 
       if (y >= topY && y <= bottomY) {
         x += isLeft ? -offsetX : offsetX;
+      } else if (y >= bottomY && y <= nineTwoY) {
+        x += isLeft ? 0 : -additionalOffset;
       } else if (y >= fiveY && y <= sixY) {
         x += isLeft ? -offsetX : offsetX;
-      } else if (y >= sixY && y <= sevenY) {
+        eventWidth *= 1.35;
+      } else if (y === sixY) {
         x += isLeft ? offsetX : -offsetX;
+        eventWidth *= 1.7;
       }
 
       if (y >= twelveY && y <= twoY) {
@@ -193,6 +214,7 @@ class CanvasDrawer {
       }
 
       eventElement.style.left = `${x}px`;
+      eventElement.style.width = `${eventWidth}px`;
 
       if (!isLeft) {
         eventElement.style.textAlign = 'right';
@@ -202,7 +224,6 @@ class CanvasDrawer {
       lastY = rect.bottom;
 
       this.eventElements.push(eventElement);
-
       this.eventTextPositions.set(event.id, { x, y });
       this.textDimensions.set(event.id, { width: rect.width, height: rect.height });
     });
@@ -246,6 +267,66 @@ class CanvasDrawer {
       rect1.right < rect2.left ||
       rect1.left > rect2.right
     );
+  }
+  // end Events
+
+  // Implemented Name Text
+  drawUpperText(text) {
+    const svg = document.createElementNS(this.svgNS, 'svg');
+    svg.setAttribute('width', this.canvas.width);
+    svg.setAttribute('height', this.canvas.height);
+    svg.style.position = 'absolute';
+    svg.style.top = '0';
+    svg.style.left = '0';
+    svg.style.zIndex = '50';
+
+    const path = document.createElementNS(this.svgNS, 'path');
+    const startAngle = this.clockAngles['11:00'];
+    const endAngle = this.clockAngles['1:00'];
+    let radiusDistance = this.canvas.width * 0.06;
+
+    if (text.length > 15) {
+      radiusDistance += this.canvas.width * 0.015;
+    }
+
+    const radius = this.radius + radiusDistance;
+    const startX = this.centerX + radius * Math.cos(startAngle);
+    const startY = this.centerY + radius * Math.sin(startAngle);
+    const endX = this.centerX + radius * Math.cos(endAngle);
+    const endY = this.centerY + radius * Math.sin(endAngle);
+
+    const largeArcFlag = endAngle - startAngle <= Math.PI ? '0' : '1';
+
+    path.setAttribute('d', `M ${startX} ${startY} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY}`);
+    path.setAttribute('fill', 'none');
+    svg.appendChild(path);
+
+    const svgText = document.createElementNS(this.svgNS, 'text');
+    svgText.setAttribute('text-anchor', 'middle');
+
+    const textPath = document.createElementNS(this.svgNS, 'textPath');
+    textPath.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#upperTextPath');
+    textPath.setAttribute('startOffset', '50%');
+
+    svgText.appendChild(textPath);
+
+    const tspan = document.createElementNS(this.svgNS, 'tspan');
+    tspan.textContent = text;
+    const fontSize = this.canvas.width * 0.5;
+    const colorFont = this.data.color_scheme.subject_title_color;
+    tspan.setAttribute('font-size', `${fontSize}px`);
+    tspan.setAttribute('line-height', `${fontSize}px`);
+    tspan.setAttribute('font-family', `${this.data.font_family.name}`);
+    tspan.setAttribute('fill', colorFont);
+
+    textPath.appendChild(tspan);
+
+    path.id = 'upperTextPath';
+    svg.appendChild(svgText);
+
+    this.canvasWrapper.appendChild(svg);
+
+    this.adjustFontSize(tspan, path, colorFont);
   }
 
   adjustFontSize(tspan, path, colorFont) {
@@ -324,77 +405,26 @@ class CanvasDrawer {
     textPath.setAttribute('startOffset', '50%');
     tspans.forEach((t) => t.setAttribute('x', '0'));
   }
+  // end Name Text
 
-  drawUpperText(text) {
-    const svg = document.createElementNS(this.svgNS, 'svg');
-    svg.setAttribute('width', this.canvas.width);
-    svg.setAttribute('height', this.canvas.height);
-    svg.style.position = 'absolute';
-    svg.style.top = '0';
-    svg.style.left = '0';
-    svg.style.zIndex = '50';
-
-    const path = document.createElementNS(this.svgNS, 'path');
-    const startAngle = this.clockAngles['11:00'];
-    const endAngle = this.clockAngles['1:00'];
-    let radiusDistance = this.canvas.width * 0.06;
-
-    if (text.length > 15) {
-      radiusDistance += this.canvas.width * 0.015;
-    }
-
-    const radius = this.radius + radiusDistance;
-    const startX = this.centerX + radius * Math.cos(startAngle);
-    const startY = this.centerY + radius * Math.sin(startAngle);
-    const endX = this.centerX + radius * Math.cos(endAngle);
-    const endY = this.centerY + radius * Math.sin(endAngle);
-
-    const largeArcFlag = endAngle - startAngle <= Math.PI ? '0' : '1';
-
-    path.setAttribute('d', `M ${startX} ${startY} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY}`);
-    path.setAttribute('fill', 'none');
-    svg.appendChild(path);
-
-    const svgText = document.createElementNS(this.svgNS, 'text');
-    svgText.setAttribute('text-anchor', 'middle');
-
-    const textPath = document.createElementNS(this.svgNS, 'textPath');
-    textPath.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#upperTextPath');
-    textPath.setAttribute('startOffset', '50%');
-
-    svgText.appendChild(textPath);
-
-    const tspan = document.createElementNS(this.svgNS, 'tspan');
-    tspan.textContent = text;
-    const fontSize = this.canvas.width * 0.5;
-    const colorFont = this.data.color_scheme.subject_title_color;
-    tspan.setAttribute('font-size', `${fontSize}px`);
-    tspan.setAttribute('line-height', `${fontSize}px`);
-    tspan.setAttribute('font-family', `${this.data.font_family.name}`);
-    tspan.setAttribute('fill', colorFont);
-
-    textPath.appendChild(tspan);
-
-    path.id = 'upperTextPath';
-    svg.appendChild(svgText);
-
-    this.canvasWrapper.appendChild(svg);
-
-    this.adjustFontSize(tspan, path, colorFont);
-  }
-
+  // Implemented one color draw circle
   drawInitialCircles() {
     this.drawCircleWithOneColor(this.radiusLarge / 2, this.canvas.width * 0.019, '#EAE9EB');
     this.drawCircleWithOneColor(this.radius, this.canvas.width * 0.018, '#F2F2F2');
   }
+  // end one color draw circle
 
+  // Implemented Image Position
   setImagePosition() {
     this.image.style.left = `${this.centerX - this.radius / 2}px`;
     this.image.style.top = `${this.centerY - this.radius / 2}px`;
     this.image.style.width = `${this.radius}px`;
     this.image.style.height = `${this.radius}px`;
+    this.image.alt = this.data.title;
   }
+  // end Image Position
 
+  // Implemented Draw Opacity Circles With White Color
   drawOverlappingCircles() {
     const mainSizeRadiusOpacity = {
       0.06: this.canvas.width * 0.02,
@@ -412,32 +442,9 @@ class CanvasDrawer {
       this.drawCircleWithOneColor(this.radius / 2, size, `${whiteColor}${opacities[opacity]}`);
     }
   }
+  // end Draw Opacity Circles With White Color
 
-  groupEventsByCategory(events) {
-    const grouped = [];
-    let currentCategory = null;
-    let currentGroup = [];
-
-    for (const event of events) {
-      if (currentCategory === null || currentCategory.id !== event.category.id) {
-        if (currentGroup.length > 0) {
-          grouped.push(currentGroup);
-        }
-
-        currentCategory = event.category;
-        currentGroup = [event];
-      } else {
-        currentGroup.push(event);
-      }
-    }
-
-    if (currentGroup.length > 0) {
-      grouped.push(currentGroup);
-    }
-
-    return grouped;
-  }
-
+  // Implemented Draw Triangle Canvas
   drawTriangle() {
     const { events, start_date, end_date, round_year, color_scheme } = this.data;
     const startYear = new Date(start_date).getFullYear();
@@ -520,15 +527,9 @@ class CanvasDrawer {
     this.ctx.fill();
     this.ctx.closePath();
   }
+  // end Draw Triangle Canvas
 
-  drawCircleWithOneColor(radius, lineWidth, strokeStyle) {
-    this.ctx.beginPath();
-    this.ctx.arc(this.centerX, this.centerY, radius, this.startAngle, this.endAngle);
-    this.ctx.lineWidth = lineWidth;
-    this.ctx.strokeStyle = strokeStyle;
-    this.ctx.stroke();
-  }
-
+  // Implemented Draw Year Date and Icons
   drawDotsYearDateIcons() {
     const { start_date, end_date, round_year, events, color_scheme } = this.data;
     const divisions = 2;
@@ -555,10 +556,13 @@ class CanvasDrawer {
       this.drawOneDot('dot', dotSmallX, dotSmallY, dotSmallSize, bgColor, borderColor, 1.5);
       this.writeYearDateForCircle(dateX, dateY, fontSizeDate, lastDate - firstDate, angle, i, firstDate);
 
-      const event = this.getEventForYear(i, events);
+      const yearEvents = this.getEventsForYear(i, events);
 
-      if (event) {
-        this.drawEventIcon(event, angle);
+      if (yearEvents.length > 0) {
+        yearEvents.forEach((event, index) => {
+          const offsetAngle = angle + (index - (yearEvents.length - 1) / 2) * 0.02; // небольшое смещение для множественных событий
+          this.drawEventIcon(event, offsetAngle);
+        });
       }
     }
   }
@@ -583,6 +587,7 @@ class CanvasDrawer {
 
       if (year >= categoryStartYear && year <= categoryEndYear) {
         const event = this.getEventForYear(year, group);
+
         if (event) {
           return {
             bgColor: `#${event.category.colors.main_color}`,
@@ -616,6 +621,13 @@ class CanvasDrawer {
     }
 
     return lastEventInCategory.date_parts.year + 1;
+  }
+
+  getEventsForYear(year, events) {
+    return events.filter((event) => {
+      const eventYear = event.date_parts ? event.date_parts.year : new Date(event.date).getFullYear();
+      return eventYear === year;
+    });
   }
 
   getEventForYear(year, events) {
@@ -655,23 +667,29 @@ class CanvasDrawer {
   }
 
   drawEventIcon(event, angle) {
-    const baseIconSize = this.canvas.width * 0.037;
-    const baseRadiusAdd = this.canvas.width * 0.046;
+    const baseIconSize = this.canvas.width * 0.035;
+    const outerRadiusAdd = this.canvas.width * 0.044;
+    const innerRadiusAdd = this.canvas.width * 0.078; // Больше, чем outerRadiusAdd
     let iconSize = baseIconSize;
-    let radiusAdd = baseRadiusAdd;
+    let radiusAdd = this.isOuterIcon ? outerRadiusAdd : innerRadiusAdd;
     let iconX, iconY;
     let overlap = true;
     let attempts = 0;
+    const maxAttempts = 20;
+    const angleStep = 0.05;
 
-    while (overlap && attempts < 10) {
+    while (overlap && attempts < maxAttempts) {
       iconX = this.centerX + (this.radius - radiusAdd) * Math.cos(angle);
       iconY = this.centerY + (this.radius - radiusAdd) * Math.sin(angle);
 
       overlap = this.checkIconOverlap(iconX, iconY, iconSize);
 
       if (overlap) {
-        radiusAdd *= 1.6;
-        angle += 0.05;
+        angle += angleStep;
+        if (attempts % 2 === 0) {
+          this.isOuterIcon = !this.isOuterIcon;
+          radiusAdd = this.isOuterIcon ? outerRadiusAdd : innerRadiusAdd;
+        }
       }
 
       attempts++;
@@ -684,7 +702,7 @@ class CanvasDrawer {
     iconElement.style.position = 'absolute';
     iconElement.style.top = `${iconY - iconSize / 2}px`;
     iconElement.style.left = `${iconX - iconSize / 2}px`;
-    iconElement.style.borderWidth = `${this.canvas.width * 0.002}px`;
+    iconElement.style.borderWidth = `${this.canvas.width * 0.0015}px`;
     iconElement.style.background = `#${event.category.colors.primary_color}`;
 
     const imgElement = document.createElement('img');
@@ -698,9 +716,13 @@ class CanvasDrawer {
       x: iconX,
       y: iconY,
       size: iconSize,
+      isOuter: this.isOuterIcon,
     });
 
     this.eventIconPositions.set(event.id, { x: iconX, y: iconY });
+
+    // Переключаем флаг для следующей иконки
+    this.isOuterIcon = !this.isOuterIcon;
   }
 
   checkIconOverlap(x, y, size) {
@@ -712,7 +734,9 @@ class CanvasDrawer {
     }
     return false;
   }
+  // end Draw Year, Date and Icons
 
+  // Implemented Number Years
   drawNumForCircle() {
     const { round_year } = this.data;
     const totalYears = round_year.value;
@@ -741,7 +765,9 @@ class CanvasDrawer {
       this.canvasWrapper.appendChild(el);
     }
   }
+  // end Number Years
 
+  // Implemented Draw Categories Text
   drawTextForCategories() {
     const { start_date, round_year, events, color_scheme } = this.data;
     const startAngle = this.clockAngles['12:00'];
@@ -801,20 +827,57 @@ class CanvasDrawer {
 
     this.canvasWrapper.appendChild(svg);
   }
+  // end Draw Categories Text
 
+  // Implemented Draw Arrows
   drawArrowsForEvents() {
+    // Группируем события по годам
+    const eventsByYear = {};
     this.data.events.forEach((event) => {
-      const textPosition = this.eventTextPositions.get(event.id);
-      const iconPosition = this.eventIconPositions.get(event.id);
-      const textDimensions = this.textDimensions.get(event.id);
-
-      if (textPosition && iconPosition && textDimensions) {
-        this.drawArrow(textPosition, iconPosition, textDimensions, event.category.colors.secondary_color);
+      const year = event.date_parts.year;
+      if (!eventsByYear[year]) {
+        eventsByYear[year] = [];
       }
+      eventsByYear[year].push(event);
+    });
+
+    Object.entries(eventsByYear).forEach(([year, events]) => {
+      events.forEach((event, index) => {
+        const textPosition = this.eventTextPositions.get(event.id);
+        const iconPosition = this.eventIconPositions.get(event.id);
+        const textDimensions = this.textDimensions.get(event.id);
+
+        if (textPosition && iconPosition && textDimensions) {
+          const isLeft = textPosition.x < this.centerX;
+
+          let startX = isLeft ? textPosition.x + textDimensions.width : textPosition.x;
+          let startY = textPosition.y + textDimensions.height / 2;
+
+          // Вычисляем смещение для всех событий, даже если оно одно
+          const offset = (index - (events.length - 1) / 2) * 5; // 5px смещение между стрелками
+
+          // Применяем смещение, только если событий больше одного
+          if (events.length > 1) {
+            startY += offset;
+          }
+
+          const arrowStart = { x: startX, y: startY, isLeft };
+
+          // Добавляем небольшое смещение к конечной точке стрелки
+          const adjustedIconPosition = {
+            x: iconPosition.x + (isLeft ? -3 : 3) * index,
+            y: iconPosition.y + (events.length > 1 ? offset : 0),
+          };
+
+          this.drawArrow(arrowStart, adjustedIconPosition, event.category.colors.secondary_color);
+        } else {
+          console.warn(`Missing data for event ${event.id}`);
+        }
+      });
     });
   }
 
-  drawArrow(textPos, iconPos, textDim, color) {
+  drawArrow(textPos, iconPos, color) {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.style.position = 'absolute';
     svg.style.top = '0';
@@ -823,13 +886,13 @@ class CanvasDrawer {
     svg.style.height = '100%';
     svg.style.pointerEvents = 'none';
 
-    const path = this.calculateArrowPath(textPos, iconPos, textDim);
+    const path = this.calculateArrowPath(textPos, iconPos);
 
     const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     arrow.setAttribute('d', path);
     arrow.setAttribute('fill', 'none');
     arrow.setAttribute('stroke', `#${color}`);
-    arrow.setAttribute('stroke-width', '1');
+    arrow.setAttribute('stroke-width', '0.7');
     arrow.setAttribute('marker-end', 'url(#arrowhead)');
 
     svg.appendChild(arrow);
@@ -837,28 +900,21 @@ class CanvasDrawer {
     this.arrows.push(arrow);
   }
 
-  calculateArrowPath(textPos, iconPos, textDim) {
-    const padding = this.canvas.width * 0.02;
-    let startX, startY;
-
-    if (textPos.isLeft) {
-      startX = textPos.x - padding;
-    } else {
-      startX = textPos.x + padding;
-    }
-
-    startY = textPos.y + textDim.height / 2;
+  calculateArrowPath(textPos, iconPos) {
+    const padding = 5;
+    let startX = textPos.isLeft ? textPos.x : textPos.x - padding;
+    let startY = textPos.y;
     let { x: endX, y: endY } = iconPos;
 
-    const goingRight = !textPos.isLeft;
+    const needsBend =
+      Math.abs(startY - endY) > 20 || (textPos.isLeft && endX < startX) || (!textPos.isLeft && endX > startX);
 
-    let bendX = goingRight ? Math.min(startX + 20, endX - 20) : Math.max(startX - 20, endX + 20);
-
-    if (this.needsVerticalBend(startX, startY, bendX, endX, endY)) {
-      const bendY = this.calculateBendY(startY, endY);
+    if (needsBend) {
+      const bendX = textPos.isLeft ? Math.max(startX, endX) : Math.min(startX, endX);
+      const bendY = (startY + endY) / 2;
       return `M ${startX} ${startY} L ${bendX} ${startY} L ${bendX} ${bendY} L ${endX} ${bendY} L ${endX} ${endY}`;
     } else {
-      return `M ${startX} ${startY} L ${bendX} ${startY} L ${endX} ${endY}`;
+      return `M ${startX} ${startY} L ${endX} ${endY}`;
     }
   }
 
@@ -882,16 +938,74 @@ class CanvasDrawer {
 
   pathIntersectsElement(path, element) {
     const rect = element.getBoundingClientRect();
-    const rectPath = `M${rect.left},${rect.top} H${rect.right} V${rect.bottom} H${rect.left} Z`;
+    const [x1, y1, x2, y2] = this.getPathEndpoints(path);
+    return this.lineIntersectsRect(x1, y1, x2, y2, rect);
+  }
 
-    const intersection = Intersection.intersect(path, rectPath);
-    return intersection.points.length > 0;
+  getPathEndpoints(path) {
+    const matches = path.match(/M ([\d.]+) ([\d.]+) .* ([\d.]+) ([\d.]+)/);
+    if (matches) {
+      return matches.slice(1).map(Number);
+    }
+    return [0, 0, 0, 0];
+  }
+
+  lineIntersectsRect(x1, y1, x2, y2, rect) {
+    return (
+      this.lineIntersectsLine(x1, y1, x2, y2, rect.left, rect.top, rect.right, rect.top) ||
+      this.lineIntersectsLine(x1, y1, x2, y2, rect.right, rect.top, rect.right, rect.bottom) ||
+      this.lineIntersectsLine(x1, y1, x2, y2, rect.right, rect.bottom, rect.left, rect.bottom) ||
+      this.lineIntersectsLine(x1, y1, x2, y2, rect.left, rect.bottom, rect.left, rect.top)
+    );
+  }
+
+  lineIntersectsLine(x1, y1, x2, y2, x3, y3, x4, y4) {
+    const den = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+    if (den === 0) return false;
+    const ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / den;
+    const ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / den;
+    return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
   }
 
   calculateBendY(startY, endY) {
     let midY = (startY + endY) / 2;
 
     return midY;
+  }
+  // end Draw Arrows
+
+  // helpers
+  drawCircleWithOneColor(radius, lineWidth, strokeStyle) {
+    this.ctx.beginPath();
+    this.ctx.arc(this.centerX, this.centerY, radius, this.startAngle, this.endAngle);
+    this.ctx.lineWidth = lineWidth;
+    this.ctx.strokeStyle = strokeStyle;
+    this.ctx.stroke();
+  }
+
+  groupEventsByCategory(events) {
+    const grouped = [];
+    let currentCategory = null;
+    let currentGroup = [];
+
+    for (const event of events) {
+      if (currentCategory === null || currentCategory.id !== event.category.id) {
+        if (currentGroup.length > 0) {
+          grouped.push(currentGroup);
+        }
+
+        currentCategory = event.category;
+        currentGroup = [event];
+      } else {
+        currentGroup.push(event);
+      }
+    }
+
+    if (currentGroup.length > 0) {
+      grouped.push(currentGroup);
+    }
+
+    return grouped;
   }
 
   degreesToRadians(degrees) {
@@ -914,64 +1028,331 @@ const data = {
   },
   events: [
     {
-      id: 5,
-      date: '2020-08-12',
-      date_parts: { day: '12', month: '08', year: '2020' },
-      text: '\u0447\u0442\u043e-\u0442\u043e \u0435\u0449\u0435',
+      id: 1,
+      date: '1980-08-01',
+      date_parts: { day: '01', month: '08', year: '1980' },
+      text: 'Родился',
       category: {
-        id: 5,
-        name: 'Familie & Firma',
-        colors: { id: 5, name: 'Green', main_color: 'C2CEBD', primary_color: 'A5B19E', secondary_color: '7B9376' },
+        id: 1,
+        name: 'Kindheit & Jugend',
+        colors: { main_color: 'F8ECB2', primary_color: 'E4D28E', secondary_color: 'EBCC3C' },
       },
-      icon: { name: 'Meeting', color: '/img/icons/memoring/icon-meeting.svg' },
-    },
-    {
-      id: 4,
-      date: '2018-08-12',
-      date_parts: { day: '12', month: '08', year: '2018' },
-      text: '\u0447\u0442\u043e-\u0442\u043e \u0435\u0449\u0435',
-      category: {
-        id: 4,
-        name: 'Familiengr\u00fcndung',
-        colors: { id: 4, name: 'Brown', main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
-      },
-      icon: { name: 'Car', color: '/img/icons/memoring/icon-car.svg' },
-    },
-    {
-      id: 3,
-      date: '2008-08-12',
-      date_parts: { day: '12', month: '08', year: '2008' },
-      text: '\u0447\u0442\u043e-\u0442\u043e \u0435\u0449\u0435',
-      category: {
-        id: 3,
-        name: 'Ausbildung',
-        colors: { id: 3, name: 'Pink', main_color: 'F5AEA8', primary_color: 'E29D93', secondary_color: 'E25D60' },
-      },
-      icon: { name: 'Boat', color: '/img/icons/memoring/icon-boat.svg' },
+      icon: { name: 'Baby', color: '/img/icons/memoring/icon-baby.svg' },
     },
     {
       id: 2,
-      date: '2000-08-12',
-      date_parts: { day: '12', month: '08', year: '2000' },
-      text: '\u0447\u0442\u043e-\u0442\u043e \u0435\u0449\u0435',
+      date: '1985-05-23',
+      date_parts: { day: '23', month: '05', year: '1985' },
+      text: 'Первый день в школе',
+      category: {
+        id: 1,
+        name: 'Kindheit & Jugend',
+        colors: { main_color: 'F8ECB2', primary_color: 'E4D28E', secondary_color: 'EBCC3C' },
+      },
+      icon: { name: 'School', color: '/img/icons/memoring/icon-school.svg' },
+    },
+    {
+      id: 3,
+      date: '1990-11-18',
+      date_parts: { day: '18', month: '11', year: '1990' },
+      text: 'Переезд в новый дом',
       category: {
         id: 2,
         name: 'Flucht',
-        colors: { id: 2, name: 'Orange', main_color: 'FCCB8E', primary_color: 'E6B26F', secondary_color: 'E78B0A' },
+        colors: { main_color: 'FCCB8E', primary_color: 'E6B26F', secondary_color: 'E78B0A' },
+      },
+      icon: { name: 'House', color: '/img/icons/memoring/icon-house.svg' },
+    },
+    {
+      id: 4,
+      date: '1993-07-04',
+      date_parts: { day: '04', month: '07', year: '1993' },
+      text: 'Окончил школу',
+      category: {
+        id: 3,
+        name: 'Ausbildung',
+        colors: { main_color: 'F5AEA8', primary_color: 'E29D93', secondary_color: 'E25D60' },
+      },
+      icon: { name: 'Graduation', color: '/img/icons/memoring/icon-graduation.svg' },
+    },
+    {
+      id: 5,
+      date: '1995-09-14',
+      date_parts: { day: '14', month: '09', year: '1995' },
+      text: 'Начал учёбу в университете',
+      category: {
+        id: 3,
+        name: 'Ausbildung',
+        colors: { main_color: 'F5AEA8', primary_color: 'E29D93', secondary_color: 'E25D60' },
+      },
+      icon: { name: 'University', color: '/img/icons/memoring/icon-university.svg' },
+    },
+    {
+      id: 6,
+      date: '2000-12-01',
+      date_parts: { day: '01', month: '12', year: '2000' },
+      text: 'Переезд в другой город',
+      category: {
+        id: 2,
+        name: 'Flucht',
+        colors: { main_color: 'FCCB8E', primary_color: 'E6B26F', secondary_color: 'E78B0A' },
+      },
+      icon: { name: 'Moving', color: '/img/icons/memoring/icon-moving.svg' },
+    },
+    {
+      id: 7,
+      date: '2001-08-12',
+      date_parts: { day: '12', month: '08', year: '2001' },
+      text: 'Новый этап в жизни',
+      category: {
+        id: 2,
+        name: 'Flucht',
+        colors: { main_color: 'FCCB8E', primary_color: 'E6B26F', secondary_color: 'E78B0A' },
       },
       icon: { name: 'Bell', color: '/img/icons/memoring/icon-bell.svg' },
     },
     {
-      id: 1,
-      date: '1980-08-01',
-      date_parts: { day: '01', month: '08', year: '1980' },
-      text: '\u0420\u043e\u0434\u0438\u043b\u0441\u044f',
+      id: 8,
+      date: '2003-05-15',
+      date_parts: { day: '15', month: '05', year: '2003' },
+      text: 'Получение первого диплома',
       category: {
-        id: 1,
-        name: 'Kindheit & Jugend',
-        colors: { id: 1, name: 'Yellow', main_color: 'F8ECB2', primary_color: 'E4D28E', secondary_color: 'EBCC3C' },
+        id: 3,
+        name: 'Ausbildung',
+        colors: { main_color: 'F5AEA8', primary_color: 'E29D93', secondary_color: 'E25D60' },
+      },
+      icon: { name: 'Diploma', color: '/img/icons/memoring/icon-diploma.svg' },
+    },
+    {
+      id: 9,
+      date: '2005-10-07',
+      date_parts: { day: '07', month: '10', year: '2005' },
+      text: 'Открытие бизнеса',
+      category: {
+        id: 4,
+        name: 'Familiengründung',
+        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
+      },
+      icon: { name: 'Business', color: '/img/icons/memoring/icon-business.svg' },
+    },
+    {
+      id: 10,
+      date: '2006-01-17',
+      date_parts: { day: '17', month: '01', year: '2006' },
+      text: 'Зарегистрировал компанию',
+      category: {
+        id: 4,
+        name: 'Familiengründung',
+        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
+      },
+      icon: { name: 'Register', color: '/img/icons/memoring/icon-register.svg' },
+    },
+    {
+      id: 11,
+      date: '2007-04-22',
+      date_parts: { day: '22', month: '04', year: '2007' },
+      text: 'Переезд в новую квартиру',
+      category: {
+        id: 2,
+        name: 'Flucht',
+        colors: { main_color: 'FCCB8E', primary_color: 'E6B26F', secondary_color: 'E78B0A' },
+      },
+      icon: { name: 'Apartment', color: '/img/icons/memoring/icon-apartment.svg' },
+    },
+    {
+      id: 12,
+      date: '2008-08-12',
+      date_parts: { day: '12', month: '08', year: '2008' },
+      text: 'Начало нового проекта',
+      category: {
+        id: 3,
+        name: 'Ausbildung',
+        colors: { main_color: 'F5AEA8', primary_color: 'E29D93', secondary_color: 'E25D60' },
+      },
+      icon: { name: 'Project', color: '/img/icons/memoring/icon-project.svg' },
+    },
+    {
+      id: 13,
+      date: '2008-08-12',
+      date_parts: { day: '12', month: '08', year: '2008' },
+      text: 'Путешествие по миру',
+      category: {
+        id: 3,
+        name: 'Ausbildung',
+        colors: { main_color: 'F5AEA8', primary_color: 'E29D93', secondary_color: 'E25D60' },
+      },
+      icon: { name: 'Travel', color: '/img/icons/memoring/icon-travel.svg' },
+    },
+    {
+      id: 14,
+      date: '2010-09-09',
+      date_parts: { day: '09', month: '09', year: '2010' },
+      text: 'Рождение первого ребенка',
+      category: {
+        id: 5,
+        name: 'Familie & Firma',
+        colors: { main_color: 'C2CEBD', primary_color: 'A5B19E', secondary_color: '7B9376' },
       },
       icon: { name: 'Baby', color: '/img/icons/memoring/icon-baby.svg' },
+    },
+    {
+      id: 15,
+      date: '2012-07-05',
+      date_parts: { day: '05', month: '07', year: '2012' },
+      text: 'Открытие офиса',
+      category: {
+        id: 4,
+        name: 'Familiengründung',
+        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
+      },
+      icon: { name: 'Office', color: '/img/icons/memoring/icon-office.svg' },
+    },
+    {
+      id: 16,
+      date: '2015-03-30',
+      date_parts: { day: '30', month: '03', year: '2015' },
+      text: 'Презентация продукта',
+      category: {
+        id: 4,
+        name: 'Familiengründung',
+        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
+      },
+      icon: { name: 'Product', color: '/img/icons/memoring/icon-product.svg' },
+    },
+    {
+      id: 17,
+      date: '2016-06-15',
+      date_parts: { day: '15', month: '06', year: '2016' },
+      text: 'Путешествие с семьей',
+      category: {
+        id: 5,
+        name: 'Familie & Firma',
+        colors: { main_color: 'C2CEBD', primary_color: 'A5B19E', secondary_color: '7B9376' },
+      },
+      icon: { name: 'FamilyTrip', color: '/img/icons/memoring/icon-familytrip.svg' },
+    },
+    {
+      id: 18,
+      date: '2017-02-10',
+      date_parts: { day: '10', month: '02', year: '2017' },
+      text: 'Запуск нового стартапа',
+      category: {
+        id: 4,
+        name: 'Familiengründung',
+        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
+      },
+      icon: { name: 'Startup', color: '/img/icons/memoring/icon-startup.svg' },
+    },
+    {
+      id: 19,
+      date: '2018-08-12',
+      date_parts: { day: '12', month: '08', year: '2018' },
+      text: 'Годовщина компании',
+      category: {
+        id: 4,
+        name: 'Familiengründung',
+        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
+      },
+      icon: { name: 'Anniversary', color: '/img/icons/memoring/icon-anniversary.svg' },
+    },
+
+    {
+      id: 21,
+      date: '2019-04-21',
+      date_parts: { day: '21', month: '04', year: '2019' },
+      text: 'Открытие второго офиса',
+      category: {
+        id: 4,
+        name: 'Familiengründung',
+        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
+      },
+      icon: { name: 'Office2', color: '/img/icons/memoring/icon-office2.svg' },
+    },
+    {
+      id: 22,
+      date: '2020-01-01',
+      date_parts: { day: '01', month: '01', year: '2020' },
+      text: 'Празднование Нового года',
+      category: {
+        id: 5,
+        name: 'Familie & Firma',
+        colors: { main_color: 'C2CEBD', primary_color: 'A5B19E', secondary_color: '7B9376' },
+      },
+      icon: { name: 'NewYear', color: '/img/icons/memoring/icon-newyear.svg' },
+    },
+
+    {
+      id: 24,
+      date: '2020-08-12',
+      date_parts: { day: '12', month: '08', year: '2020' },
+      text: 'Запуск новой маркетинговой кампании',
+      category: {
+        id: 5,
+        name: 'Familie & Firma',
+        colors: { main_color: 'C2CEBD', primary_color: 'A5B19E', secondary_color: '7B9376' },
+      },
+      icon: { name: 'Marketing', color: '/img/icons/memoring/icon-marketing.svg' },
+    },
+    {
+      id: 25,
+      date: '2021-11-09',
+      date_parts: { day: '09', month: '11', year: '2021' },
+      text: 'Новый партнер по бизнесу',
+      category: {
+        id: 4,
+        name: 'Familiengründung',
+        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
+      },
+      icon: { name: 'Partner', color: '/img/icons/memoring/icon-partner.svg' },
+    },
+    {
+      id: 26,
+      date: '2022-06-18',
+      date_parts: { day: '18', month: '06', year: '2022' },
+      text: 'Организация крупного мероприятия',
+      category: {
+        id: 5,
+        name: 'Familie & Firma',
+        colors: { main_color: 'C2CEBD', primary_color: 'A5B19E', secondary_color: '7B9376' },
+      },
+      icon: { name: 'Event', color: '/img/icons/memoring/icon-event.svg' },
+    },
+    {
+      id: 27,
+      date: '2022-11-11',
+      date_parts: { day: '11', month: '11', year: '2022' },
+      text: 'Запуск нового продукта',
+      category: {
+        id: 4,
+        name: 'Familiengründung',
+        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
+      },
+      icon: { name: 'NewProduct', color: '/img/icons/memoring/icon-newproduct.svg' },
+    },
+    {
+      id: 28,
+      date: '2023-02-23',
+      date_parts: { day: '23', month: '02', year: '2023' },
+      text: 'Награждение компании за успехи',
+      category: {
+        id: 4,
+        name: 'Familiengründung',
+        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
+      },
+      icon: { name: 'Award', color: '/img/icons/memoring/icon-award.svg' },
+    },
+
+    {
+      id: 30,
+      date: '2024-08-01',
+      date_parts: { day: '01', month: '08', year: '2024' },
+      text: 'Юбилей компании',
+      category: {
+        id: 5,
+        name: 'Familie & Firma',
+        colors: { main_color: 'C2CEBD', primary_color: 'A5B19E', secondary_color: '7B9376' },
+      },
+      icon: { name: 'Anniversary', color: '/img/icons/memoring/icon-anniversary.svg' },
     },
   ],
 };

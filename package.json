@@ -9,8 +9,5 @@
   },
   "devDependencies": {
     "vite": "^5.3.5"
-  },
-  "dependencies": {
-    "path-intersection": "^3.1.0"
   }
 }

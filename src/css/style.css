@@ -77,6 +77,11 @@ img {
   position: absolute;
   z-index: 50;
   border-radius: 50%;
+  display: block;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .number {
@@ -125,6 +130,3 @@ img {
   margin-right: 3px;
   color: var(--primary-color-white);
 }
-
-
-
