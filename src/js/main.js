@@ -1,5 +1,3 @@
-import { jsPDF } from 'jspdf';
-
 class CanvasDrawer {
   constructor(canvasId, wrapperSelector, imageSelector, data) {
     this.canvasId = canvasId;
@@ -26,7 +24,7 @@ class CanvasDrawer {
       '2:45': -Math.PI / 6 + (3 * Math.PI) / 12,
       '4:30': Math.PI / 6,
       '4:40': (7 * Math.PI) / 18,
-      '4:45': (5 * Math.PI) / 12,
+      '4:45': Math.PI / 6 + (3 * Math.PI) / 12,
       '5:00': (5 * Math.PI) / 12,
       '5:30': Math.PI / 3 + Math.PI / 12,
       '6:00': Math.PI / 2,
@@ -35,6 +33,7 @@ class CanvasDrawer {
       '7:20': (2 * Math.PI) / 3,
       '7:25': (11 * Math.PI) / 18,
       '7:30': (5 * Math.PI) / 6,
+      '7:15': (2 * Math.PI) / 3 + Math.PI / 12,
       '9:00': Math.PI,
       '9:15': Math.PI + Math.PI / 12,
       '9:20': Math.PI + (4 * Math.PI) / 72,
@@ -153,13 +152,8 @@ class CanvasDrawer {
     const topY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '11:59' : '12:00']);
     const bottomY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '10:30' : '1:00']);
     const nineTwoY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '9:20' : '2:40']);
-    const fiveY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['4:30']);
-    const sixY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['6:00']);
-    const sevenY = this.centerY + (this.radius + radiusY) * Math.sin(this.clockAngles['7:30']);
-
     const twelveY = this.centerY + this.radius * Math.sin(this.clockAngles['12:00']);
     const twoY = this.centerY + this.radius * Math.sin(this.clockAngles['2:00']);
-
     const elevenLastY = this.centerY + this.radius * Math.sin(this.clockAngles['11:59']);
     const tenY = this.centerY + this.radius * Math.sin(this.clockAngles['10:00']);
 
@@ -191,18 +185,19 @@ class CanvasDrawer {
 
       const offsetX = this.canvas.width * 0.03;
       const additionalOffset = this.canvas.width * 0.02;
+      const offsetXForAngle715 = this.canvas.width * 0.05;
       let eventWidth = this.canvas.width * 0.127;
 
-      if (y >= topY && y <= bottomY) {
+      const angle445 = this.clockAngles['4:30'];
+      const angle715 = this.clockAngles['7:30'];
+
+      if (angle >= angle445 && angle <= angle715) {
+        eventWidth *= isLeft ? 1.5 : 1.3;
+        x += isLeft ? -offsetXForAngle715 : 0;
+      } else if (y >= topY && y <= bottomY) {
         x += isLeft ? -offsetX : offsetX;
       } else if (y >= bottomY && y <= nineTwoY) {
         x += isLeft ? 0 : -additionalOffset;
-      } else if (y >= fiveY && y <= sixY) {
-        x += isLeft ? -offsetX : offsetX;
-        eventWidth *= 1.35;
-      } else if (y === sixY) {
-        x += isLeft ? offsetX : -offsetX;
-        eventWidth *= 1.7;
       }
 
       if (y >= twelveY && y <= twoY) {
@@ -1127,7 +1122,7 @@ const data = {
       id: 9,
       date: '2005-10-07',
       date_parts: { day: '07', month: '10', year: '2005' },
-      text: 'Открытие бизнеса',
+      text: 'Открытие бизнеса Открытие бизнеса Открытие бизнеса Открытие бизнеса ',
       category: {
         id: 4,
         name: 'Familiengründung',
@@ -1139,7 +1134,7 @@ const data = {
       id: 10,
       date: '2006-01-17',
       date_parts: { day: '17', month: '01', year: '2006' },
-      text: 'Зарегистрировал компанию',
+      text: 'Зарегистрировал компанию Зарегистрировал компанию Зарегистрировал компанию',
       category: {
         id: 4,
         name: 'Familiengründung',
@@ -1151,7 +1146,7 @@ const data = {
       id: 11,
       date: '2007-04-22',
       date_parts: { day: '22', month: '04', year: '2007' },
-      text: 'Переезд в новую квартиру',
+      text: 'Переезд в новую квартиру Переезд в новую квартиру',
       category: {
         id: 2,
         name: 'Flucht',
@@ -1163,7 +1158,7 @@ const data = {
       id: 12,
       date: '2008-08-12',
       date_parts: { day: '12', month: '08', year: '2008' },
-      text: 'Начало нового проекта',
+      text: 'Начало нового проекта Начало нового проекта',
       category: {
         id: 3,
         name: 'Ausbildung',
@@ -1175,7 +1170,7 @@ const data = {
       id: 13,
       date: '2008-08-12',
       date_parts: { day: '12', month: '08', year: '2008' },
-      text: 'Путешествие по миру',
+      text: 'Путешествие по миру Путешествие по миру Путешествие по миру Путешествие по миру',
       category: {
         id: 3,
         name: 'Ausbildung',
@@ -1187,7 +1182,7 @@ const data = {
       id: 14,
       date: '2010-09-09',
       date_parts: { day: '09', month: '09', year: '2010' },
-      text: 'Рождение первого ребенка',
+      text: 'Рождение первого ребенка Рождение первого ребенка Рождение первого ребенка',
       category: {
         id: 5,
         name: 'Familie & Firma',
