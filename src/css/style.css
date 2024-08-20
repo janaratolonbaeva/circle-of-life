@@ -73,7 +73,7 @@ canvas {
   position: relative;
 }
 
-img {
+.canvas-img {
   position: absolute;
   z-index: 50;
   border-radius: 50%;
