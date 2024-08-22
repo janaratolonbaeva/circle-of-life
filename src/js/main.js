@@ -125,12 +125,27 @@ class CanvasDrawer {
     const startYear = new Date(start_date).getFullYear();
     const totalYears = round_year.value;
     const midYear = startYear + Math.floor(totalYears * 0.52);
-    const leftEvents = events
+    const maxEventsOfPart = 14;
+
+    let leftEvents, rightEvents;
+
+    const leftEventsByYear = events
       .filter((event) => event.date_parts.year >= midYear)
       .sort((a, b) => b.date_parts.year - a.date_parts.year);
-    const rightEvents = events
+    const rightEventsByYear = events
       .filter((event) => event.date_parts.year < midYear)
       .sort((a, b) => a.date_parts.year - b.date_parts.year);
+
+    if (leftEventsByYear.length > maxEventsOfPart || rightEventsByYear.length > maxEventsOfPart) {
+      const sortedEvents = events.sort((a, b) => a.date_parts.year - b.date_parts.year);
+      const midIndex = Math.ceil(sortedEvents.length / 2);
+
+      rightEvents = sortedEvents.slice(0, midIndex);
+      leftEvents = sortedEvents.slice(midIndex).reverse();
+    } else {
+      leftEvents = leftEventsByYear;
+      rightEvents = rightEventsByYear;
+    }
 
     this.eventElements = [];
     this.positionEventsOnSide(leftEvents, true);
@@ -150,10 +165,11 @@ class CanvasDrawer {
     let lastY = null;
 
     const topY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '11:59' : '12:00']);
-    const bottomY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '10:30' : '1:00']);
+    const bottomY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '11:00' : '12:30']);
     const nineTwoY = this.centerY + this.radius * Math.sin(this.clockAngles[isLeft ? '9:20' : '2:40']);
     const twelveY = this.centerY + this.radius * Math.sin(this.clockAngles['12:00']);
-    const twoY = this.centerY + this.radius * Math.sin(this.clockAngles['2:00']);
+    const twoY = this.centerY + this.radius * Math.sin(this.clockAngles['2:30']);
+    const oneY = this.centerY + this.radius * Math.sin(this.clockAngles['1:30']);
     const elevenLastY = this.centerY + this.radius * Math.sin(this.clockAngles['11:59']);
     const tenY = this.centerY + this.radius * Math.sin(this.clockAngles['10:00']);
 
@@ -178,6 +194,7 @@ class CanvasDrawer {
             y = Math.max(y + this.minSpacing, this.eventElements[i].getBoundingClientRect().bottom + this.minSpacing);
             eventElement.style.top = `${y}px`;
             overlap = true;
+
             break;
           }
         }
@@ -185,15 +202,16 @@ class CanvasDrawer {
 
       const offsetX = this.canvas.width * 0.03;
       const additionalOffset = this.canvas.width * 0.02;
-      const offsetXForAngle715 = this.canvas.width * 0.05;
+      const offsetXForAngle715 = this.canvas.width * 0.038;
+      const offsetXForAngle445 = this.canvas.width * 0.01;
       let eventWidth = this.canvas.width * 0.127;
 
       const angle445 = this.clockAngles['4:30'];
       const angle715 = this.clockAngles['7:30'];
 
       if (angle >= angle445 && angle <= angle715) {
-        eventWidth *= isLeft ? 1.5 : 1.3;
-        x += isLeft ? -offsetXForAngle715 : 0;
+        eventWidth *= isLeft ? 1.33 : 1.25;
+        x += isLeft ? -offsetXForAngle715 : -offsetXForAngle445;
       } else if (y >= topY && y <= bottomY) {
         x += isLeft ? -offsetX : offsetX;
       } else if (y >= bottomY && y <= nineTwoY) {
@@ -278,7 +296,7 @@ class CanvasDrawer {
     const path = document.createElementNS(this.svgNS, 'path');
     const startAngle = this.clockAngles['11:00'];
     const endAngle = this.clockAngles['1:00'];
-    let radiusDistance = this.canvas.width * 0.06;
+    let radiusDistance = this.canvas.width * 0.068;
 
     if (text.length > 15) {
       radiusDistance += this.canvas.width * 0.015;
@@ -826,13 +844,15 @@ class CanvasDrawer {
 
   // Implemented Draw Arrows
   drawArrowsForEvents() {
-    // Группируем события по годам
     const eventsByYear = {};
+
     this.data.events.forEach((event) => {
       const year = event.date_parts.year;
+
       if (!eventsByYear[year]) {
         eventsByYear[year] = [];
       }
+
       eventsByYear[year].push(event);
     });
 
@@ -848,17 +868,14 @@ class CanvasDrawer {
           let startX = isLeft ? textPosition.x + textDimensions.width : textPosition.x;
           let startY = textPosition.y + textDimensions.height / 2;
 
-          // Вычисляем смещение для всех событий, даже если оно одно
-          const offset = (index - (events.length - 1) / 2) * 5; // 5px смещение между стрелками
+          const offset = (index - (events.length - 1) / 2) * 5;
 
-          // Применяем смещение, только если событий больше одного
           if (events.length > 1) {
             startY += offset;
           }
 
           const arrowStart = { x: startX, y: startY, isLeft };
 
-          // Добавляем небольшое смещение к конечной точке стрелки
           const adjustedIconPosition = {
             x: iconPosition.x + (isLeft ? -3 : 3) * index,
             y: iconPosition.y + (events.length > 1 ? offset : 0),
@@ -887,7 +904,7 @@ class CanvasDrawer {
     arrow.setAttribute('d', path);
     arrow.setAttribute('fill', 'none');
     arrow.setAttribute('stroke', `#${color}`);
-    arrow.setAttribute('stroke-width', '0.7');
+    arrow.setAttribute('stroke-width', '0.8');
     arrow.setAttribute('marker-end', 'url(#arrowhead)');
 
     svg.appendChild(arrow);
@@ -911,24 +928,6 @@ class CanvasDrawer {
     } else {
       return `M ${startX} ${startY} L ${endX} ${endY}`;
     }
-  }
-
-  needsVerticalBend(startX, startY, endX, endY) {
-    const verticalDifference = Math.abs(startY - endY);
-
-    if (verticalDifference > 50) {
-      return true;
-    }
-
-    const directPath = `M ${startX} ${startY} L ${endX} ${endY}`;
-
-    for (const element of this.eventElements) {
-      if (this.pathIntersectsElement(directPath, element)) {
-        return true;
-      }
-    }
-
-    return false;
   }
 
   pathIntersectsElement(path, element) {
@@ -960,12 +959,6 @@ class CanvasDrawer {
     const ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / den;
     const ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / den;
     return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
-  }
-
-  calculateBendY(startY, endY) {
-    let midY = (startY + endY) / 2;
-
-    return midY;
   }
   // end Draw Arrows
 
@@ -1009,345 +1002,594 @@ class CanvasDrawer {
 }
 
 const data = {
-  id: '9cbfd8c1-fc12-4ca7-b824-eed9adef8df6',
-  title: 'Test Title',
-  photo_path: 'img/subjects/9cbfd8c1-fc12-4ca7-b824-eed9adef8df6.jpg',
-  start_date: '1980-08-01',
-  end_date: '2024-08-01',
-  round_year: { name: 'Jahre', value: 50 },
-  font_family: { name: 'Noto Sans' },
+  id: '9ccfc32f-2c51-42ab-a20d-ad0a2df245ed',
+  title: 'Cartwright, Koelpin and Hamill',
+  photo_path: '/home/don/development/projects/Vasterra/circleoflife/public/img/subjects/',
+  start_date: '1930-01-01',
+  end_date: '2016-12-31',
+  round_year: { name: 'Jahre', value: 100 },
+  font_family: { notoSans: '"Noto Sans", sans-serif' },
   color_scheme: {
     name: 'Neutral',
-    colors: { main_color: 'DDE2E1', secondary_color: 'C0C9CE', tertiary_color: null },
+    colors: {
+      main_color: 'DDE2E1',
+      secondary_color: 'CED2D0',
+      tertiary_color: 'C0C9CE',
+    },
     subject_title_color: '825251',
   },
   events: [
     {
-      id: 1,
-      date: '1980-08-01',
-      date_parts: { day: '01', month: '08', year: '1980' },
-      text: 'Родился',
+      id: 420,
+      sort: 25,
+      date: '1930-01-01',
+      date_parts: { day: '01', month: '01', year: '1930' },
+      text: 'Nisi culpa dolor molestiae sunt. Veniam illo vitae voluptatem aut quia laboriosam.',
       category: {
         id: 1,
         name: 'Kindheit & Jugend',
-        colors: { main_color: 'F8ECB2', primary_color: 'E4D28E', secondary_color: 'EBCC3C' },
+        colors: {
+          id: 1,
+          name: 'Yellow',
+          main_color: 'F8ECB2',
+          primary_color: 'E4D28E',
+          secondary_color: 'EBCC3C',
+        },
       },
-      icon: { name: 'Baby', color: '/img/icons/memoring/icon-baby.svg' },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
     },
     {
-      id: 2,
-      date: '1985-05-23',
-      date_parts: { day: '23', month: '05', year: '1985' },
-      text: 'Первый день в школе',
+      id: 419,
+      sort: 24,
+      date: '1932-09-15',
+      date_parts: { day: '15', month: '09', year: '1932' },
+      text: 'Dolores quas reiciendis est praesentium ut recusandae. Reprehenderit aut molestiae quo.',
       category: {
         id: 1,
         name: 'Kindheit & Jugend',
-        colors: { main_color: 'F8ECB2', primary_color: 'E4D28E', secondary_color: 'EBCC3C' },
+        colors: {
+          id: 1,
+          name: 'Yellow',
+          main_color: 'F8ECB2',
+          primary_color: 'E4D28E',
+          secondary_color: 'EBCC3C',
+        },
       },
-      icon: { name: 'School', color: '/img/icons/memoring/icon-school.svg' },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
     },
     {
-      id: 3,
-      date: '1990-11-18',
-      date_parts: { day: '18', month: '11', year: '1990' },
-      text: 'Переезд в новый дом',
+      id: 418,
+      sort: 23,
+      date: '1932-10-22',
+      date_parts: { day: '22', month: '10', year: '1932' },
+      text: 'Vero voluptas illum eos itaque. Voluptatem similique rerum voluptates sapiente eaque.',
+      category: {
+        id: 1,
+        name: 'Kindheit & Jugend',
+        colors: {
+          id: 1,
+          name: 'Yellow',
+          main_color: 'F8ECB2',
+          primary_color: 'E4D28E',
+          secondary_color: 'EBCC3C',
+        },
+      },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
+    },
+    {
+      id: 417,
+      sort: 22,
+      date: '1934-02-17',
+      date_parts: { day: '17', month: '02', year: '1934' },
+      text: 'Reprehenderit error earum aut nobis. In eos enim eum et.',
+      category: {
+        id: 1,
+        name: 'Kindheit & Jugend',
+        colors: {
+          id: 1,
+          name: 'Yellow',
+          main_color: 'F8ECB2',
+          primary_color: 'E4D28E',
+          secondary_color: 'EBCC3C',
+        },
+      },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
+    },
+    {
+      id: 416,
+      sort: 21,
+      date: '1936-01-03',
+      date_parts: { day: '03', month: '01', year: '1936' },
+      text: 'Magnam omnis voluptas earum sed exercitationem. Dolores ea et quis.',
       category: {
         id: 2,
         name: 'Flucht',
-        colors: { main_color: 'FCCB8E', primary_color: 'E6B26F', secondary_color: 'E78B0A' },
+        colors: {
+          id: 2,
+          name: 'Orange',
+          main_color: 'FCCB8E',
+          primary_color: 'E6B26F',
+          secondary_color: 'E78B0A',
+        },
       },
-      icon: { name: 'House', color: '/img/icons/memoring/icon-house.svg' },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
     },
     {
-      id: 4,
-      date: '1993-07-04',
-      date_parts: { day: '04', month: '07', year: '1993' },
-      text: 'Окончил школу',
-      category: {
-        id: 3,
-        name: 'Ausbildung',
-        colors: { main_color: 'F5AEA8', primary_color: 'E29D93', secondary_color: 'E25D60' },
-      },
-      icon: { name: 'Graduation', color: '/img/icons/memoring/icon-graduation.svg' },
-    },
-    {
-      id: 5,
-      date: '1995-09-14',
-      date_parts: { day: '14', month: '09', year: '1995' },
-      text: 'Начал учёбу в университете',
-      category: {
-        id: 3,
-        name: 'Ausbildung',
-        colors: { main_color: 'F5AEA8', primary_color: 'E29D93', secondary_color: 'E25D60' },
-      },
-      icon: { name: 'University', color: '/img/icons/memoring/icon-university.svg' },
-    },
-    {
-      id: 6,
-      date: '2000-12-01',
-      date_parts: { day: '01', month: '12', year: '2000' },
-      text: 'Переезд в другой город',
+      id: 415,
+      sort: 20,
+      date: '1936-05-01',
+      date_parts: { day: '01', month: '05', year: '1936' },
+      text: 'In earum expedita commodi voluptatem. Vel enim et ut consequatur voluptates reiciendis.',
       category: {
         id: 2,
         name: 'Flucht',
-        colors: { main_color: 'FCCB8E', primary_color: 'E6B26F', secondary_color: 'E78B0A' },
+        colors: {
+          id: 2,
+          name: 'Orange',
+          main_color: 'FCCB8E',
+          primary_color: 'E6B26F',
+          secondary_color: 'E78B0A',
+        },
       },
-      icon: { name: 'Moving', color: '/img/icons/memoring/icon-moving.svg' },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
     },
     {
-      id: 7,
-      date: '2001-08-12',
-      date_parts: { day: '12', month: '08', year: '2001' },
-      text: 'Новый этап в жизни',
+      id: 414,
+      sort: 19,
+      date: '1936-10-05',
+      date_parts: { day: '05', month: '10', year: '1936' },
+      text: 'Magnam veniam eum est. Qui asperiores in eos aliquam. Quo quaerat totam velit quos omnis earum.',
       category: {
         id: 2,
         name: 'Flucht',
-        colors: { main_color: 'FCCB8E', primary_color: 'E6B26F', secondary_color: 'E78B0A' },
+        colors: {
+          id: 2,
+          name: 'Orange',
+          main_color: 'FCCB8E',
+          primary_color: 'E6B26F',
+          secondary_color: 'E78B0A',
+        },
       },
-      icon: { name: 'Bell', color: '/img/icons/memoring/icon-bell.svg' },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
     },
     {
-      id: 8,
-      date: '2003-05-15',
-      date_parts: { day: '15', month: '05', year: '2003' },
-      text: 'Получение первого диплома',
-      category: {
-        id: 3,
-        name: 'Ausbildung',
-        colors: { main_color: 'F5AEA8', primary_color: 'E29D93', secondary_color: 'E25D60' },
-      },
-      icon: { name: 'Diploma', color: '/img/icons/memoring/icon-diploma.svg' },
-    },
-    {
-      id: 9,
-      date: '2005-10-07',
-      date_parts: { day: '07', month: '10', year: '2005' },
-      text: 'Открытие бизнеса Открытие бизнеса Открытие бизнеса Открытие бизнеса ',
-      category: {
-        id: 4,
-        name: 'Familiengründung',
-        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
-      },
-      icon: { name: 'Business', color: '/img/icons/memoring/icon-business.svg' },
-    },
-    {
-      id: 10,
-      date: '2006-01-17',
-      date_parts: { day: '17', month: '01', year: '2006' },
-      text: 'Зарегистрировал компанию Зарегистрировал компанию Зарегистрировал компанию',
-      category: {
-        id: 4,
-        name: 'Familiengründung',
-        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
-      },
-      icon: { name: 'Register', color: '/img/icons/memoring/icon-register.svg' },
-    },
-    {
-      id: 11,
-      date: '2007-04-22',
-      date_parts: { day: '22', month: '04', year: '2007' },
-      text: 'Переезд в новую квартиру Переезд в новую квартиру',
+      id: 413,
+      sort: 18,
+      date: '1937-03-24',
+      date_parts: { day: '24', month: '03', year: '1937' },
+      text: 'Incidunt velit dolore sit nobis. Ea dolor qui repudiandae.',
       category: {
         id: 2,
         name: 'Flucht',
-        colors: { main_color: 'FCCB8E', primary_color: 'E6B26F', secondary_color: 'E78B0A' },
+        colors: {
+          id: 2,
+          name: 'Orange',
+          main_color: 'FCCB8E',
+          primary_color: 'E6B26F',
+          secondary_color: 'E78B0A',
+        },
       },
-      icon: { name: 'Apartment', color: '/img/icons/memoring/icon-apartment.svg' },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
     },
     {
-      id: 12,
-      date: '2008-08-12',
-      date_parts: { day: '12', month: '08', year: '2008' },
-      text: 'Начало нового проекта Начало нового проекта',
+      id: 412,
+      sort: 17,
+      date: '1939-11-03',
+      date_parts: { day: '03', month: '11', year: '1939' },
+      text: 'Architecto officia ut unde quod error. Voluptatibus ut nemo sed non.',
       category: {
-        id: 3,
-        name: 'Ausbildung',
-        colors: { main_color: 'F5AEA8', primary_color: 'E29D93', secondary_color: 'E25D60' },
+        id: 2,
+        name: 'Flucht',
+        colors: {
+          id: 2,
+          name: 'Orange',
+          main_color: 'FCCB8E',
+          primary_color: 'E6B26F',
+          secondary_color: 'E78B0A',
+        },
       },
-      icon: { name: 'Project', color: '/img/icons/memoring/icon-project.svg' },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
     },
     {
-      id: 13,
-      date: '2008-08-12',
-      date_parts: { day: '12', month: '08', year: '2008' },
-      text: 'Путешествие по миру Путешествие по миру Путешествие по миру Путешествие по миру',
-      category: {
-        id: 3,
-        name: 'Ausbildung',
-        colors: { main_color: 'F5AEA8', primary_color: 'E29D93', secondary_color: 'E25D60' },
-      },
-      icon: { name: 'Travel', color: '/img/icons/memoring/icon-travel.svg' },
-    },
-    {
-      id: 14,
-      date: '2010-09-09',
-      date_parts: { day: '09', month: '09', year: '2010' },
-      text: 'Рождение первого ребенка Рождение первого ребенка Рождение первого ребенка',
-      category: {
-        id: 5,
-        name: 'Familie & Firma',
-        colors: { main_color: 'C2CEBD', primary_color: 'A5B19E', secondary_color: '7B9376' },
-      },
-      icon: { name: 'Baby', color: '/img/icons/memoring/icon-baby.svg' },
-    },
-    {
-      id: 15,
-      date: '2012-07-05',
-      date_parts: { day: '05', month: '07', year: '2012' },
-      text: 'Открытие офиса',
-      category: {
-        id: 4,
-        name: 'Familiengründung',
-        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
-      },
-      icon: { name: 'Office', color: '/img/icons/memoring/icon-office.svg' },
-    },
-    {
-      id: 16,
-      date: '2015-03-30',
-      date_parts: { day: '30', month: '03', year: '2015' },
-      text: 'Презентация продукта',
-      category: {
-        id: 4,
-        name: 'Familiengründung',
-        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
-      },
-      icon: { name: 'Product', color: '/img/icons/memoring/icon-product.svg' },
-    },
-    {
-      id: 17,
-      date: '2016-06-15',
-      date_parts: { day: '15', month: '06', year: '2016' },
-      text: 'Путешествие с семьей',
+      id: 411,
+      sort: 16,
+      date: '1944-11-15',
+      date_parts: { day: '15', month: '11', year: '1944' },
+      text: 'Eveniet autem tenetur eos minus doloremque. Qui laboriosam omnis ipsam eum sapiente.',
       category: {
         id: 5,
         name: 'Familie & Firma',
-        colors: { main_color: 'C2CEBD', primary_color: 'A5B19E', secondary_color: '7B9376' },
+        colors: {
+          id: 5,
+          name: 'Green',
+          main_color: 'C2CEBD',
+          primary_color: 'A5B19E',
+          secondary_color: '7B9376',
+        },
       },
-      icon: { name: 'FamilyTrip', color: '/img/icons/memoring/icon-familytrip.svg' },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
     },
     {
-      id: 18,
-      date: '2017-02-10',
-      date_parts: { day: '10', month: '02', year: '2017' },
-      text: 'Запуск нового стартапа',
+      id: 410,
+      sort: 15,
+      date: '1945-11-27',
+      date_parts: { day: '27', month: '11', year: '1945' },
+      text: 'Quia inventore beatae qui. Aliquam quis quasi et. Id assumenda autem ipsa illum sit recusandae.',
       category: {
-        id: 4,
-        name: 'Familiengründung',
-        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
+        id: 6,
+        name: 'Witwe',
+        colors: {
+          id: 6,
+          name: 'Purple',
+          main_color: 'B9BAC9',
+          primary_color: '9A9BB1',
+          secondary_color: '686C91',
+        },
       },
-      icon: { name: 'Startup', color: '/img/icons/memoring/icon-startup.svg' },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
     },
     {
-      id: 19,
-      date: '2018-08-12',
-      date_parts: { day: '12', month: '08', year: '2018' },
-      text: 'Годовщина компании',
+      id: 409,
+      sort: 14,
+      date: '1947-03-12',
+      date_parts: { day: '12', month: '03', year: '1947' },
+      text: 'Omnis nam dolorum placeat sit. Temporibus ut aut omnis doloremque aliquam.',
       category: {
-        id: 4,
-        name: 'Familiengründung',
-        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
+        id: 6,
+        name: 'Witwe',
+        colors: {
+          id: 6,
+          name: 'Purple',
+          main_color: 'B9BAC9',
+          primary_color: '9A9BB1',
+          secondary_color: '686C91',
+        },
       },
-      icon: { name: 'Anniversary', color: '/img/icons/memoring/icon-anniversary.svg' },
-    },
-
-    {
-      id: 21,
-      date: '2019-04-21',
-      date_parts: { day: '21', month: '04', year: '2019' },
-      text: 'Открытие второго офиса',
-      category: {
-        id: 4,
-        name: 'Familiengründung',
-        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
       },
-      icon: { name: 'Office2', color: '/img/icons/memoring/icon-office2.svg' },
     },
     {
-      id: 22,
-      date: '2020-01-01',
-      date_parts: { day: '01', month: '01', year: '2020' },
-      text: 'Празднование Нового года',
+      id: 408,
+      sort: 13,
+      date: '1950-01-06',
+      date_parts: { day: '06', month: '01', year: '1950' },
+      text: 'Atque sint impedit nisi sapiente. Sint optio qui earum veniam quia repellendus.',
       category: {
-        id: 5,
-        name: 'Familie & Firma',
-        colors: { main_color: 'C2CEBD', primary_color: 'A5B19E', secondary_color: '7B9376' },
+        id: 6,
+        name: 'Witwe',
+        colors: {
+          id: 6,
+          name: 'Purple',
+          main_color: 'B9BAC9',
+          primary_color: '9A9BB1',
+          secondary_color: '686C91',
+        },
       },
-      icon: { name: 'NewYear', color: '/img/icons/memoring/icon-newyear.svg' },
-    },
-
-    {
-      id: 24,
-      date: '2020-08-12',
-      date_parts: { day: '12', month: '08', year: '2020' },
-      text: 'Запуск новой маркетинговой кампании',
-      category: {
-        id: 5,
-        name: 'Familie & Firma',
-        colors: { main_color: 'C2CEBD', primary_color: 'A5B19E', secondary_color: '7B9376' },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
       },
-      icon: { name: 'Marketing', color: '/img/icons/memoring/icon-marketing.svg' },
     },
     {
-      id: 25,
-      date: '2021-11-09',
-      date_parts: { day: '09', month: '11', year: '2021' },
-      text: 'Новый партнер по бизнесу',
+      id: 407,
+      sort: 12,
+      date: '1954-05-01',
+      date_parts: { day: '01', month: '05', year: '1954' },
+      text: 'Voluptas et est accusamus reprehenderit. Animi id illum maxime voluptas voluptatem.',
       category: {
-        id: 4,
-        name: 'Familiengründung',
-        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
+        id: 6,
+        name: 'Witwe',
+        colors: {
+          id: 6,
+          name: 'Purple',
+          main_color: 'B9BAC9',
+          primary_color: '9A9BB1',
+          secondary_color: '686C91',
+        },
       },
-      icon: { name: 'Partner', color: '/img/icons/memoring/icon-partner.svg' },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
     },
     {
-      id: 26,
-      date: '2022-06-18',
-      date_parts: { day: '18', month: '06', year: '2022' },
-      text: 'Организация крупного мероприятия',
+      id: 406,
+      sort: 11,
+      date: '1956-06-04',
+      date_parts: { day: '04', month: '06', year: '1956' },
+      text: 'Officiis fugit culpa amet est facilis. Corporis harum perspiciatis maiores et pariatur.',
       category: {
-        id: 5,
-        name: 'Familie & Firma',
-        colors: { main_color: 'C2CEBD', primary_color: 'A5B19E', secondary_color: '7B9376' },
+        id: 6,
+        name: 'Witwe',
+        colors: {
+          id: 6,
+          name: 'Purple',
+          main_color: 'B9BAC9',
+          primary_color: '9A9BB1',
+          secondary_color: '686C91',
+        },
       },
-      icon: { name: 'Event', color: '/img/icons/memoring/icon-event.svg' },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
     },
     {
-      id: 27,
-      date: '2022-11-11',
-      date_parts: { day: '11', month: '11', year: '2022' },
-      text: 'Запуск нового продукта',
+      id: 405,
+      sort: 10,
+      date: '1959-07-16',
+      date_parts: { day: '16', month: '07', year: '1959' },
+      text: 'Sit ex vel non perferendis sed. Voluptas ut repellendus et quibusdam. Reiciendis odit unde cum est.',
       category: {
-        id: 4,
-        name: 'Familiengründung',
-        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
+        id: 6,
+        name: 'Witwe',
+        colors: {
+          id: 6,
+          name: 'Purple',
+          main_color: 'B9BAC9',
+          primary_color: '9A9BB1',
+          secondary_color: '686C91',
+        },
       },
-      icon: { name: 'NewProduct', color: '/img/icons/memoring/icon-newproduct.svg' },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
     },
     {
-      id: 28,
-      date: '2023-02-23',
-      date_parts: { day: '23', month: '02', year: '2023' },
-      text: 'Награждение компании за успехи',
+      id: 404,
+      sort: 9,
+      date: '1965-07-24',
+      date_parts: { day: '24', month: '07', year: '1965' },
+      text: 'Quaerat minima velit eum dicta tempore. Fugit sint molestiae et neque est. Est nobis qui iure.',
       category: {
-        id: 4,
-        name: 'Familiengründung',
-        colors: { main_color: 'C4A5A3', primary_color: 'A88B85', secondary_color: '825251' },
+        id: 6,
+        name: 'Witwe',
+        colors: {
+          id: 6,
+          name: 'Purple',
+          main_color: 'B9BAC9',
+          primary_color: '9A9BB1',
+          secondary_color: '686C91',
+        },
       },
-      icon: { name: 'Award', color: '/img/icons/memoring/icon-award.svg' },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
     },
-
     {
-      id: 30,
-      date: '2024-08-01',
-      date_parts: { day: '01', month: '08', year: '2024' },
-      text: 'Юбилей компании',
+      id: 403,
+      sort: 8,
+      date: '1967-12-20',
+      date_parts: { day: '20', month: '12', year: '1967' },
+      text: 'Quia doloribus quia aut aut. Iure harum possimus non a minus qui ea quas.',
       category: {
-        id: 5,
-        name: 'Familie & Firma',
-        colors: { main_color: 'C2CEBD', primary_color: 'A5B19E', secondary_color: '7B9376' },
+        id: 6,
+        name: 'Witwe',
+        colors: {
+          id: 6,
+          name: 'Purple',
+          main_color: 'B9BAC9',
+          primary_color: '9A9BB1',
+          secondary_color: '686C91',
+        },
       },
-      icon: { name: 'Anniversary', color: '/img/icons/memoring/icon-anniversary.svg' },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
+    },
+    {
+      id: 402,
+      sort: 7,
+      date: '1968-04-30',
+      date_parts: { day: '30', month: '04', year: '1968' },
+      text: 'Unde saepe sunt odio est. Facilis deserunt et sapiente doloribus sit voluptatem est.',
+      category: {
+        id: 6,
+        name: 'Witwe',
+        colors: {
+          id: 6,
+          name: 'Purple',
+          main_color: 'B9BAC9',
+          primary_color: '9A9BB1',
+          secondary_color: '686C91',
+        },
+      },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
+    },
+    {
+      id: 401,
+      sort: 6,
+      date: '1971-02-19',
+      date_parts: { day: '19', month: '02', year: '1971' },
+      text: 'Qui dolor molestiae velit. Dolorem debitis itaque odit est sint.',
+      category: {
+        id: 6,
+        name: 'Witwe',
+        colors: {
+          id: 6,
+          name: 'Purple',
+          main_color: 'B9BAC9',
+          primary_color: '9A9BB1',
+          secondary_color: '686C91',
+        },
+      },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
+    },
+    {
+      id: 400,
+      sort: 5,
+      date: '1975-03-30',
+      date_parts: { day: '30', month: '03', year: '1975' },
+      text: 'Voluptatum corporis laboriosam ut incidunt quas pariatur optio. Praesentium ad iure est.',
+      category: {
+        id: 6,
+        name: 'Witwe',
+        colors: {
+          id: 6,
+          name: 'Purple',
+          main_color: 'B9BAC9',
+          primary_color: '9A9BB1',
+          secondary_color: '686C91',
+        },
+      },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
+    },
+    {
+      id: 399,
+      sort: 4,
+      date: '1989-07-06',
+      date_parts: { day: '06', month: '07', year: '1989' },
+      text: 'Tenetur quis quo est laboriosam. Deleniti nostrum ut exercitationem quis officiis officia.',
+      category: {
+        id: 6,
+        name: 'Witwe',
+        colors: {
+          id: 6,
+          name: 'Purple',
+          main_color: 'B9BAC9',
+          primary_color: '9A9BB1',
+          secondary_color: '686C91',
+        },
+      },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
+    },
+    {
+      id: 398,
+      sort: 3,
+      date: '1998-03-05',
+      date_parts: { day: '05', month: '03', year: '1998' },
+      text: 'Voluptates eaque quis laboriosam voluptates dolor. Mollitia dolorum rerum nesciunt rem distinctio.',
+      category: {
+        id: 7,
+        name: 'Witwe & Gro\u00dfmutter',
+        colors: {
+          id: 7,
+          name: 'Lavander',
+          main_color: 'DBC6DA',
+          primary_color: 'BB9CBB',
+          secondary_color: 'A1659F',
+        },
+      },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
+    },
+    {
+      id: 397,
+      sort: 2,
+      date: '2000-04-03',
+      date_parts: { day: '03', month: '04', year: '2000' },
+      text: 'Velit quasi rerum unde accusamus autem et. A voluptas et est et.',
+      category: {
+        id: 7,
+        name: 'Witwe & Gro\u00dfmutter',
+        colors: {
+          id: 7,
+          name: 'Lavander',
+          main_color: 'DBC6DA',
+          primary_color: 'BB9CBB',
+          secondary_color: 'A1659F',
+        },
+      },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
+    },
+    {
+      id: 396,
+      sort: 1,
+      date: '2010-06-08',
+      date_parts: { day: '08', month: '06', year: '2010' },
+      text: 'Sunt in quod sequi est. Dolorem ut expedita quidem aut.',
+      category: {
+        id: 7,
+        name: 'Witwe & Gro\u00dfmutter',
+        colors: {
+          id: 7,
+          name: 'Lavander',
+          main_color: 'DBC6DA',
+          primary_color: 'BB9CBB',
+          secondary_color: 'A1659F',
+        },
+      },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
+    },
+    {
+      id: 395,
+      sort: 0,
+      date: '2010-12-08',
+      date_parts: { day: '08', month: '12', year: '2010' },
+      text: 'Quia natus et velit voluptatem. Et et sunt quibusdam accusantium.',
+      category: {
+        id: 7,
+        name: 'Witwe & Gro\u00dfmutter',
+        colors: {
+          id: 7,
+          name: 'Lavander',
+          main_color: 'DBC6DA',
+          primary_color: 'BB9CBB',
+          secondary_color: 'A1659F',
+        },
+      },
+      icon: {
+        name: 'Baby',
+        color: '/home/don/development/projects/Vasterra/circleoflife/public/img/icons/memoring/icon-baby.svg',
+      },
     },
   ],
 };
