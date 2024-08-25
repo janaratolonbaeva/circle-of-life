@@ -919,28 +919,38 @@ class CanvasDrawer {
     let { x: endX, y: endY } = iconPos;
 
     const needsBend =
-      Math.abs(startY - endY) > 20 || (textPos.isLeft && endX < startX) || (!textPos.isLeft && endX > startX);
+      Math.abs(startY - endY) > 0 || (textPos.isLeft && endX < startX) || (!textPos.isLeft && endX > startX);
 
     if (needsBend) {
       const bendX = textPos.isLeft ? Math.max(startX, endX) : Math.min(startX, endX);
       const bendY = (startY + endY) / 2;
-      return `M ${startX} ${startY} L ${bendX} ${startY} L ${bendX} ${bendY} L ${endX} ${bendY} L ${endX} ${endY}`;
+
+      const horizontalOffset = textPos.isLeft ? 20 : 10;
+      const midX = startX + horizontalOffset;
+
+      return `M ${startX} ${startY} L ${midX} ${startY} L ${bendX} ${startY} L ${bendX} ${bendY} L ${endX} ${bendY} L ${endX} ${endY}`;
     } else {
-      return `M ${startX} ${startY} L ${endX} ${endY}`;
+      const horizontalOffset = textPos.isLeft ? -10 : 10;
+      const midX = startX + horizontalOffset;
+
+      return `M ${startX} ${startY} L ${midX} ${startY} L ${endX} ${endY}`;
     }
   }
 
   pathIntersectsElement(path, element) {
     const rect = element.getBoundingClientRect();
     const [x1, y1, x2, y2] = this.getPathEndpoints(path);
+
     return this.lineIntersectsRect(x1, y1, x2, y2, rect);
   }
 
   getPathEndpoints(path) {
     const matches = path.match(/M ([\d.]+) ([\d.]+) .* ([\d.]+) ([\d.]+)/);
+
     if (matches) {
       return matches.slice(1).map(Number);
     }
+
     return [0, 0, 0, 0];
   }
 
@@ -955,9 +965,12 @@ class CanvasDrawer {
 
   lineIntersectsLine(x1, y1, x2, y2, x3, y3, x4, y4) {
     const den = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+
     if (den === 0) return false;
+
     const ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / den;
     const ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / den;
+
     return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
   }
   // end Draw Arrows
