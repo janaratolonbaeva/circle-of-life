@@ -925,7 +925,7 @@ class CanvasDrawer {
       const bendX = textPos.isLeft ? Math.max(startX, endX) : Math.min(startX, endX);
       const bendY = (startY + endY) / 2;
 
-      const horizontalOffset = textPos.isLeft ? 20 : 10;
+      const horizontalOffset = textPos.isLeft ? -10 : 10;
       const midX = startX + horizontalOffset;
 
       return `M ${startX} ${startY} L ${midX} ${startY} L ${bendX} ${startY} L ${bendX} ${bendY} L ${endX} ${bendY} L ${endX} ${endY}`;
